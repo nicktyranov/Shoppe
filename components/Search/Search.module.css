@@ -1,0 +1,44 @@
+.wrapper {
+   cursor: pointer;
+   height: 27px;
+   display: flex;
+   align-items: center;
+}
+
+.icon-clicked {
+   display: none;
+}
+
+.input-wrapper {
+   position: relative;
+   opacity: 0;
+   transform: scale(0.9);
+   transition: opacity 1s ease, transform 1s ease;
+}
+
+.input-wrapper-animated {
+   opacity: 1;
+   transform: scale(1);
+}
+
+.input {
+   border: none;
+   padding: 1px;
+   border-radius: 4px;
+   background: var(--color-gray-very-light);
+   width: 288px;
+   height: 32px;
+}
+
+.input::placeholder {
+   padding-left: 30px;
+   font-size: 14px;
+   font-weight: 400;
+   line-height: 22px;
+}
+
+.icon-input {
+   position: absolute;
+   left: 10px;
+   top: 10px;
+}

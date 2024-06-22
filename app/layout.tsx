@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Menu from '@/components/Menu/Menu';
 import { DM_Sans } from 'next/font/google';
 import './globals.css';
 
@@ -16,7 +17,13 @@ export default function RootLayout({
 }>) {
    return (
       <html lang="en">
-         <body className={font.className}>{children}</body>
+         <body className={font.className}>
+            <header>
+               <Menu />
+            </header>
+
+            <div>{children}</div>
+         </body>
       </html>
    );
 }

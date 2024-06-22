@@ -1,0 +1,32 @@
+.wrapper {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 20px 0;
+}
+
+.nav,
+.nav a {
+   display: flex;
+   align-self: center;
+   gap: 30px;
+
+   font-size: 16px;
+   font-weight: 400;
+   line-height: 17px;
+   text-decoration: none;
+   color: var(--color-black);
+}
+
+.nav a:nth-child(2) {
+   content: '';
+   padding-right: 60px;
+   border-right: 1px solid black;
+   max-height: 17px;
+   margin-right: 10px;
+}
+
+.logo {
+   width: 158px;
+   height: 40px;
+}
