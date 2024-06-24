@@ -10,18 +10,26 @@
    /* Colors */
    --color-error: #d82700;
    --color-gray-dark: #707070;
-   --color-black: #000000;
+   --color-black: #000;
    --color-gray-light: #d8d8d8;
    --color-brown: #a18a68;
    --color-gray-very-light: #efefef;
-   --color-white: #ffffff;
-   --color-white-60: rgba(255, 255, 255, 0.6);
+   --color-white: #fff;
+   --color-white-60: rgb(255 255 255 / 60%);
+}
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
 }
 
 body {
+   max-width: 1248px;
+   margin: 0 auto;
+   padding: 0 10px;
+
    font-family: 'DM Sans', sans-serif;
    font-optical-sizing: auto;
    font-style: normal;
-   max-width: 1248px;
-   margin: 0 auto;
 }
