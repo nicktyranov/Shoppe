@@ -1,0 +1,23 @@
+.email {
+   display: flex;
+   gap: 20px;
+   align-items: center;
+   justify-content: center;
+
+   max-width: 400px;
+   max-height: 60px;
+   padding: 5px 10px;
+
+   font-size: var(--font-16);
+   font-weight: 400;
+   line-height: 27px;
+   color: var(--color-gray-dark);
+
+   background: var(--color-gray-very-light);
+   border-radius: 5px;
+   box-shadow: 0 0 8px 0 rgb(0 0 0 / 15%);
+}
+
+.wrong {
+   color: var(--color-error);
+}

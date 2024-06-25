@@ -1,11 +1,11 @@
 'use client';
 import { ISearchProps } from './Search.props';
-import styles from './Search.module.css';
 import Image from 'next/image';
 import searchIcon from './search-icon.svg';
 import searchIcon2 from './search-icon-grey.svg';
 import { MouseEvent, useState } from 'react';
 import cn from 'classnames';
+import styles from './Search.module.css';
 
 export default function Search({
    isClicked,

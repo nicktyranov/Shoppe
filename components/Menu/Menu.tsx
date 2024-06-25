@@ -1,6 +1,5 @@
 'use client';
 import { IMenuProps } from './Menu.props';
-import styles from './Menu.module.css';
 import Image from 'next/image';
 import logo from './logo.svg';
 import likeIcon from './like-icon.svg';
@@ -12,6 +11,7 @@ import Link from 'next/link';
 import Cart from '../Cart/Cart';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import styles from './Menu.module.css';
 
 export default function Menu({}: IMenuProps) {
    const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);

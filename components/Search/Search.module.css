@@ -41,7 +41,7 @@
 
 .input::placeholder {
    padding-left: 30px;
-   font-size: 14px;
+   font-size: var(--font-14);
    font-weight: 400;
    line-height: 22px;
 }

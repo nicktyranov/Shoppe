@@ -3,6 +3,7 @@ import Menu from '@/components/Menu/Menu';
 import { DM_Sans } from 'next/font/google';
 import './globals.css';
 import Footer from '@/components/Footer/Footer';
+import ToasterProvider from '@/components/ToasterProvider/ToasterProvider';
 
 const font = DM_Sans({ subsets: ['latin'] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
 
             <div>{children}</div>
             <Footer />
+            <ToasterProvider />
          </body>
       </html>
    );
