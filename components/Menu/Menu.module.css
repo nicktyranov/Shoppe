@@ -46,6 +46,7 @@
 
 .mobile-menu {
    display: none;
+   min-width: 300px;
    color: var(--color-black);
    text-decoration: none;
 }
@@ -64,10 +65,12 @@
 }
 
 .mobile-navigation {
-   margin-top: 40px;
    display: flex;
    flex-direction: column;
    gap: 25px;
+
+   margin-top: 40px;
+
    font-size: 20px;
    font-weight: 400;
    line-height: 26px;

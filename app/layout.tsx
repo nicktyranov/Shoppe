@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Menu from '@/components/Menu/Menu';
 import { DM_Sans } from 'next/font/google';
 import './globals.css';
+import Footer from '@/components/Footer/Footer';
 
 const font = DM_Sans({ subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
             </header>
 
             <div>{children}</div>
+            <Footer />
          </body>
       </html>
    );
