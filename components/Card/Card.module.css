@@ -1,0 +1,45 @@
+.card-wrapper {
+   position: relative;
+   width: 100%;
+   max-width: 300px;
+}
+
+.poster {
+   position: relative;
+   margin-bottom: 25px;
+   object-fit: fill;
+   border-radius: 8px;
+}
+
+.poster-icon-right {
+   position: absolute;
+   top: 20px;
+   right: 15px;
+}
+
+.poster-icon-left {
+   position: absolute;
+   top: 20px;
+   left: 15px;
+
+   padding: 2px 8px;
+
+   font-size: 12px;
+   font-weight: 400;
+   line-height: 20px;
+   color: var(--color-white);
+
+   background-color: var(--color-brown);
+   border-radius: 4px;
+}
+
+.heading {
+   margin-bottom: 15px;
+   font-size: var(--font-20);
+   font-weight: 400;
+   line-height: 26px;
+}
+
+.price {
+   color: var(--color-brown);
+}
