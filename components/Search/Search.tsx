@@ -45,13 +45,15 @@ export default function Search({
                   type="text"
                   placeholder="Поиск"
                />
-               <Image
-                  src={searchIcon2}
-                  alt="search icon"
-                  className={styles['icon-input']}
-                  height={12}
-                  width={12}
-               />
+               <div>
+                  <Image
+                     src={searchIcon2}
+                     alt="search icon"
+                     className={styles['icon-input']}
+                     height={12}
+                     width={12}
+                  />
+               </div>
             </div>
          )}
       </div>

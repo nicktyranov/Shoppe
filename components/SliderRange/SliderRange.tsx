@@ -10,12 +10,16 @@ import 'rc-slider/assets/index.css';
 
 export default function SliderRange({
    className,
+   min,
+   max,
    ...props
 }: ISliderRangeProps) {
-   const [range, setRange] = useState([0, 10]);
+   const [range, setRange] = useState([min, max]);
 
-   const handleChange = (newRange: number[]) => {
-      setRange(newRange);
+   const handleChange = (value: number | number[]) => {
+      if (Array.isArray(value)) {
+         setRange(value);
+      }
    };
 
    return (
@@ -23,8 +27,8 @@ export default function SliderRange({
          <div className={styles.slider}>
             <Slider
                range
-               min={0}
-               max={100}
+               min={min}
+               max={max}
                value={range}
                onChange={handleChange}
                dots={false}

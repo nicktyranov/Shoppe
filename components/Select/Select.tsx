@@ -6,7 +6,11 @@ import cn from 'classnames';
 import styles from './Select.module.css';
 import { useState } from 'react';
 
-export default function Select({ className, ...props }: ISelectProps) {
+export default function Select({
+   className,
+   categories,
+   ...props
+}: ISelectProps) {
    const [selected, setSelected] = useState('');
    console.log(selected);
    return (
@@ -20,8 +24,17 @@ export default function Select({ className, ...props }: ISelectProps) {
                <option value="" disabled>
                   Choose a category
                </option>
-               <option value="apple">Apple</option>
-               <option value="banana">Banana</option>
+               {categories &&
+                  categories.map((c) => {
+                     return (
+                        <option value={c.name} key={c.id}>
+                           {c.name}
+                        </option>
+                     );
+                  })}
+
+               {/* <option value="apple">Apple</option>
+               <option value="banana">Banana</option> */}
             </select>
          </label>
          {/* <Image
