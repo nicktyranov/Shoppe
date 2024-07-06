@@ -4,11 +4,20 @@
    max-width: 300px;
 }
 
+.card-wrapper-main {
+   position: relative;
+   width: 100%;
+   max-width: 380px;
+}
+
 .poster {
    position: relative;
    margin-bottom: 25px;
    object-fit: fill;
    border-radius: 8px;
+
+   /* display: flex;
+   justify-content: center; */
 }
 
 .poster-icon-right {
@@ -35,11 +44,40 @@
 
 .heading {
    margin-bottom: 15px;
+
    font-size: var(--font-20);
    font-weight: 400;
    line-height: 26px;
+   word-wrap: break-word;
 }
 
 .price {
+   font-size: var(--font-20);
+   font-weight: 500;
+   line-height: 26px;
    color: var(--color-brown);
+}
+
+@media (width <= 600px) {
+   .heading {
+      max-width: 175px;
+   }
+
+   .card-wrapper {
+      max-width: 200px;
+   }
+
+   .poster {
+      margin-bottom: 15px;
+   }
+}
+
+@media (width <= 450px) {
+   /* .heading {
+      max-width: 175px;
+   } */
+
+   .card-wrapper {
+      max-width: 200px;
+   }
 }

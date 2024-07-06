@@ -5,4 +5,7 @@ export interface ICardProps {
    img?: string;
    heading: string;
    price: string | number;
+   id?: string;
+   main: boolean;
+   className?: string;
 }

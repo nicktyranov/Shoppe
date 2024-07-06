@@ -1,0 +1,165 @@
+.slider-wrapper {
+   max-width: 1248px;
+   margin: 0 auto;
+}
+
+.slider {
+   position: relative;
+   overflow: hidden;
+   margin: 30px 0 65px;
+}
+
+.slide-list {
+   display: flex;
+   height: 100%;
+   transition: transform 1s ease-in-out;
+}
+
+.slide-image {
+   position: relative;
+   overflow: hidden;
+   min-width: 100%;
+}
+
+.slide-info {
+   position: absolute;
+   z-index: 2;
+   bottom: 45%;
+   left: 30px;
+
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
+
+   color: var(--color-white);
+}
+
+.slide-text {
+   font-size: var(--font-33);
+   font-weight: 500;
+   line-height: 43px;
+}
+
+.slide-text span {
+   font-size: var(--font-26);
+   font-weight: 400;
+   line-height: 35px;
+}
+
+.slide-button {
+   min-width: 92px;
+   max-width: 192px;
+   min-height: 32px;
+   max-height: 53px;
+
+   color: var(--color-white);
+
+   background: none;
+   border: 2px solid rgb(255 255 255);
+   border-radius: 6px;
+}
+
+.image {
+   position: absolute;
+
+   width: 100%;
+   height: 100%;
+   /* height: auto;
+   width: auto; */
+
+   object-fit: cover;
+   border-radius: 16px;
+}
+
+.dots-wrapper {
+   position: absolute;
+   z-index: 2;
+   bottom: 20px;
+
+   display: flex;
+   gap: 15px;
+   align-items: center;
+   justify-content: center;
+
+   width: 100%;
+}
+
+.dot {
+   cursor: pointer;
+
+   width: 9px;
+   height: 9px;
+
+   background-color: var(--color-white);
+   border: none;
+   border-radius: 50%;
+}
+
+.active-dot {
+   cursor: default;
+
+   width: 16px;
+   height: 16px;
+
+   background: none;
+   border: 1px solid var(--color-white);
+}
+
+@media (width <= 1280px) {
+   .slider-wrapper {
+      max-width: 1280 - 10%;
+   }
+
+   .slide-info {
+      position: absolute;
+      bottom: 13%;
+   }
+}
+
+@media (width <= 1000px) {
+   .slider-wrapper {
+      max-width: 1000px;
+   }
+
+   .slide-info {
+      position: absolute;
+      bottom: 13%;
+   }
+}
+
+@media (width <= 770px) {
+   .slider-wrapper {
+      max-width: 770px - 10%;
+   }
+
+   .image {
+      /* left: -10%; */
+   }
+
+   .slide-info {
+      position: absolute;
+      bottom: 13%;
+   }
+}
+
+@media (width <= 600px) {
+   .slider-wrapper {
+      max-width: 600px;
+   }
+
+   .image {
+      height: 100%;
+      max-height: auto;
+   }
+
+   .slide-info {
+      position: absolute;
+      bottom: 13%;
+   }
+}
+
+@media (width <= 500px) {
+   .slider-wrapper {
+      max-width: 500px;
+   }
+}

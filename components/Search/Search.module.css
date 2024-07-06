@@ -28,6 +28,10 @@
    opacity: 1;
 }
 
+.input-wrapper-animated input {
+   padding-left: 30px;
+}
+
 .input {
    width: 100%;
    min-width: 260px;
@@ -41,7 +45,6 @@
 }
 
 .input::placeholder {
-   padding-left: 30px;
    font-size: var(--font-14);
    font-weight: 400;
    line-height: 22px;

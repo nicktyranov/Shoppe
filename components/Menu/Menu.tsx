@@ -20,7 +20,15 @@ export default function Menu({}: IMenuProps) {
       <div className={styles.wrapper}>
          <div className={styles.menu}>
             <div>
-               <Image src={logo} alt="Logo" className={styles.logo} priority />
+               <Link href={'/'}>
+                  {' '}
+                  <Image
+                     src={logo}
+                     alt="Logo"
+                     className={styles.logo}
+                     priority
+                  />
+               </Link>
             </div>
             <nav className={styles.nav}>
                <Link href={'/shop'} className={styles.shop}>

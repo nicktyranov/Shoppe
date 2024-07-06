@@ -1,49 +1,58 @@
-import Image from 'next/image';
 import styles from './page.module.css';
-import Select from '@/components/Select/Select';
-import OnOffButton from '@/components/OnOffButton/OnOffButton';
-import SliderRange from '@/components/SliderRange/SliderRange';
-import Pagination from '@/components/Pagination/Pagination';
 import Card from '@/components/Card/Card';
-import Search from '@/components/Search/Search';
-import { IFilter } from '@/interfaces/interface.filter';
+import ImageSlider from '@/components/ImageSlider/ImageSlider';
+import { IGetProducts, IProductList } from '@/interfaces/interface.products';
+import Link from 'next/link';
 
-async function getFilter(): Promise<IFilter> {
+async function getProducts(): Promise<IProductList> {
+   const limit = 6;
+   const offset = 0;
+
    const res = await fetch(
-      process.env.NEXT_PUBLIC_DOMAIN + `/api-demo/products/get-filter`
+      process.env.NEXT_PUBLIC_DOMAIN +
+         `/api-demo/products?limit=${limit}&offset=${offset}`
    );
-   return await res.json();
+
+   if (!res.ok) {
+      throw new Error('Failed to fetch products');
+   }
+
+   const data: IProductList = await res.json();
+   if (!data || !data.products) {
+      throw new Error('Invalid products data');
+   }
+   return data;
 }
 
-export default async function Home() {
-   const filter = await getFilter();
+export default async function Home({}) {
+   const products = await getProducts();
 
-   const categoryTranslations: Record<string, string> = {
-      Заколки: 'Hairpins',
-      Серьги: 'Earrings',
-      Кулоны: 'Pendants'
-   };
+   const pageData = products.products.slice(0, 6);
 
-   const translatedCategories = filter.categories.map((category) => ({
-      id: category.id,
-      name: categoryTranslations[category.name] || category.name
-   }));
+   console.log(products.products.length);
 
    return (
-      <div>
-         <h1 className={styles.h1}>Каталог товаров</h1>
-         <div className={styles.body}>
-            <div className={styles.filter}>
-               <Search isClicked={true} className={styles['search-filter']} />
-               <Select categories={translatedCategories} />
-               <OnOffButton />
-               <SliderRange min={filter.minPrice} max={filter.maxPrice} />
-               <Pagination />
-            </div>
-            <div>
-               <Card price={'20.00'} heading="Lira Earrings" />
-            </div>
+      <>
+         <ImageSlider autoPlay={true} autoPlayTime={500000} />
+
+         <div className={styles.heading}>
+            <h1 className={styles.h1}>Last arrivals</h1>
+            <Link href={'/shop'}>all</Link>
          </div>
-      </div>
+
+         <div className={styles.products}>
+            {pageData.map((product, index) => (
+               <Card
+                  key={`${product.sku}-${index}`}
+                  price={product.price}
+                  heading={product.name}
+                  img={product.images[0]}
+                  main={true}
+                  isLiked={true}
+                  className={styles['card-image']}
+               />
+            ))}
+         </div>
+      </>
    );
 }

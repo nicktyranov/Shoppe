@@ -2,8 +2,8 @@ import { ICardProps } from './Card.props';
 import Image from 'next/image';
 import iconLike from './like-icon-colored.svg';
 import cn from 'classnames';
-import styles from './Card.module.css';
 import testImg from './Img 01.png';
+import styles from './Card.module.css';
 
 export default function Card({
    discount,
@@ -12,18 +12,36 @@ export default function Card({
    heading,
    price,
    img,
+   main,
+   className,
    ...props
 }: ICardProps) {
+   let width, height;
+   if (main) {
+      width = 380;
+      height = 380;
+   } else {
+      width = 300;
+      height = 300;
+   }
+
    return (
-      <div className={cn(styles['card-wrapper'])} {...props}>
+      <div
+         className={cn(styles['card-wrapper'], {
+            [styles['card-wrapper-main']]: main
+         })}
+         {...props}
+      >
          <Image
-            src={testImg}
+            src={img || testImg}
             alt="search icon"
-            className={cn(styles.poster)}
-            width={300}
+            className={cn(styles.poster, className)}
+            width={width}
+            height={height}
+            priority
          />
          <h2 className={styles.heading}>{heading}</h2>
-         <p className={styles.price}>${price}</p>
+         <p className={styles.price}>${price}.00</p>
 
          {!isLiked && (
             <Image

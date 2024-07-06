@@ -11,9 +11,8 @@ export default function OnOffButton({ className, ...props }: ISelectProps) {
 
    const handleClick = () => {
       setSelected(!selected);
-      console.log(selected);
    };
-
+   console.log(selected);
    return (
       <div className={cn(styles['button-wrapper'], className)} {...props}>
          With discounts

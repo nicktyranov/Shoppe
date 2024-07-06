@@ -18,7 +18,9 @@
    --color-white-60: rgb(255 255 255 / 60%);
 }
 
-* {
+*,
+*::before,
+*::after {
    box-sizing: border-box;
    margin: 0;
    padding: 0;
@@ -26,7 +28,9 @@
 
 body {
    max-width: 1248px;
-   margin: 0 auto;
+   margin: 0 auto !important;
+
+   /* почему-то не применяется к гриду на главной странице */
    padding: 0 10px;
 
    font-family: 'DM Sans', sans-serif;
