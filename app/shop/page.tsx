@@ -67,19 +67,10 @@ export default async function Shop({
    console.log(`searchParams - ${searchParams}`);
 
    return (
-      <div>
+      <div className={styles.wrapper}>
          <h1 className={styles.h1}>Каталог товаров</h1>
          <div className={styles.body}>
-            <Filter />
-
-            {/* <div className={styles.pagination}>
-               {products && (
-                  <Pagination
-                     itemsNumber={products.products.length}
-                     data={products}
-                  />
-               )}
-            </div> */}
+            <Filter className={styles.filter} />
             <div className={styles['pagination-list']}>
                <div className={styles.products}>
                   {pageData.map((product, index) => (

@@ -6,6 +6,6 @@ export interface ICardProps {
    heading: string;
    price: string | number;
    id?: string;
-   main: boolean;
+   main?: boolean;
    className?: string;
 }

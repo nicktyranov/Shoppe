@@ -32,14 +32,17 @@ export default function Card({
          })}
          {...props}
       >
-         <Image
-            src={img || testImg}
-            alt="search icon"
-            className={cn(styles.poster, className)}
-            width={width}
-            height={height}
-            priority
-         />
+         <div className={cn(styles['poster-wrapper'], className)}>
+            <Image
+               src={img || testImg}
+               alt="search icon"
+               className={cn(styles.poster)}
+               width={width}
+               height={height}
+               priority
+            />
+         </div>
+
          <h2 className={styles.heading}>{heading}</h2>
          <p className={styles.price}>${price}.00</p>
 

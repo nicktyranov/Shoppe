@@ -1,157 +1,180 @@
 'use client';
-import { IImageSliderProps } from './ImageSlider.props';
-import Image, { StaticImageData } from 'next/image';
-import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
+import { register } from 'swiper/element/bundle';
+register();
 import img1 from './Img1.png';
 import img2 from './Img2.png';
-import 'rc-slider/assets/index.css';
+import Image from 'next/image';
 import styles from './ImageSlider.module.css';
+import Link from 'next/link';
 
-const TOTAL_DOTS = 8;
-
-export default function ImageSlider({
-   className,
-   width,
-   height = '646px',
-   autoPlay,
-   autoPlayTime
-}: IImageSliderProps) {
-   const [items, setItems] = useState<StaticImageData[]>([]);
-   const [slide, setSlide] = useState(0);
-   const [touchPosition, setTouchPosition] = useState<number | null>(null);
+export default function ImageSlider() {
+   const swiperElRef = useRef<any>(null);
+   const containerRef = useRef<HTMLDivElement>(null);
 
    useEffect(() => {
-      setItems([img1, img2]);
-      setSlide(0);
+      const handleInit = () => {
+         if (containerRef.current) {
+            containerRef.current.classList.add(styles.initiated);
+         }
+      };
+
+      if (swiperElRef.current) {
+         swiperElRef.current.addEventListener('progress', (e: any) => {
+            const [swiper, progress] = e.detail;
+            console.log(progress);
+         });
+
+         swiperElRef.current.addEventListener('slidechange', (e: any) => {
+            console.log('slide changed');
+         });
+
+         swiperElRef.current.addEventListener('init', handleInit);
+
+         // Ensure Swiper is initialized
+         if (swiperElRef.current.swiper) {
+            handleInit();
+         }
+      }
    }, []);
 
-   const changeSlide = (direction = 1) => {
-      let sliderNumber = 0;
-
-      if (slide + direction < 0) {
-         sliderNumber = TOTAL_DOTS - 1;
-      } else {
-         sliderNumber = (slide + direction) % TOTAL_DOTS;
-      }
-      // console.log(
-      //    `changeSlide: cменили слайд на ${sliderNumber}, ${typeof sliderNumber} `
-      // );
-      setSlide(sliderNumber);
-   };
-
-   const goToSlide = (number: number) => {
-      setSlide(number);
-      // console.log(`cменили слайд на ${number}, ${typeof number} `);
-   };
-
-   const handleTouchStart = (e: React.TouchEvent) => {
-      const touchDown = e.touches[0].clientX;
-      setTouchPosition(touchDown);
-   };
-
-   const handleTouchMove = (e: React.TouchEvent) => {
-      if (touchPosition === null) {
-         return;
-      }
-
-      const currentPosition = e.touches[0].clientX;
-      const direction = touchPosition - currentPosition;
-
-      if (direction > 10) {
-         changeSlide(1);
-      } else if (direction < -10) {
-         changeSlide(-1);
-      }
-
-      setTouchPosition(null);
-   };
-
-   useEffect(() => {
-      if (!autoPlay) {
-         return;
-      }
-      if (!autoPlayTime) {
-         autoPlayTime = 5000000;
-      }
-      const interval = setInterval(() => {
-         changeSlide(1);
-      }, autoPlayTime);
-
-      return () => {
-         clearInterval(interval);
-      };
-   }, [slide]);
-
-   function Dots() {
-      const renderDots = () => {
-         const dots = [];
-         for (let i = 0; i < TOTAL_DOTS; i++) {
-            dots.push(
-               <button
-                  key={`dot-${i}`}
-                  onClick={() => goToSlide(i)}
-                  className={cn(styles.dot, {
-                     [styles['active-dot']]: i === slide
-                  })}
-                  disabled={i === slide}
-               />
-            );
-         }
-         return dots;
-      };
-      return <div className={styles['dots-wrapper']}>{renderDots()}</div>;
-   }
-
-   function Slides() {
-      const text1 = 'Diamond jewelry';
-      const price1 = '$69,00';
-      const text2 = 'Gold big hoops';
-      const price2 = '$58,00';
-
-      return (
-         <div
-            className={styles['slide-list']}
+   return (
+      <div className={styles['swiper-wrapper']} ref={containerRef}>
+         <swiper-container
+            ref={swiperElRef}
+            slides-per-view="1"
+            autoPlay="true"
+            pagination='{
+               "clickable": true
+            }'
             style={{
-               transform: `translateX(-${(slide % items.length) * 100}%)`
+               '--swiper-pagination-color': '#FFF',
+               '--swiper-pagination-bullet-inactive-color': '#a18a68',
+               '--swiper-pagination-bullet-inactive-opacity': '1',
+               '--swiper-pagination-bullet-size': '12px',
+               '--swiper-pagination-bullet-horizontal-gap': '5px'
             }}
          >
-            {items.map((item, index) => (
-               <div key={index} className={styles['slide-image']}>
+            <swiper-slide>
+               <div className={styles['slide-image']}>
                   <div className={styles['slide-info']}>
-                     <p className={styles['slide-text']}>
-                        {index % 2 === 0 ? text2 : text1}
-                     </p>
-                     <span>{index % 2 === 0 ? price2 : price1}</span>
-                     <button className={styles['slide-button']}>
-                        WATCH MORE
-                     </button>
+                     <p className={styles['slide-text']}>Gold big hoops</p>
+                     <span>$58,00</span>
+                     <Link href={'/shop'}>
+                        <button className={styles['slide-button']}>
+                           {' '}
+                           WATCH
+                        </button>
+                     </Link>
                   </div>
                   <Image
-                     src={item.src}
-                     alt={`item-${index}`}
-                     className={styles.image}
-                     width={1248}
-                     height={646}
-                     priority
+                     src={img1}
+                     alt="Gold big hoops image"
+                     className={styles.img}
                   />
                </div>
-            ))}
-         </div>
-      );
-   }
+            </swiper-slide>
 
-   return (
-      <div className={cn(styles['slider-wrapper'], styles['centered-block'])}>
-         <div
-            style={{ width, height }}
-            className={cn(styles.slider, className)}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-         >
-            <Slides />
-            <Dots />
-         </div>
+            <swiper-slide>
+               <div className={styles['slide-image']}>
+                  <div className={styles['slide-info']}>
+                     <p className={styles['slide-text']}>Diamond jewelry</p>
+                     <span>$69,00</span>
+                     <Link href={'/shop'}>
+                        <button className={styles['slide-button']}>
+                           {' '}
+                           WATCH
+                        </button>
+                     </Link>
+                  </div>
+                  <Image
+                     src={img2}
+                     alt="Diamond jewelry image"
+                     className={styles.img}
+                  />
+               </div>
+            </swiper-slide>
+
+            <swiper-slide>
+               <div className={styles['slide-image']}>
+                  <div className={styles['slide-info']}>
+                     <p className={styles['slide-text']}>Gold big hoops</p>
+                     <span>$58,00</span>
+                     <Link href={'/shop'}>
+                        <button className={styles['slide-button']}>
+                           {' '}
+                           WATCH
+                        </button>
+                     </Link>
+                  </div>
+                  <Image
+                     src={img1}
+                     alt="Gold big hoops image"
+                     className={styles.img}
+                  />
+               </div>
+            </swiper-slide>
+
+            <swiper-slide>
+               <div className={styles['slide-image']}>
+                  <div className={styles['slide-info']}>
+                     <p className={styles['slide-text']}>Diamond jewelry</p>
+                     <span>$69,00</span>
+                     <Link href={'/shop'}>
+                        <button className={styles['slide-button']}>
+                           {' '}
+                           WATCH
+                        </button>
+                     </Link>
+                  </div>
+                  <Image
+                     src={img2}
+                     alt="Diamond jewelry image"
+                     className={styles.img}
+                  />
+               </div>
+            </swiper-slide>
+
+            <swiper-slide>
+               <div className={styles['slide-image']}>
+                  <div className={styles['slide-info']}>
+                     <p className={styles['slide-text']}>Gold big hoops</p>
+                     <span>$58,00</span>
+                     <Link href={'/shop'}>
+                        <button className={styles['slide-button']}>
+                           {' '}
+                           WATCH
+                        </button>
+                     </Link>
+                  </div>
+                  <Image
+                     src={img1}
+                     alt="Gold big hoops image"
+                     className={styles.img}
+                  />
+               </div>
+            </swiper-slide>
+
+            <swiper-slide>
+               <div className={styles['slide-image']}>
+                  <div className={styles['slide-info']}>
+                     <p className={styles['slide-text']}>Diamond jewelry</p>
+                     <span>$69,00</span>
+                     <Link href={'/shop'}>
+                        <button className={styles['slide-button']}>
+                           {' '}
+                           WATCH
+                        </button>
+                     </Link>
+                  </div>
+                  <Image
+                     src={img2}
+                     alt="Diamond jewelry image"
+                     className={styles.img}
+                  />
+               </div>
+            </swiper-slide>
+         </swiper-container>
       </div>
    );
 }

@@ -33,8 +33,7 @@ export default async function Home({}) {
 
    return (
       <>
-         <ImageSlider autoPlay={true} autoPlayTime={500000} />
-
+         <ImageSlider />
          <div className={styles.heading}>
             <h1 className={styles.h1}>Last arrivals</h1>
             <Link href={'/shop'}>all</Link>
@@ -49,7 +48,6 @@ export default async function Home({}) {
                   img={product.images[0]}
                   main={true}
                   isLiked={true}
-                  className={styles['card-image']}
                />
             ))}
          </div>

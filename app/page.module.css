@@ -21,11 +21,9 @@
 
 .products {
    display: grid;
-   grid-gap: 55px;
-   grid-template-columns: repeat(3, auto);
-   align-items: flex-start;
-   justify-content: center;
-
+   grid-template-columns: repeat(3, 380px);
+   gap: 25px 0;
+   justify-content: space-between;
    margin-bottom: 200px;
 }
 
@@ -100,16 +98,29 @@
    }
 }
 
-@media (width <= 600px) {
+@media (width <= 500px) {
    .products {
-      grid-gap: 20px 5px;
+      grid-gap: 10px 5px;
       grid-template-columns: repeat(2, auto);
       justify-content: space-around;
       margin-bottom: 100px;
    }
+}
 
-   .card-image {
-      width: 175px;
-      height: 175px;
+@media (width <= 400px) {
+   .heading {
+      margin-bottom: 10px;
+   }
+
+   .h1 {
+      font-size: var(--font-16);
+      font-weight: 500;
+      line-height: 21px;
+   }
+
+   .heading a {
+      font-size: var(--font-16);
+      font-weight: 500;
+      line-height: 21px;
    }
 }

@@ -1,3 +1,7 @@
+.wrapper {
+   margin-top: 100px;
+}
+
 .h1 {
    margin-bottom: 40px;
    font-size: var(--font-33);
@@ -6,6 +10,7 @@
 }
 
 .body {
+   overflow: hidden;
    display: flex;
    gap: 35px;
    margin-bottom: 40px;
@@ -26,16 +31,76 @@
 
 .products {
    display: grid;
-   grid-gap: 10px;
-   grid-template-columns: repeat(3, auto);
+   grid-template-columns: repeat(3, 300px);
+   gap: 15px 20px;
+
+   /* justify-content: space-around; */
 }
 
 .products-list {
    display: flex;
    flex-direction: column;
+   gap: 50px;
 }
 
 .pagination-list {
    display: flex;
    flex-direction: column;
+}
+
+@media (width <= 1248px) {
+   .products {
+      grid-template-columns: repeat(3, 240px);
+   }
+}
+
+@media (width <= 1100px) {
+   .products {
+      grid-template-columns: repeat(3, 200px);
+   }
+}
+
+@media (width <= 1000px) {
+   .products {
+      grid-template-columns: repeat(2, 250px);
+   }
+}
+
+@media (width <= 850px) {
+   .products {
+      grid-template-columns: repeat(2, 220px);
+   }
+}
+
+@media (width <= 780px) {
+   .products {
+      grid-template-columns: repeat(2, 200px);
+   }
+}
+
+@media (width <= 500px) {
+   .body {
+      overflow: hidden;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 40px;
+   }
+
+   .products {
+      grid-template-columns: repeat(2, 180px);
+   }
+
+   .filter {
+      display: none !important;
+   }
+}
+
+@media (width <= 400px) {
+   .products {
+      grid-template-columns: repeat(2, 140px);
+   }
+
+   .filter {
+      display: none !important;
+   }
 }
