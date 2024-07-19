@@ -1,12 +1,47 @@
 'use client';
 import { useRef, useEffect } from 'react';
 import { register } from 'swiper/element/bundle';
-register();
 import img1 from './Img1.png';
 import img2 from './Img2.png';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import styles from './ImageSlider.module.css';
 import Link from 'next/link';
+
+register();
+
+type ImageData = {
+   id: number;
+   name: string;
+   price: string | number;
+   img: StaticImageData;
+};
+
+const data: ImageData[] = [
+   {
+      id: 1,
+      name: 'Gold big hoops',
+      price: '$58,00',
+      img: img1
+   },
+   {
+      id: 2,
+      name: 'Diamond jewelry',
+      price: '$69,00',
+      img: img2
+   },
+   {
+      id: 3,
+      name: 'Gold big hoops',
+      price: '$58,00',
+      img: img1
+   },
+   {
+      id: 4,
+      name: 'Diamond jewelry',
+      price: '$69,00',
+      img: img2
+   }
+];
 
 export default function ImageSlider() {
    const swiperElRef = useRef<any>(null);
@@ -55,125 +90,29 @@ export default function ImageSlider() {
                '--swiper-pagination-bullet-horizontal-gap': '5px'
             }}
          >
-            <swiper-slide>
-               <div className={styles['slide-image']}>
-                  <div className={styles['slide-info']}>
-                     <p className={styles['slide-text']}>Gold big hoops</p>
-                     <span>$58,00</span>
-                     <Link href={'/shop'}>
-                        <button className={styles['slide-button']}>
-                           {' '}
-                           WATCH
-                        </button>
-                     </Link>
-                  </div>
-                  <Image
-                     src={img1}
-                     alt="Gold big hoops image"
-                     className={styles.img}
-                  />
-               </div>
-            </swiper-slide>
-
-            <swiper-slide>
-               <div className={styles['slide-image']}>
-                  <div className={styles['slide-info']}>
-                     <p className={styles['slide-text']}>Diamond jewelry</p>
-                     <span>$69,00</span>
-                     <Link href={'/shop'}>
-                        <button className={styles['slide-button']}>
-                           {' '}
-                           WATCH
-                        </button>
-                     </Link>
-                  </div>
-                  <Image
-                     src={img2}
-                     alt="Diamond jewelry image"
-                     className={styles.img}
-                  />
-               </div>
-            </swiper-slide>
-
-            <swiper-slide>
-               <div className={styles['slide-image']}>
-                  <div className={styles['slide-info']}>
-                     <p className={styles['slide-text']}>Gold big hoops</p>
-                     <span>$58,00</span>
-                     <Link href={'/shop'}>
-                        <button className={styles['slide-button']}>
-                           {' '}
-                           WATCH
-                        </button>
-                     </Link>
-                  </div>
-                  <Image
-                     src={img1}
-                     alt="Gold big hoops image"
-                     className={styles.img}
-                  />
-               </div>
-            </swiper-slide>
-
-            <swiper-slide>
-               <div className={styles['slide-image']}>
-                  <div className={styles['slide-info']}>
-                     <p className={styles['slide-text']}>Diamond jewelry</p>
-                     <span>$69,00</span>
-                     <Link href={'/shop'}>
-                        <button className={styles['slide-button']}>
-                           {' '}
-                           WATCH
-                        </button>
-                     </Link>
-                  </div>
-                  <Image
-                     src={img2}
-                     alt="Diamond jewelry image"
-                     className={styles.img}
-                  />
-               </div>
-            </swiper-slide>
-
-            <swiper-slide>
-               <div className={styles['slide-image']}>
-                  <div className={styles['slide-info']}>
-                     <p className={styles['slide-text']}>Gold big hoops</p>
-                     <span>$58,00</span>
-                     <Link href={'/shop'}>
-                        <button className={styles['slide-button']}>
-                           {' '}
-                           WATCH
-                        </button>
-                     </Link>
-                  </div>
-                  <Image
-                     src={img1}
-                     alt="Gold big hoops image"
-                     className={styles.img}
-                  />
-               </div>
-            </swiper-slide>
-
-            <swiper-slide>
-               <div className={styles['slide-image']}>
-                  <div className={styles['slide-info']}>
-                     <p className={styles['slide-text']}>Diamond jewelry</p>
-                     <span>$69,00</span>
-                     <Link href={'/shop'}>
-                        <button className={styles['slide-button']}>
-                           {' '}
-                           WATCH
-                        </button>
-                     </Link>
-                  </div>
-                  <Image
-                     src={img2}
-                     alt="Diamond jewelry image"
-                     className={styles.img}
-                  />
-               </div>
-            </swiper-slide>
+            {data.map((el) => {
+               return (
+                  <swiper-slide key={el.id}>
+                     <div className={styles['slide-image']}>
+                        <div className={styles['slide-info']}>
+                           <p className={styles['slide-text']}>{el.name}</p>
+                           <span>{el.price}</span>
+                           <Link href={'/shop'}>
+                              <button className={styles['slide-button']}>
+                                 WATCH
+                              </button>
+                           </Link>
+                        </div>
+                        <Image
+                           src={el.img}
+                           alt={el.name + 'image'}
+                           className={styles.img}
+                           priority={true}
+                        />
+                     </div>
+                  </swiper-slide>
+               );
+            })}
          </swiper-container>
       </div>
    );
