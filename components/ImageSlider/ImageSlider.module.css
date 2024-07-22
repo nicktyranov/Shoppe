@@ -5,14 +5,9 @@
    max-height: 646px;
    margin: 15px 0;
 
-   opacity: 0;
+   border-radius: 16px;
 
    transition: opacity 0.5s ease;
-   border-radius: 16px;
-}
-
-.initiated {
-   opacity: 1;
 }
 
 .img {
@@ -66,10 +61,6 @@
    background: none;
    border: 2px solid rgb(255 255 255);
    border-radius: 6px;
-}
-
-.swiper-container::part(bullet-active) {
-   background-color: red;
 }
 
 @media (width <= 700px) {

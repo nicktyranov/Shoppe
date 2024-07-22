@@ -1,0 +1,29 @@
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+   display: flex;
+   gap: 10px;
+   align-items: center;
+   justify-content: center;
+
+   margin-bottom: 5px;
+}
+
+.swiper-pagination-bullet {
+   z-index: 2;
+
+   width: 9px;
+   height: 9px;
+   margin: 0;
+
+   opacity: 1;
+   background: #fff;
+}
+
+.swiper-pagination-bullet-active {
+   width: 16px;
+   height: 16px;
+   margin: 0;
+
+   background: none;
+   border: 1px solid var(--color-white);
+}

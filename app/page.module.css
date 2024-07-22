@@ -24,6 +24,7 @@
    grid-template-columns: repeat(3, 380px);
    gap: 25px 0;
    justify-content: space-between;
+
    margin-bottom: 200px;
 }
 
