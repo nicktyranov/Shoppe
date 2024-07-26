@@ -6,10 +6,16 @@ import OnOffButton from '../OnOffButton/OnOffButton';
 import Search from '../Search/Search';
 import Select from '../Select/Select';
 import SliderRange from '../SliderRange/SliderRange';
-import { getFilter } from '@/app/shop/page';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { IFilter } from '@/interfaces/interface.filter';
+
+async function getFilter(): Promise<IFilter> {
+   const res = await fetch(
+      process.env.NEXT_PUBLIC_DOMAIN + `/api-demo/products/get-filter`
+   );
+   return await res.json();
+}
 
 export default function Filter({ className, ...props }: IFilterProps) {
    const router = useRouter();

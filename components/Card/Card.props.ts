@@ -8,4 +8,5 @@ export interface ICardProps {
    id?: string;
    main?: boolean;
    className?: string;
+   sku: string | number;
 }

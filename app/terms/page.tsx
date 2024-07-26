@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import styles from './page.module.css';
 
-export default function Terms({ ...props }) {
+export default function Terms() {
    return <div className={styles['pagination-list']}>terms</div>;
 }

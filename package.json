@@ -6,6 +6,7 @@
    "scripts": {
       "dev": "next dev",
       "build": "next build",
+      "export": "next export",
       "start": "next start",
       "lint": "next lint",
       "stylelint": "stylelint \"**/*.css\" --fix"
@@ -18,6 +19,7 @@
       "react": "^18",
       "react-dom": "^18",
       "react-hot-toast": "^2.4.1",
+      "sharp": "^0.33.4",
       "swiper": "^11.1.4"
    },
    "devDependencies": {

@@ -43,6 +43,7 @@ export default async function Home({}) {
             {pageData.map((product, index) => (
                <Card
                   key={`${product.sku}-${index}`}
+                  sku={product.sku}
                   price={product.price}
                   heading={product.name}
                   img={product.images[0]}

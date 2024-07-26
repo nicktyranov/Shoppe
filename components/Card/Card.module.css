@@ -4,6 +4,10 @@
    max-width: 380px;
 }
 
+.card-wrapper a {
+   text-decoration: none;
+}
+
 .card-wrapper-main {
    position: relative;
    width: 100%;
@@ -55,6 +59,7 @@
    font-size: var(--font-20);
    font-weight: 400;
    line-height: 26px;
+   color: var(--color-black);
    text-overflow: ellipsis;
    white-space: nowrap;
 }
