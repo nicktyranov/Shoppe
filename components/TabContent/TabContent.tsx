@@ -27,12 +27,16 @@ const reviewsEN = [
    'I would have put more, but upon delivery these earrings were wrinkled and became triangular, not round. Otherwise the service is excellent and I will continue to buy from this store.'
 ];
 
-export default function TabContent({ description, reviews }: ITabContentProps) {
+export default function TabContent({
+   description,
+   reviews,
+   className
+}: ITabContentProps) {
    const [activeTab, setActiveTab] = useState('description');
    console.log(reviews);
 
    return (
-      <div className={styles['body']}>
+      <div className={cn(styles['wrapper'], className)}>
          <div className={styles['description-reviews-toggle']}>
             <span
                className={activeTab === 'description' ? styles['active'] : ''}
