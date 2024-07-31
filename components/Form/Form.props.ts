@@ -1,6 +1,6 @@
-export interface IInputProps
+export interface IFormProps
    extends React.InputHTMLAttributes<HTMLInputElement> {
    className?: string;
    icon?: boolean;
-   placeholder: string;
+   sku: number;
 }

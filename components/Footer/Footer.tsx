@@ -23,7 +23,7 @@ export default function Footer({ ...props }: IFooterProps) {
       }
 
       if (email && validateEmail(email)) {
-         showNotification('You have been successfully subscribed');
+         showNotification('You have been successfully subscribed', true);
       } else {
          showNotification('Invalid email address', false);
       }
@@ -42,6 +42,8 @@ export default function Footer({ ...props }: IFooterProps) {
                onClick={checkEmail}
                value={email}
                onChange={inputHandleChange}
+               placeholder={'Enter your email for promotions'}
+               icon
             />
          </div>
 

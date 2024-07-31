@@ -86,8 +86,6 @@
    display: flex;
    flex-direction: column;
    gap: 10px;
-
-   /* margin-top: 40px; */
 }
 
 .label {
@@ -100,6 +98,10 @@
 .label span {
    padding-left: 15px;
    color: var(--color-gray-dark);
+}
+
+.input {
+   max-width: 570px !important;
 }
 
 @media (width <= 1200px) {

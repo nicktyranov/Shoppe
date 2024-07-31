@@ -1,5 +1,3 @@
-import iconStar from './star.svg';
-import iconStarEmpty from './icon-star-empty.svg';
 import iconMail from './icon-mail.svg';
 import Image from 'next/image';
 import Counter from '@/components/Counter/Counter';
@@ -11,6 +9,9 @@ import { Metadata } from 'next';
 import Gallery from '@/components/Gallery/Gallery';
 import cn from 'classnames';
 import styles from './page.module.css';
+import Rating from '@/components/Rating/Rating';
+import Input from '@/components/Input/Input';
+import Form from '@/components/Form/Form';
 
 const dataDescription =
    'Universal classic. The earrings are made of rose gold with a path of diamonds and emeralds. Delicate, sophisticated, they will suit not only a business suit, but will also complement the image of any fashionista.';
@@ -47,22 +48,6 @@ export default async function Product({
    const { sku } = params;
    const data = await getData(sku);
 
-   const makeRating = (num: number) => {
-      let arr = [];
-      for (let i = 0; i < 5; i++) {
-         if (i < num) {
-            arr.push(
-               <Image src={iconStar} alt={`star ${i + 1}`} key={i + 1} />
-            );
-         } else {
-            arr.push(
-               <Image src={iconStarEmpty} alt={`star ${i + 1}`} key={i + 1} />
-            );
-         }
-      }
-      return arr;
-   };
-
    const translateCategory = (id: number) => {
       switch (id) {
          case 1:
@@ -79,28 +64,17 @@ export default async function Product({
    return (
       <div className={styles['wrapper']}>
          <div className={styles['description']}>
-            {/* <div className={styles['gallery']}> */}
             <Gallery
                images={data.images}
                alt={`images of ${data.name}`}
                width={540}
                className={styles['gallery']}
             />
-            {/* </div> */}
+
             <div className={styles['short-data']}>
                <h2 className={styles['heading']}>{data.name}</h2>
                <p className={styles['price']}>${data.price}</p>
-               <div className={styles['rating-block']}>
-                  <div className={styles.rating}>
-                     {makeRating(
-                        data.reviews.reduce((sum, x) => (sum += x.rating), 0) /
-                           data.reviews.length
-                     )}
-                  </div>
-                  <p className={styles['description-text']}>
-                     {data.reviews.length + ' reviews'}
-                  </p>
-               </div>
+               <Rating reviews={data.reviews} reviewsSummary />
                <p
                   className={cn(
                      styles['description-text'],
@@ -139,6 +113,7 @@ export default async function Product({
             description={dataDescription}
             reviews={data.reviews}
             className={styles['tab-content']}
+            sku={sku}
          />
       </div>
    );
