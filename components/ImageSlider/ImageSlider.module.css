@@ -1,0 +1,138 @@
+.swiper-wrapper {
+   overflow: hidden;
+
+   box-sizing: border-box;
+   max-height: 646px;
+   margin: 15px 0;
+
+   border-radius: 16px;
+
+   transition: opacity 0.5s ease;
+}
+
+.img {
+   width: 100%;
+   height: auto;
+}
+
+.slide-image {
+   position: relative;
+   overflow: hidden;
+   min-width: 100%;
+}
+
+.slide-info {
+   position: absolute;
+   z-index: 2;
+   bottom: 39%;
+   left: 30px;
+
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
+
+   color: var(--color-white);
+}
+
+.slide-info span {
+   font-size: var(--font-26);
+   font-weight: 400;
+   line-height: 35px;
+}
+
+.slide-text {
+   font-size: var(--font-33);
+   font-weight: 500;
+   line-height: 43px;
+}
+
+.slide-button {
+   cursor: pointer;
+
+   width: 100%;
+   min-width: 92px;
+   max-width: 192px;
+   min-height: 32px;
+   max-height: 53px;
+
+   font-size: var(--font-20);
+   color: var(--color-white);
+
+   background: none;
+   border: 2px solid rgb(255 255 255);
+   border-radius: 6px;
+}
+
+@media (width <= 700px) {
+   .slide-text {
+      font-size: var(--font-26);
+      font-weight: 500;
+      line-height: 31px;
+   }
+
+   .slide-info span {
+      font-size: var(--font-20);
+      font-weight: 400;
+      line-height: 25px;
+   }
+
+   .slide-button {
+      font-size: var(--font-16);
+   }
+}
+
+@media (width <= 500px) {
+   .swiper-wrapper {
+      margin: 10px 0;
+   }
+
+   .slide-info {
+      bottom: 33%;
+      gap: 10px;
+   }
+
+   .slide-text {
+      font-size: var(--font-20);
+      font-weight: 500;
+      line-height: 25px;
+   }
+
+   .slide-info span {
+      font-size: var(--font-16);
+      font-weight: 400;
+      line-height: 21px;
+   }
+
+   .slide-button {
+      max-width: 110px;
+      font-size: var(--font-12);
+   }
+}
+
+@media (width <= 400px) {
+   .swiper-wrapper {
+      margin: 5px 0;
+   }
+
+   .slide-info {
+      bottom: 33%;
+      gap: 10px;
+   }
+
+   .slide-text {
+      font-size: var(--font-20);
+      font-weight: 500;
+      line-height: 25px;
+   }
+
+   .slide-info span {
+      font-size: var(--font-16);
+      font-weight: 400;
+      line-height: 21px;
+   }
+
+   .slide-button {
+      max-width: 110px;
+      font-size: var(--font-12);
+   }
+}

@@ -1,4 +1,5 @@
-export interface INotificationProps
-   extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface INotificationProps {
    className?: string;
+   // text: string;
+   // status?: boolean;
 }

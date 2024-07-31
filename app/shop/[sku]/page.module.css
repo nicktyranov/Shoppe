@@ -1,0 +1,423 @@
+.wrapper {
+   margin-top: 130px;
+   margin-bottom: 80px;
+}
+
+.description {
+   display: grid;
+   grid-template-columns: auto 1fr;
+   gap: 60px;
+}
+
+.short-data {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+}
+
+.heading {
+   font-size: var(--font-26);
+   font-weight: 400;
+   line-height: 35px;
+}
+
+.price {
+   margin-top: 25px;
+
+   font-size: var(--font-20);
+   font-weight: 500;
+   line-height: 26px;
+   color: var(--color-brown);
+}
+
+.rating-block {
+   display: flex;
+   gap: 25px;
+   align-items: center;
+}
+
+.rating {
+   display: flex;
+   gap: 10px;
+}
+
+.description-text {
+   font-size: var(--font-16);
+   font-weight: 400;
+   line-height: 27px;
+   color: var(--color-gray-dark);
+}
+
+.buttons {
+   display: grid;
+   grid-template-columns: auto auto;
+   gap: 20px;
+}
+
+.button {
+   text-wrap: nowrap;
+}
+
+.icons {
+   display: flex;
+   gap: 40px;
+   align-items: center;
+   margin-top: 50px;
+}
+
+.icons div {
+   display: flex;
+   align-items: center;
+}
+
+.icons div:nth-child(1) {
+   content: '';
+   max-height: 17px;
+   padding-right: 40px;
+   border-right: 1px solid var(--color-gray-dark);
+}
+
+.icon {
+   display: flex;
+   align-items: center;
+}
+
+.info-labels {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.label {
+   font-size: var(--font-16);
+   font-weight: 400;
+   line-height: 27px;
+   color: var(--color-black);
+}
+
+.label span {
+   padding-left: 15px;
+   color: var(--color-gray-dark);
+}
+
+.input {
+   max-width: 570px !important;
+}
+
+@media (width <= 1200px) {
+   .wrapper {
+      margin-top: 90px;
+   }
+
+   .description {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 20px;
+   }
+
+   .short-data {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .description-text {
+      font-size: var(--font-16);
+   }
+
+   .tab-content {
+      margin-top: 50px !important;
+   }
+}
+
+@media (width <= 1100px) {
+   .wrapper {
+      margin-top: 70px;
+   }
+
+   .description {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 20px;
+   }
+
+   .short-data {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .description-text {
+      font-size: var(--font-16);
+   }
+
+   .tab-content {
+      margin-top: 50px !important;
+   }
+}
+
+@media (width <= 1000px) {
+   .wrapper {
+      margin-top: 70px;
+   }
+
+   .gallery {
+      margin: 0 auto;
+   }
+
+   .description {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .short-data {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .description-text {
+      font-size: var(--font-16);
+   }
+
+   .rating-block {
+      display: none;
+   }
+
+   .heading {
+      order: 1;
+   }
+
+   .buttons {
+      grid-template-columns: 1fr 1fr;
+      order: 3;
+      margin: 0;
+   }
+
+   .button {
+      flex: 1 1 50%;
+      max-width: none !important;
+      border-radius: 4px;
+   }
+
+   .short-description {
+      order: 4;
+   }
+
+   .info-labels {
+      order: 5;
+      margin-top: 0;
+   }
+
+   .icons {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      order: 6;
+
+      margin: 0;
+   }
+
+   .tab-content {
+      margin-top: 50px !important;
+   }
+}
+
+@media (width <= 700px) {
+   .wrapper {
+      margin-top: 20px;
+   }
+
+   .description {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .short-data {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .description-text {
+      font-size: var(--font-16);
+   }
+
+   .rating-block {
+      display: none;
+   }
+
+   .heading {
+      order: 1;
+   }
+
+   .buttons {
+      grid-template-columns: 1fr 1fr;
+      order: 3;
+      margin: 0;
+   }
+
+   .button {
+      max-width: none !important;
+   }
+
+   .short-description {
+      order: 4;
+   }
+
+   .info-labels {
+      order: 5;
+      margin-top: 0;
+   }
+
+   .icons {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      order: 6;
+
+      margin: 0;
+   }
+
+   .tab-content {
+      margin-top: 50px !important;
+   }
+}
+
+@media (width <= 500px) {
+   .wrapper {
+      margin-top: 20px;
+   }
+
+   .description {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .short-data {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .rating-block {
+      display: none;
+   }
+
+   .price {
+      order: 2;
+
+      margin: 0;
+      margin-top: 15px;
+
+      font-size: var(--font-18);
+      font-weight: 500;
+   }
+
+   .heading {
+      order: 1;
+   }
+
+   .buttons {
+      grid-template-columns: auto;
+      order: 3;
+      margin: 0;
+   }
+
+   .button {
+      max-width: none !important;
+   }
+
+   .short-description {
+      order: 4;
+   }
+
+   .info-labels {
+      order: 5;
+      margin-top: 0;
+   }
+
+   .icons {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      order: 6;
+
+      margin: 0;
+   }
+
+   .tab-content {
+      margin-top: 50px !important;
+   }
+}
+
+@media (width <= 400px) {
+   .wrapper {
+      margin-top: 20px;
+   }
+
+   .description {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .short-data {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+   }
+
+   .rating-block {
+      display: none;
+   }
+
+   .price {
+      order: 2;
+
+      margin: 0;
+      margin-top: 15px;
+
+      font-size: var(--font-16);
+      font-weight: 400;
+   }
+
+   .heading {
+      order: 1;
+   }
+
+   .buttons {
+      grid-template-columns: auto;
+      order: 3;
+      margin: 0;
+   }
+
+   .button {
+      max-width: none !important;
+   }
+
+   .short-description {
+      order: 4;
+   }
+
+   .info-labels {
+      order: 5;
+      margin-top: 0;
+   }
+
+   .icons {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      order: 6;
+
+      margin: 0;
+   }
+
+   .tab-content {
+      margin-top: 50px !important;
+   }
+}

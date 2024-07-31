@@ -4,6 +4,7 @@ import { DM_Sans } from 'next/font/google';
 import './globals.css';
 import Footer from '@/components/Footer/Footer';
 import ToasterProvider from '@/components/ToasterProvider/ToasterProvider';
+import { Suspense } from 'react';
 
 const font = DM_Sans({ subsets: ['latin'] });
 
@@ -20,13 +21,15 @@ export default function RootLayout({
    return (
       <html lang="en">
          <body className={font.className}>
-            <header>
-               <Menu />
-            </header>
+            <Suspense fallback={<div>Loading...</div>}>
+               <header>
+                  <Menu />
+               </header>
 
-            <div>{children}</div>
-            <Footer />
-            <ToasterProvider />
+               <div>{children}</div>
+               <Footer />
+               <ToasterProvider />
+            </Suspense>
          </body>
       </html>
    );

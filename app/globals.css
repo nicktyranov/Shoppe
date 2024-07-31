@@ -9,6 +9,7 @@
 
    /* Colors */
    --color-error: #d82700;
+   --color-error-2: #a17768;
    --color-gray-dark: #707070;
    --color-black: #000;
    --color-gray-light: #d8d8d8;
@@ -18,7 +19,9 @@
    --color-white-60: rgb(255 255 255 / 60%);
 }
 
-* {
+*,
+*::before,
+*::after {
    box-sizing: border-box;
    margin: 0;
    padding: 0;
@@ -26,7 +29,9 @@
 
 body {
    max-width: 1248px;
-   margin: 0 auto;
+   margin: 0 auto !important;
+
+   /* почему-то не применяется к гриду на главной странице */
    padding: 0 10px;
 
    font-family: 'DM Sans', sans-serif;

@@ -1,0 +1,13 @@
+.filter {
+   display: flex;
+   flex-direction: column;
+   gap: 30px;
+
+   box-sizing: border-box;
+   width: 100%;
+   max-width: 267px;
+}
+
+.search-filter {
+   margin-top: 3px;
+}

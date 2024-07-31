@@ -1,36 +1,46 @@
 'use client';
 import { ISelectProps } from './Select.props';
-import Image from 'next/image';
-import iconArrow from './Icon arrow.svg';
 import cn from 'classnames';
-import styles from './Select.module.css';
 import { useState } from 'react';
+import styles from './Select.module.css';
 
-export default function Select({ className, ...props }: ISelectProps) {
-   const [selected, setSelected] = useState('');
-   console.log(selected);
+export default function Select({
+   className,
+   categories,
+   onChange,
+   ...props
+}: ISelectProps) {
+   const [selected, setSelected] = useState<string>('');
+
+   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelected(e.target.value);
+      if (onChange) {
+         onChange(e.target.value);
+      }
+      console.log('Selected category ID:', e.target.value);
+   };
+
    return (
       <div className={cn(styles['select-wrapper'], className)} {...props}>
          <label>
             <select
-               onChange={(e) => setSelected(e.target.value)}
+               onChange={handleChange}
                className={styles.select}
                value={selected}
             >
                <option value="" disabled>
                   Choose a category
                </option>
-               <option value="apple">Apple</option>
-               <option value="banana">Banana</option>
+               {categories &&
+                  categories.map((c) => {
+                     return (
+                        <option value={c.id} key={c.id}>
+                           {c.name}
+                        </option>
+                     );
+                  })}
             </select>
          </label>
-         {/* <Image
-            src={iconArrow}
-            alt="search icon"
-            className={cn(styles.icon)}
-            height={19}
-            width={25}
-         /> */}
       </div>
    );
 }

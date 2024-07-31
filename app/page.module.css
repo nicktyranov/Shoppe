@@ -1,3 +1,127 @@
-.menu {
-   max-width: 261px;
+.heading {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-bottom: 40px;
+}
+
+.h1 {
+   font-size: var(--font-33);
+   font-weight: 500;
+   line-height: 43px;
+}
+
+.heading a {
+   font-size: 20px;
+   font-weight: 500;
+   line-height: 26px;
+   color: var(--color-brown);
+   text-decoration: none;
+}
+
+.products {
+   display: grid;
+   grid-template-columns: repeat(3, 380px);
+   gap: 25px 0;
+   justify-content: space-between;
+
+   margin-bottom: 200px;
+}
+
+.slider {
+   /* margin: 0 auto; */
+}
+
+@media (width <= 1280px) {
+   .products {
+      display: grid;
+      grid-gap: 40px;
+      grid-template-columns: repeat(3, auto);
+      margin-bottom: 200px;
+   }
+
+   .card-image {
+      width: 290px;
+      height: 290px;
+   }
+}
+
+@media (width <= 1000px) {
+   .products {
+      grid-gap: 20px 10px;
+      justify-content: space-between;
+      margin-bottom: 150px;
+   }
+
+   .card-image {
+      width: 240px;
+      height: 240px;
+   }
+}
+
+@media (width <= 770px) {
+   .products {
+      /* grid-gap: 20px 10px; */
+      margin-bottom: 130px;
+   }
+
+   .card-image {
+      width: 220px;
+      height: 220px;
+   }
+}
+
+@media (width <= 700px) {
+   .products {
+      grid-gap: 20px 10px;
+      grid-template-columns: repeat(2, auto);
+      justify-content: space-between;
+      margin-bottom: 130px;
+   }
+
+   .card-image {
+      width: 285px;
+      height: 285px;
+   }
+}
+
+@media (width <= 600px) {
+   .products {
+      grid-gap: 20px 5px;
+      grid-template-columns: repeat(2, auto);
+      justify-content: space-around;
+      margin-bottom: 100px;
+   }
+
+   .card-image {
+      width: 240px;
+      height: 240px;
+   }
+}
+
+@media (width <= 500px) {
+   .products {
+      grid-gap: 10px 5px;
+      grid-template-columns: repeat(2, auto);
+      justify-content: space-around;
+      margin-bottom: 100px;
+   }
+}
+
+@media (width <= 400px) {
+   .heading {
+      margin-bottom: 10px;
+   }
+
+   .h1 {
+      font-size: var(--font-16);
+      font-weight: 500;
+      line-height: 21px;
+   }
+
+   .heading a {
+      font-size: var(--font-16);
+      font-weight: 500;
+      line-height: 21px;
+   }
 }

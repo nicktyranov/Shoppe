@@ -1,0 +1,146 @@
+.card-wrapper {
+   position: relative;
+   width: 100%;
+   max-width: 380px;
+}
+
+.card-wrapper a {
+   text-decoration: none;
+}
+
+.card-wrapper-main {
+   position: relative;
+   width: 100%;
+   max-width: 380px;
+}
+
+.poster {
+   position: relative;
+
+   width: 100%;
+   height: 100%;
+   margin-bottom: 15px;
+
+   object-fit: fill;
+
+   /* object-fit: cover; */
+   border-radius: 8px;
+
+   /* max-height: 300px; */
+}
+
+.poster-icon-right {
+   position: absolute;
+   top: 20px;
+   right: 15px;
+}
+
+.poster-icon-left {
+   position: absolute;
+   top: 20px;
+   left: 15px;
+
+   padding: 2px 8px;
+
+   font-size: 12px;
+   font-weight: 400;
+   line-height: 20px;
+   color: var(--color-white);
+
+   background-color: var(--color-brown);
+   border-radius: 4px;
+}
+
+.heading {
+   overflow: hidden;
+
+   margin-bottom: 15px;
+
+   font-size: var(--font-20);
+   font-weight: 400;
+   line-height: 26px;
+   color: var(--color-black);
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+.price {
+   font-size: var(--font-20);
+   font-weight: 500;
+   line-height: 26px;
+   color: var(--color-brown);
+}
+
+@media (width <= 600px) {
+   /* .heading {
+      max-width: 175px;
+   }
+
+   .card-wrapper {
+      max-width: 200px;
+   }
+
+   .poster {
+      margin-bottom: 15px;
+   } */
+
+   .poster {
+      margin-bottom: 10px;
+   }
+
+   .heading {
+      margin-bottom: 5px;
+      font-size: var(--font-20);
+      line-height: 25px;
+   }
+
+   .price {
+      font-size: var(--font-16);
+      font-weight: 500;
+      line-height: 21px;
+   }
+
+   .card-wrapper {
+      max-width: 200px;
+   }
+}
+
+@media (width <= 500px) {
+   .poster {
+      margin-bottom: 5px;
+   }
+
+   .heading {
+      margin-bottom: 5px;
+      font-size: var(--font-16);
+      line-height: 21px;
+   }
+
+   .price {
+      font-size: var(--font-14);
+      font-weight: 400;
+      line-height: 19px;
+   }
+
+   .card-wrapper {
+      max-width: 185px;
+   }
+}
+
+@media (width <= 400px) {
+   .poster {
+      margin-bottom: 5px;
+   }
+
+   .heading {
+      margin-bottom: 0;
+      font-size: var(--font-16);
+      line-height: 21px;
+   }
+
+   .price {
+      font-size: var(--font-12);
+      font-weight: 400;
+      line-height: 17px;
+   }
+}

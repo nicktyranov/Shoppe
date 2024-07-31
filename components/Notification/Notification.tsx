@@ -21,7 +21,6 @@ export function showNotification(text: string, status?: boolean) {
                alt="icon successful subscribtion"
             />
          )}
-         {/* You have been successfully subscribed */}
          {text}
       </div>,
       { position: 'bottom-center' }
@@ -32,5 +31,52 @@ export default function Notification({
    className,
    ...props
 }: INotificationProps) {
-   return <div>{/* мб что-то будет в будущем */}</div>;
+   return <div></div>;
 }
+
+// 'use client';
+// import { useEffect } from 'react';
+// import { INotificationProps } from './Notification.props';
+// import Image from 'next/image';
+// import iconSuccess from './icon-subscribtion.svg';
+// import cn from 'classnames';
+// import toast, { Toaster } from 'react-hot-toast';
+// import styles from './Notification.module.css';
+
+// export default function Notification({
+//    className,
+//    text,
+//    status,
+//    ...props
+// }: INotificationProps) => {
+//    useEffect(() => {
+//       if (text && status !== undefined) {
+//          toast.custom(
+//             <div
+//                className={cn(styles.email, {
+//                   [styles.wrong]: !status
+//                })}
+//             >
+//                {status && (
+//                   <Image
+//                      src={iconSuccess}
+//                      width={20}
+//                      height={20}
+//                      alt="icon successful subscription"
+//                   />
+//                )}
+//                {text}
+//             </div>,
+//             { position: 'bottom-center' }
+//          );
+//       }
+//    }, [text, status]);
+
+//    return (
+//       <div className={cn(className)} {...props}>
+//          <Toaster />
+//       </div>
+//    );
+// };
+
+//  ;
