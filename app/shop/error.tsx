@@ -4,15 +4,25 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import styles from './error.module.css';
 
-export default function Error({ error, reset }) {
+type ErrorProps = {
+   error: Error;
+   reset: () => void;
+};
+
+export default function Error({ error, reset }: ErrorProps) {
    useEffect(() => {
       console.error(error);
+      console.log(error);
    }, [error]);
 
    return (
       <div className={styles.wrapper}>
          <h2>Error 404</h2>
-         <p>Page not found, try going to the main page</p>
+         <p>
+            {error.message === 'Unexpected end of JSON input'
+               ? 'Page not found, try going to the main page'
+               : error.message}
+         </p>
          <Link href="/">
             <Button text="main page" className={styles.button} />
          </Link>

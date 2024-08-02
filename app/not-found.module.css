@@ -1,28 +1,29 @@
 .wrapper {
    display: flex;
    flex-direction: column;
-   justify-content: center;
-   align-items: center;
    gap: 20px;
+   align-items: center;
+   justify-content: center;
+
    margin: 230px 0;
 }
 
 .wrapper h2 {
-   font-size: 33px;
+   font-size: var(--font-33);
    font-weight: 500;
    line-height: 43px;
    color: var(--color-black);
 }
 
 .wrapper p {
-   font-size: 20px;
+   font-size: var(--font-20);
    font-weight: 400;
    line-height: 26px;
    color: var(--color-gray-dark);
 }
 
 .button {
-   padding: 16px 18px;
    margin-top: 40px;
+   padding: 16px 18px;
    text-transform: capitalize;
 }

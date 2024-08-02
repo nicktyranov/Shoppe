@@ -1,4 +1,3 @@
-'use client';
 import Button from '@/components/Button/Button';
 import Link from 'next/link';
 import styles from './not-found.module.css';

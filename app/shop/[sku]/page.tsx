@@ -12,8 +12,7 @@ import styles from './page.module.css';
 import Rating from '@/components/Rating/Rating';
 import Input from '@/components/Input/Input';
 import Form from '@/components/Form/Form';
-// import Error from '@/components/Error/Error';
-// import Error from 'next/error';
+import { notFound } from 'next/navigation';
 
 const dataDescription =
    'Universal classic. The earrings are made of rose gold with a path of diamonds and emeralds. Delicate, sophisticated, they will suit not only a business suit, but will also complement the image of any fashionista.';
@@ -39,6 +38,12 @@ async function getData(id: number): Promise<IProductBySKU> {
    const res = await fetch(
       process.env.NEXT_PUBLIC_DOMAIN + '/api-demo/products/sku/' + id
    );
+   if (!res) {
+      throw new Error(
+         'There is a problem with the connection to the server. Try to refresh page'
+      );
+   }
+
    return await res.json();
 }
 
@@ -48,7 +53,19 @@ export default async function Product({
    params: { [key: string]: number };
 }) {
    const { sku } = params;
+   if (!sku) {
+      throw new Error(
+         'There is a problem with the connection to the server. Try to refresh page'
+      );
+   }
+   if (sku < 1 || sku > 6) notFound();
+
    const data = await getData(sku);
+   if (!data) {
+      throw new Error(
+         'There is a problem with the connection to the server. Try to refresh page'
+      );
+   }
 
    const translateCategory = (id: number) => {
       switch (id) {

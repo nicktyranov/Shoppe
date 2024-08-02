@@ -51,7 +51,6 @@ export default function Filter({ className, ...props }: IFilterProps) {
    );
 
    useEffect(() => {
-      // console.log(`Изменилось состояние на ${toggleButton}`);
       toggleButton &&
          router.push(pathname + '?' + createQueryString('discounted', 'true'));
       !toggleButton &&
@@ -62,7 +61,6 @@ export default function Filter({ className, ...props }: IFilterProps) {
       (id: string) => {
          const categoryId = parseInt(id, 10);
          setSelectedCategory(categoryId);
-         // console.log('Selected category ID in Filter:', categoryId);
          router.push(pathname + '?' + createQueryString('categoryId', id));
       },
       [router, pathname, createQueryString]
@@ -72,7 +70,6 @@ export default function Filter({ className, ...props }: IFilterProps) {
       (values: [number, number]) => {
          setMinPrice(values[0]);
          setMaxPrice(values[1]);
-         // console.log('Slider values:', values);
          const params = new URLSearchParams(searchParams.toString());
          params.set('priceMin', values[0].toString());
          params.set('priceMax', values[1].toString());
@@ -85,10 +82,6 @@ export default function Filter({ className, ...props }: IFilterProps) {
    const getCurrentUrlWithParams = useCallback(() => {
       return `${pathname}?${searchParams.toString()}`;
    }, [searchParams, pathname]);
-
-   // useEffect(() => {
-   //    console.log('Current URL with params:', getCurrentUrlWithParams());
-   // }, [pathname, searchParams, getCurrentUrlWithParams]);
 
    const handleFilterChange = () => {
       console.log(searchParams);
