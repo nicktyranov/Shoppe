@@ -2,10 +2,23 @@
 import { ICounterProps } from './Counter.props';
 import cn from 'classnames';
 import styles from './Counter.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Counter({ className, ...props }: ICounterProps) {
-   const [value, setValue] = useState(1);
+export default function Counter({
+   amount,
+   onChange,
+   className,
+   ...props
+}: ICounterProps) {
+   if (!amount || amount < 1) {
+      amount = 1;
+   }
+
+   const [value, setValue] = useState(amount || 1);
+
+   useEffect(() => {
+      onChange(value);
+   }, [value, onChange]);
 
    const handleChangeIncrease = () => {
       setValue(value + 1);
@@ -21,7 +34,7 @@ export default function Counter({ className, ...props }: ICounterProps) {
          <button className={styles['button']} onClick={handleChangeDecrease}>
             -
          </button>
-         <span className={styles['number']}>{value}</span>
+         <span className={styles['number']}>{amount}</span>
          <button className={styles['button']} onClick={handleChangeIncrease}>
             +
          </button>
