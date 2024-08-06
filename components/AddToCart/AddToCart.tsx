@@ -6,10 +6,12 @@ import Counter from '@/components/Counter/Counter';
 import styles from './AddToCart.module.css';
 import { IAddToCartProps } from './AddToCart.props';
 import { useCart } from '../CartContext/CartContext';
+import { useAddToCart } from '../Cart/CartFunction';
 
 export default function AddToCart({ productSKU }: IAddToCartProps) {
    const [quantity, setQuantity] = useState(1);
-   const { cart, updateCart } = useCart();
+   const addToCart = useAddToCart();
+   const { cart } = useCart();
 
    useEffect(() => {
       const product = cart.find((item) => item.sku === productSKU);
@@ -18,22 +20,22 @@ export default function AddToCart({ productSKU }: IAddToCartProps) {
       }
    }, [cart, productSKU]);
 
-   const addToCart = () => {
-      const currentCart = [...cart];
-      const productIndex = currentCart.findIndex(
-         (item) => item.sku === productSKU
-      );
-      const newEntry = { sku: productSKU, amount: quantity };
+   // const addToCart = () => {
+   //    const currentCart = [...cart];
+   //    const productIndex = currentCart.findIndex(
+   //       (item) => item.sku === productSKU
+   //    );
+   //    const newEntry = { sku: productSKU, amount: quantity };
 
-      if (productIndex !== -1) {
-         currentCart[productIndex] = newEntry;
-      } else {
-         currentCart.push(newEntry);
-      }
+   //    if (productIndex !== -1) {
+   //       currentCart[productIndex] = newEntry;
+   //    } else {
+   //       currentCart.push(newEntry);
+   //    }
 
-      updateCart(currentCart);
-      console.log(`Added to cart: SKU - ${productSKU}, Amount - ${quantity}`);
-   };
+   //    updateCart(currentCart);
+   //    console.log(`Added to cart: SKU - ${productSKU}, Amount - ${quantity}`);
+   // };
    return (
       <div className={styles['buttons']}>
          <Counter
@@ -44,7 +46,7 @@ export default function AddToCart({ productSKU }: IAddToCartProps) {
          <Button
             text="Add to the cart"
             className={styles['button']}
-            onClick={addToCart}
+            onClick={() => addToCart({ productSKU, quantity })}
          />
       </div>
    );

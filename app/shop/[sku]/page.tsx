@@ -116,7 +116,12 @@ export default async function Product({
                </div>
                <div className={styles['icons']}>
                   <div>
-                     <Favorite className={styles['icon']} />
+                     <Favorite
+                        className={styles['icon']}
+                        width={18}
+                        height={18}
+                        sku={sku.toString()}
+                     />
                   </div>
                   <div>
                      <Image
