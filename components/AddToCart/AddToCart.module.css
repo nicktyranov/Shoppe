@@ -1,0 +1,59 @@
+.buttons {
+   display: grid;
+   grid-template-columns: auto auto;
+   gap: 20px;
+}
+
+.button {
+   text-wrap: nowrap;
+}
+
+@media (width <= 1000px) {
+   .buttons {
+      grid-template-columns: 1fr 1fr;
+      order: 3;
+      margin: 0;
+   }
+
+   .button {
+      flex: 1 1 50%;
+      max-width: none !important;
+      border-radius: 4px;
+   }
+}
+
+@media (width <= 700px) {
+   .buttons {
+      grid-template-columns: 1fr 1fr;
+      order: 3;
+      margin: 0;
+   }
+
+   .button {
+      max-width: none !important;
+   }
+}
+
+@media (width <= 500px) {
+   .buttons {
+      grid-template-columns: auto;
+      order: 3;
+      margin: 0;
+   }
+
+   .button {
+      max-width: none !important;
+   }
+}
+
+@media (width <= 400px) {
+   .buttons {
+      grid-template-columns: auto;
+      order: 3;
+      margin: 0;
+   }
+
+   .button {
+      max-width: none !important;
+   }
+}

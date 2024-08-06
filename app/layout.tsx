@@ -5,6 +5,7 @@ import './globals.css';
 import Footer from '@/components/Footer/Footer';
 import ToasterProvider from '@/components/ToasterProvider/ToasterProvider';
 import { Suspense } from 'react';
+import { CartProvider } from '@/components/CartContext/CartContext';
 
 const font = DM_Sans({ subsets: ['latin'] });
 
@@ -22,13 +23,15 @@ export default function RootLayout({
       <html lang="en">
          <body className={font.className}>
             <Suspense fallback={<div>Loading...</div>}>
-               <header>
-                  <Menu />
-               </header>
+               <CartProvider>
+                  <header>
+                     <Menu />
+                  </header>
 
-               <div>{children}</div>
-               <Footer />
-               <ToasterProvider />
+                  <div>{children}</div>
+                  <Footer />
+                  <ToasterProvider />
+               </CartProvider>
             </Suspense>
          </body>
       </html>

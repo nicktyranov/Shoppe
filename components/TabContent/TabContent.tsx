@@ -1,28 +1,11 @@
 'use client';
 import { ITabContentProps } from './TabContent.props';
 import cn from 'classnames';
-import Image from 'next/image';
-import iconStar from './star.svg';
-import iconStarEmpty from './icon-star-empty.svg';
 import styles from './TabContent.module.css';
 import { useState } from 'react';
 import { IReview } from '@/interfaces/interface.bySku';
 import Form from '../Form/Form';
 import Rating from '../Rating/Rating';
-
-export const makeRating = (num: number) => {
-   let arr = [];
-   for (let i = 0; i < 5; i++) {
-      if (i < num) {
-         arr.push(<Image src={iconStar} alt={`star ${i + 1}`} key={i + 1} />);
-      } else {
-         arr.push(
-            <Image src={iconStarEmpty} alt={`star ${i + 1}`} key={i + 1} />
-         );
-      }
-   }
-   return arr;
-};
 
 const reviewsEN = [
    'Overall, excellent, since they are not expensive and I didn’t have to give my wife a new phone that she asked for.',
@@ -36,7 +19,6 @@ export default function TabContent({
    className
 }: ITabContentProps) {
    const [activeTab, setActiveTab] = useState('description');
-   console.log(reviews);
 
    return (
       <div className={cn(styles['wrapper'], className)}>
