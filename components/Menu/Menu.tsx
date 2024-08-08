@@ -50,7 +50,7 @@ export default function Menu({}: IMenuProps) {
                      <Image src={likeIcon} alt="favorites icon" />
                      <span
                         className={cn({
-                           [styles['empty-favorites']]: !favoriteList,
+                           [styles['empty-favorites']]: favoriteList.length < 1,
                            [styles['favorites']]: favoriteList
                         })}
                      >

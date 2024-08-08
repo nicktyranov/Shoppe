@@ -21,38 +21,42 @@
 
 .hover-buttons {
    position: absolute;
+   z-index: 2;
    top: 50%;
-   display: flex;
    left: 50%;
    transform: translate(-50%, -50%);
+
+   display: flex;
    gap: 30px;
-   z-index: 2;
+
+   visibility: hidden;
+}
+
+.poster-wrapper:hover .hover-buttons {
+   visibility: visible;
 }
 
 .hover-button-element {
    display: flex;
-   border: none;
-   background: none;
    align-items: center;
    justify-content: center;
+
    width: 100%;
+
+   background: none;
+   border: none;
 }
 
 .poster {
    position: relative;
+
    display: flex;
 
-   max-width: 100%;
    width: 100%;
+   max-width: 100%;
    height: 100%;
-   /* margin-bottom: 15px; */
 
-   /* object-fit: fill; */
-
-   /* object-fit: cover; */
    border-radius: 8px;
-
-   /* max-height: 300px; */
 }
 
 .poster-icon-right {

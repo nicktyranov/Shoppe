@@ -66,7 +66,9 @@ export default function Card({
             <div className={styles['hover-buttons']}>
                <button
                   className={styles['hover-button-element']}
-                  onClick={() => addToCart({ productSKU, quantity })}
+                  onClick={() =>
+                     addToCart({ productSKU, quantity, price: Number(price) })
+                  }
                >
                   <Image
                      src={iconCart}
