@@ -13,7 +13,7 @@
 }
 
 .form,
-.guestUser {
+.guest-user {
    display: flex;
    flex-direction: column;
    gap: 50px;
@@ -81,7 +81,7 @@
 
 @media (width <= 768px) {
    .form,
-   .guestUser {
+   .guest-user {
       display: flex;
       flex-direction: column;
       gap: 25px;

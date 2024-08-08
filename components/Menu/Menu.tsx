@@ -73,7 +73,7 @@ export default function Menu({}: IMenuProps) {
             <Image
                src={mobileMenuIcon}
                alt="mobile menu icon"
-               id="mobileMenuIcon"
+               id="mobile-menu-icon"
                onClick={() => setIsMobileMenuOpened(!isMobileMenuOpened)}
             />
             <Search isClicked={true} className={styles['mobile-search']} />

@@ -183,7 +183,7 @@ export default function ShippingForm({
             onSubmit={handleFormSubmit}
          >
             {!isLoginedStatus && (
-               <div className={styles['guestUser']}>
+               <div className={styles['guest-user']}>
                   <div>
                      <label htmlFor="email" />
                      {errorEmail && (
