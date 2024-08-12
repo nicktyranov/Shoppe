@@ -5,6 +5,10 @@
    color: var(--color-gray-dark);
 }
 
+.hidden {
+   display: none;
+}
+
 .heading {
    font-size: var(--font-20);
    font-weight: 400;
@@ -77,6 +81,12 @@
    background: var(--color-black);
    border: 1px solid var(--color-white);
    border-radius: 4px;
+}
+
+.button:disabled {
+   margin-top: 5px;
+   color: var(--color-gray-light);
+   background-color: var(--color-gray-dark);
 }
 
 @media (width <= 768px) {

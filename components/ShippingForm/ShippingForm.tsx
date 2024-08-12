@@ -1,20 +1,11 @@
 'use client';
 import { IShippingFormProps } from './ShippingForm.props';
-import Image from 'next/image';
 import cn from 'classnames';
 import styles from './ShippingForm.module.css';
 import Input from '../Input/Input';
-import Rating from '../Rating/Rating';
 import Button from '../Button/Button';
-import CheckBox from '../CheckBox/CheckBox';
 import { useEffect, useRef, useState } from 'react';
-import { showNotification } from '../Notification/Notification';
 import { useCart } from '../CartContext/CartContext';
-
-type RequestStatus = {
-   success: boolean;
-   message: string;
-};
 
 export default function ShippingForm({
    className,
@@ -32,14 +23,19 @@ export default function ShippingForm({
    const [errorPassword, setErrorPassword] = useState('');
    const [errorAddress, setErrorAddress] = useState('');
    const [errorMobile, setErrorMobile] = useState('');
-   const [validForm, setValidForm] = useState(true);
+   const { cart } = useCart();
+   const totalCost = cart.reduce((sum, x) => sum + x.price * x.amount, 0);
+   const [validForm, setValidForm] = useState(totalCost !== 0);
    const [successPost, setSuccessPost] = useState<boolean>();
    const formRef = useRef<HTMLFormElement>(null);
 
    const isLoginedStatus = isLogined || false;
 
-   const { cart } = useCart();
-   const totalCost = cart.reduce((sum, x) => sum + x.price * x.amount, 0);
+   useEffect(() => {
+      if (totalCost === 0) {
+         setValidForm(false);
+      }
+   }, [totalCost]);
 
    useEffect(() => {
       if (email.length < 1) {
@@ -269,13 +265,22 @@ export default function ShippingForm({
                   <span>${totalCost}</span>
                </p>
             </div>
-
-            {!validForm && (
-               <div className={styles.error}>
-                  There is a mistake in this form. Check your input information
-               </div>
-            )}
-            <Button text="SEND" className={styles.button} />
+            <div>
+               {!validForm && (
+                  <div className={styles.error}>
+                     {cart.length < 1
+                        ? 'No products in the cart. First, add products to the cart.'
+                        : 'There is a mistake in this form. Check your input information'}
+                  </div>
+               )}
+               <Button
+                  text="SEND"
+                  className={cn(styles.button, {
+                     [styles['button-disabled']]: !validForm
+                  })}
+                  disabled={!validForm}
+               />
+            </div>
          </form>
       </div>
    );

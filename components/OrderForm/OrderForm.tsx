@@ -10,7 +10,6 @@ import styles from './OrderForm.module.css';
 
 export default function OrderForm({ data, amount }: IOrderFormProps) {
    const [quantity, setQuantity] = useState(amount || 1);
-   const [deleted, setDeleted] = useState(false);
    const { cart, updateCart } = useCart();
    const previousCartRef = useRef<CartItem[]>(cart);
 
@@ -31,15 +30,10 @@ export default function OrderForm({ data, amount }: IOrderFormProps) {
 
    const handleDelete = (id: number) => {
       updateCart(cart.filter((el) => el.sku !== id.toString()));
-      setDeleted(true);
    };
 
    return (
-      <div
-         className={cn(styles['wrapper'], {
-            [styles['deleted']]: deleted
-         })}
-      >
+      <div className={cn(styles['wrapper'])}>
          <div className={styles['product-element']}>
             <div className={styles['product-image']}>
                <Image

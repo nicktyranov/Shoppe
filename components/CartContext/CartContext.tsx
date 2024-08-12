@@ -34,9 +34,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
    const updateCart = (newCart: CartItem[]) => {
       setCart(newCart);
       localStorage.setItem('shoppe_cart', JSON.stringify(newCart));
-      document.cookie = `shoppe_cart=${encodeURIComponent(
-         JSON.stringify(newCart)
-      )};path=/;max-age=${60 * 60 * 24 * 7}`;
    };
 
    return (
