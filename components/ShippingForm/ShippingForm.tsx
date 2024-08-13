@@ -7,6 +7,42 @@ import Button from '../Button/Button';
 import { useEffect, useRef, useState } from 'react';
 import { useCart } from '../CartContext/CartContext';
 
+type ErrorResponse = {
+   statusCode: number;
+   message: string;
+   error: string;
+};
+
+type SuccessResponse = {
+   access_token: string;
+};
+
+type ApiResponse = ErrorResponse | SuccessResponse;
+
+type ErrorResponseCreateOrder = {
+   message: string[];
+   error: string;
+   statusCode: number;
+};
+
+type SuccessResponseCreateOrder = {
+   id: number;
+   userId: number;
+   status: string;
+   createdAt: string;
+   data: ServerOrderData[];
+};
+
+type ServerOrderData = {
+   name: string;
+   count: number;
+   price: number;
+};
+
+type ApiResponseCreateOrder =
+   | ErrorResponseCreateOrder
+   | SuccessResponseCreateOrder;
+
 export default function ShippingForm({
    className,
    placeholder,
@@ -18,18 +54,58 @@ export default function ShippingForm({
    const [username, setUsername] = useState('');
    const [address, setAddress] = useState('');
    const [mobileNumber, setMobileNumber] = useState('');
+   const [submitBtn, setSubmitBtn] = useState(false);
    const [errorUsername, setErrorUsername] = useState('');
    const [errorEmail, setErrorEmail] = useState('');
    const [errorPassword, setErrorPassword] = useState('');
    const [errorAddress, setErrorAddress] = useState('');
    const [errorMobile, setErrorMobile] = useState('');
-   const { cart } = useCart();
-   const totalCost = cart.reduce((sum, x) => sum + x.price * x.amount, 0);
-   const [validForm, setValidForm] = useState(totalCost !== 0);
+   const [errorSubmit, setErrorSubmit] = useState('');
+   const [validForm, setValidForm] = useState(true);
    const [successPost, setSuccessPost] = useState<boolean>();
    const formRef = useRef<HTMLFormElement>(null);
+   const { cart } = useCart();
+   const totalCost = cart.reduce((sum, x) => sum + x.price * x.amount, 0);
 
    const isLoginedStatus = isLogined || false;
+
+   useEffect(() => {
+      if (validForm && cart.length > 0) {
+         setSubmitBtn(true);
+      } else {
+         setSubmitBtn(false);
+      }
+   }, [validForm, cart]);
+
+   useEffect(() => {
+      if (
+         email &&
+         password &&
+         username &&
+         address &&
+         mobileNumber &&
+         !errorUsername &&
+         !errorEmail &&
+         !errorPassword &&
+         !errorMobile &&
+         !errorUsername
+      ) {
+         setValidForm(true);
+      } else {
+         setValidForm(false);
+      }
+   }, [
+      validForm,
+      errorEmail,
+      errorMobile,
+      errorUsername,
+      errorPassword,
+      email,
+      password,
+      username,
+      address,
+      mobileNumber
+   ]);
 
    useEffect(() => {
       if (totalCost === 0) {
@@ -102,72 +178,134 @@ export default function ShippingForm({
       setMobileNumber(e.target.value);
    };
 
+   const registerUser = async (
+      email: string,
+      password: string,
+      username: string,
+      mobileNumber: string,
+      address: string
+   ): Promise<ApiResponse> => {
+      const response = await fetch(
+         `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/auth/register`,
+         {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({
+               name: username,
+               email,
+               password,
+               phone: mobileNumber,
+               address
+            })
+         }
+      );
+      return await response.json();
+   };
+
+   const loginUser = async (
+      email: string,
+      password: string
+   ): Promise<ApiResponse> => {
+      const response = await fetch(
+         `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/auth/login`,
+         {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'POST',
+            body: JSON.stringify({ email, password })
+         }
+      );
+      return await response.json();
+   };
+
+   const createOrder = async (
+      token: string,
+      orderItems: ServerOrderData[]
+   ): Promise<ApiResponseCreateOrder> => {
+      const response = await fetch(
+         `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/order`,
+         {
+            headers: {
+               'Content-Type': 'application/json',
+               Authorization: `Bearer ${token}`
+            },
+            method: 'POST',
+            body: JSON.stringify({ items: orderItems })
+         }
+      );
+      return await response.json();
+   };
+
+   const hasValidationError =
+      !validForm && (email || password || username || address || mobileNumber);
+   const hasNoProductsInCart = cart.length < 1 && validForm;
+   const validationErrorMessage = hasValidationError
+      ? 'There is a mistake in this form. Check your input information'
+      : '';
+   const noProductsErrorMessage = hasNoProductsInCart
+      ? 'No products in the cart. First, add products to the cart.'
+      : '';
+
    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      console.log(`handleFormSubmit`);
       e.preventDefault();
-      if (
-         email &&
-         password &&
-         username &&
-         address &&
-         mobileNumber &&
-         !errorUsername &&
-         !errorEmail &&
-         !errorPassword &&
-         !errorMobile &&
-         !errorUsername
-      ) {
-         setValidForm(true);
-         console.log({
-            email,
-            password,
-            username,
-            address,
-            mobileNumber
-         });
-
-         // try {
-         //    const response = await fetch(
-         //       `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/products/sku/${sku}/review`,
-         //       {
-         //          headers: {
-         //             'Content-Type': 'application/json'
-         //          },
-         //          method: 'POST',
-         //          body: JSON.stringify({
-         //             name: username,
-         //             email: email,
-         //             rating: reviewRating
-         //          })
-         //       }
-         //    );
-         //    console.log(`response =${response}`);
-         //    const result: RequestStatus = await response.json();
-         //    console.log(`result =${result.success}`);
-
-         //    if (result.success) {
-         //       console.log(`result.status === 'success'`);
-         //       setSuccessPost(true);
-         //       showNotification(
-         //          'Your review has been sent for moderation.',
-         //          true
-         //       );
-         //       formRef.current?.reset();
-         //    } else {
-         //       setSuccessPost(false);
-         //       showNotification(
-         //          'There is a problem with the connetction to the server',
-         //          false
-         //       );
-         //    }
-         // } catch (error) {
-         //    setSuccessPost(false);
-         //    console.error('Error submitting form:', error);
-         // }
-      } else {
+      if (!validForm) {
          setValidForm(false);
+         return;
       }
-      console.log(`setValidForm  ${validForm}`);
+
+      try {
+         // const registerResult = await registerUser(
+         //    email,
+         //    password,
+         //    username,
+         //    mobileNumber,
+         //    address
+         // );
+         // if ('access_token' in registerResult) {
+         //    localStorage.setItem(
+         //       'Shoppe_access_token',
+         //       registerResult.access_token
+         //    );
+         // } else {
+         //    console.error(
+         //       `Error ${registerResult.statusCode}: ${registerResult.message}`
+         //    );
+         //    setErrorSubmit(`${registerResult.message}`);
+         //    return;
+         // }
+
+         const loginResult = await loginUser(email, password);
+         if ('access_token' in loginResult) {
+            console.log('Access token:', loginResult.access_token);
+            localStorage.setItem(
+               'Shoppe_access_token',
+               loginResult.access_token
+            );
+
+            const orderItems = cart.map((item) => ({
+               name: item.name,
+               count: item.amount,
+               price: item.price
+            }));
+            const orderResult = await createOrder(
+               loginResult.access_token,
+               orderItems
+            );
+            if ('id' in orderResult) {
+               console.log('Order created successfully:', orderResult);
+               setSuccessPost(true);
+            } else {
+               console.error('Error creating order:', orderResult);
+            }
+         } else {
+            console.error(
+               `Error ${loginResult.statusCode}: ${loginResult.message}`
+            );
+            setErrorSubmit(`${loginResult.message}`);
+         }
+      } catch (error) {
+         console.error('Error handling form submission:', error);
+         setSuccessPost(false);
+      }
    };
 
    return (
@@ -266,19 +404,21 @@ export default function ShippingForm({
                </p>
             </div>
             <div>
-               {!validForm && (
+               {(validationErrorMessage || noProductsErrorMessage) && (
                   <div className={styles.error}>
-                     {cart.length < 1
-                        ? 'No products in the cart. First, add products to the cart.'
-                        : 'There is a mistake in this form. Check your input information'}
+                     {validationErrorMessage}
+                     {noProductsErrorMessage}
                   </div>
+               )}
+               {errorSubmit && (
+                  <div className={styles.error}>{errorSubmit}</div>
                )}
                <Button
                   text="SEND"
                   className={cn(styles.button, {
-                     [styles['button-disabled']]: !validForm
+                     [styles['button-disabled']]: !validForm || cart.length < 1
                   })}
-                  disabled={!validForm}
+                  disabled={!validForm || cart.length < 1}
                />
             </div>
          </form>

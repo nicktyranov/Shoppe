@@ -6,17 +6,19 @@ export function useAddToCart() {
    function addToCart({
       productSKU,
       quantity,
-      price
+      price,
+      name
    }: {
       productSKU: string;
       quantity: number;
       price: number;
+      name: string;
    }) {
       const currentCart = [...cart];
       const productIndex = currentCart.findIndex(
          (item) => item.sku === productSKU
       );
-      const newEntry = { sku: productSKU, amount: quantity, price: price };
+      const newEntry = { sku: productSKU, name, amount: quantity, price };
 
       if (productIndex !== -1) {
          currentCart[productIndex] = newEntry;

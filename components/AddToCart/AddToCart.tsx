@@ -10,6 +10,7 @@ import { useAddToCart } from '../Cart/CartFunction';
 import cn from 'classnames';
 
 export default function AddToCart({
+   productName,
    productSKU,
    productPrice
 }: IAddToCartProps) {
@@ -35,7 +36,12 @@ export default function AddToCart({
             text="Add to the cart"
             className={cn(styles['button'], styles['cart-btn'])}
             onClick={() =>
-               addToCart({ productSKU, quantity, price: productPrice })
+               addToCart({
+                  productSKU,
+                  quantity,
+                  price: productPrice,
+                  name: productName
+               })
             }
          />
       </div>

@@ -14,9 +14,6 @@ export default function CartList({ className, ...props }: ICartListProps) {
    const { cart } = useCart();
    const [data, setData] = useState(cart);
    const [serverData, setServerData] = useState<IProductBySKU[]>();
-   console.log(cart);
-   console.log(data);
-   console.log(serverData);
 
    useEffect(() => {
       setData(cart);

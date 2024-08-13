@@ -67,7 +67,12 @@ export default function Card({
                <button
                   className={styles['hover-button-element']}
                   onClick={() =>
-                     addToCart({ productSKU, quantity, price: Number(price) })
+                     addToCart({
+                        productSKU,
+                        name: heading,
+                        quantity,
+                        price: Number(price)
+                     })
                   }
                >
                   <Image
