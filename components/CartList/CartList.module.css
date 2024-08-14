@@ -1,16 +1,6 @@
-.empty-cart {
-   display: flex;
-   flex-direction: column;
-   gap: 20px;
-   justify-content: center;
-
-   font-size: var(--font-20);
-   text-align: center;
-}
-
-.button {
-   max-width: 120px;
-   padding: 16px 0 !important;
-   text-wrap: nowrap;
-   background: none;
+.error {
+   padding: 5px;
+   font-size: var(--font-14);
+   color: var(--color-white);
+   background-color: var(--color-error-2);
 }

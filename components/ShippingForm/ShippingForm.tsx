@@ -4,8 +4,9 @@ import cn from 'classnames';
 import styles from './ShippingForm.module.css';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useCart } from '../CartContext/CartContext';
+import { useOrders } from '../OrdersContext/OrdersContext';
 
 type ErrorResponse = {
    statusCode: number;
@@ -46,6 +47,7 @@ type ApiResponseCreateOrder =
 export default function ShippingForm({
    className,
    placeholder,
+   setIsOrderSuccess,
    isLogined,
    ...props
 }: IShippingFormProps) {
@@ -62,12 +64,16 @@ export default function ShippingForm({
    const [errorMobile, setErrorMobile] = useState('');
    const [errorSubmit, setErrorSubmit] = useState('');
    const [validForm, setValidForm] = useState(true);
-   const [successPost, setSuccessPost] = useState<boolean>();
    const formRef = useRef<HTMLFormElement>(null);
    const { cart } = useCart();
-   const totalCost = cart.reduce((sum, x) => sum + x.price * x.amount, 0);
+   const totalCost = useMemo(
+      () => cart.reduce((sum, x) => sum + x.price * x.amount, 0),
+      [cart]
+   );
 
    const isLoginedStatus = isLogined || false;
+
+   const { addOrder } = useOrders();
 
    useEffect(() => {
       if (validForm && cart.length > 0) {
@@ -87,8 +93,7 @@ export default function ShippingForm({
          !errorUsername &&
          !errorEmail &&
          !errorPassword &&
-         !errorMobile &&
-         !errorUsername
+         !errorMobile
       ) {
          setValidForm(true);
       } else {
@@ -138,7 +143,7 @@ export default function ShippingForm({
       setPassword(e.target.value);
       if (e.target.value.length < 5) {
          setErrorPassword(
-            'Your passwordext is too short. At least 6 characters long '
+            'Your password is too short. At least 6 characters long '
          );
       } else {
          setErrorPassword('');
@@ -292,7 +297,18 @@ export default function ShippingForm({
             );
             if ('id' in orderResult) {
                console.log('Order created successfully:', orderResult);
-               setSuccessPost(true);
+               addOrder({
+                  id: orderResult.id,
+                  userId: orderResult.userId,
+                  status: orderResult.status,
+                  createdAt: orderResult.createdAt,
+                  data: cart,
+                  username: username,
+                  email,
+                  address,
+                  mobileNumber
+               });
+               setIsOrderSuccess(true);
             } else {
                console.error('Error creating order:', orderResult);
             }
@@ -304,13 +320,11 @@ export default function ShippingForm({
          }
       } catch (error) {
          console.error('Error handling form submission:', error);
-         setSuccessPost(false);
       }
    };
 
    return (
       <div className={cn(styles['wrapper'], className)} {...props}>
-         {/* <h2 className={styles['heading']}>Shipping and Contact information</h2> */}
          <form
             ref={formRef}
             className={styles['form']}

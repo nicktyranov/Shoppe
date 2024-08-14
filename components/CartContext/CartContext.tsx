@@ -5,7 +5,8 @@ import React, {
    useContext,
    useState,
    ReactNode,
-   useEffect
+   useEffect,
+   useCallback
 } from 'react';
 
 export interface CartItem {
@@ -32,10 +33,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setCart(storedCart);
    }, []);
 
-   const updateCart = (newCart: CartItem[]) => {
+   const updateCart = useCallback((newCart: CartItem[]) => {
       setCart(newCart);
       localStorage.setItem('shoppe_cart', JSON.stringify(newCart));
-   };
+   }, []);
 
    return (
       <CartContext.Provider value={{ cart, updateCart }}>

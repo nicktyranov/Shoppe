@@ -7,6 +7,7 @@ import ToasterProvider from '@/components/ToasterProvider/ToasterProvider';
 import { Suspense } from 'react';
 import { CartProvider } from '@/components/CartContext/CartContext';
 import { FavoritesContextProvider } from '@/components/FavoritesContext/FavoritesContext';
+import { OrdersProvider } from '@/components/OrdersContext/OrdersContext';
 
 const font = DM_Sans({ subsets: ['latin'] });
 
@@ -26,13 +27,15 @@ export default function RootLayout({
             <Suspense fallback={<div>Loading...</div>}>
                <FavoritesContextProvider>
                   <CartProvider>
-                     <header>
-                        <Menu />
-                     </header>
+                     <OrdersProvider>
+                        <header>
+                           <Menu />
+                        </header>
 
-                     <div>{children}</div>
-                     <Footer />
-                     <ToasterProvider />
+                        <div>{children}</div>
+                        <Footer />
+                        <ToasterProvider />
+                     </OrdersProvider>
                   </CartProvider>
                </FavoritesContextProvider>
             </Suspense>

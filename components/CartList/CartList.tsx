@@ -1,23 +1,17 @@
 'use client';
 import { ICartListProps } from './CartList.props';
 import cn from 'classnames';
-import styles from './CartList.module.css';
 import { useEffect, useState } from 'react';
 import { IProductBySKU } from '@/interfaces/interface.bySku';
 import { notFound } from 'next/navigation';
 import { useCart } from '../CartContext/CartContext';
 import OrderForm from '../OrderForm/OrderForm';
-import Link from 'next/link';
-import Button from '../Button/Button';
+import styles from './CartList.module.css';
 
 export default function CartList({ className, ...props }: ICartListProps) {
    const { cart } = useCart();
-   const [data, setData] = useState(cart);
-   const [serverData, setServerData] = useState<IProductBySKU[]>();
-
-   useEffect(() => {
-      setData(cart);
-   }, [cart]);
+   const [error, setError] = useState<string | null>(null);
+   const [serverData, setServerData] = useState<IProductBySKU[]>([]);
 
    useEffect(() => {
       const fetchAll = async () => {
@@ -27,50 +21,31 @@ export default function CartList({ className, ...props }: ICartListProps) {
                return response.json();
             };
 
-            const makeRequests = () => {
-               const requests = [];
-               for (let i = 0; i < data.length; i++) {
-                  console.log(data[i]);
-                  requests.push(
-                     process.env.NEXT_PUBLIC_DOMAIN +
-                        '/api-demo/products/sku/' +
-                        data[i].sku
-                  );
-               }
-               return requests;
-            };
-            const requests = makeRequests();
+            const requests = cart.map(
+               (item) =>
+                  `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/products/sku/${item.sku}`
+            );
 
             const res: IProductBySKU[] = await Promise.all(
                requests.map(fetchData)
             );
 
-            if (!res) {
+            if (!res || res.length === 0) {
                notFound();
             }
             setServerData(res);
+            setError(null);
          } catch (e) {
-            console.log(e);
             console.error(e);
+            setError('Failed to load products');
          }
       };
       fetchAll();
-   }, [data]);
-
-   if (cart.length < 1) {
-      return (
-         <div className={styles['empty-cart']}>
-            <p>¯\_(ツ)_/¯</p>
-            <p>Cart is empty, choose and add something there</p>
-            <Link href="/shop">
-               <Button text="shop" className={styles.button} />
-            </Link>
-         </div>
-      );
-   }
+   }, [cart]);
 
    return (
       <div className={cn(styles['wrapper'], className)} {...props}>
+         {error && <p className={styles.error}>{error}</p>}
          {serverData &&
             serverData.map((item) => {
                let amountValue = 1;

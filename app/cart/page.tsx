@@ -3,6 +3,7 @@ import ShippingForm from '@/components/ShippingForm/ShippingForm';
 import styles from './page.module.css';
 import CartList from '@/components/CartList/CartList';
 import { notFound } from 'next/navigation';
+import OrderLayout from '@/components/OrderLayout/OrderLayout';
 
 export async function getData(id: string): Promise<IProductBySKU> {
    const res = await fetch(
@@ -19,7 +20,8 @@ export default async function Cart() {
    return (
       <div className={styles['wrapper']}>
          <h2 className={styles['heading']}>Cart</h2>
-         <div className={styles['products-form-wrapper']}>
+
+         {/* <div className={styles['products-form-wrapper']}>
             <div>
                <CartList />
             </div>
@@ -27,7 +29,8 @@ export default async function Cart() {
             <div className={styles['form-wrapper']}>
                <ShippingForm />
             </div>
-         </div>
+         </div> */}
+         <OrderLayout />
       </div>
    );
 }
