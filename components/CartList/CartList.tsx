@@ -31,7 +31,7 @@ export default function CartList({ className, ...props }: ICartListProps) {
             );
 
             if (!res || res.length === 0) {
-               notFound();
+               setError('Failed to load products. Refresh page');
             }
             setServerData(res);
             setError(null);

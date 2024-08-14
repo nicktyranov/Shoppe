@@ -65,11 +65,7 @@ export default function ShippingForm({
    const [errorSubmit, setErrorSubmit] = useState('');
    const [validForm, setValidForm] = useState(true);
    const formRef = useRef<HTMLFormElement>(null);
-   const { cart } = useCart();
-   const totalCost = useMemo(
-      () => cart.reduce((sum, x) => sum + x.price * x.amount, 0),
-      [cart]
-   );
+   const { cart, totalCost } = useCart();
 
    const isLoginedStatus = isLogined || false;
 

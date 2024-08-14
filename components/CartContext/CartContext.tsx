@@ -6,7 +6,8 @@ import React, {
    useState,
    ReactNode,
    useEffect,
-   useCallback
+   useCallback,
+   useMemo
 } from 'react';
 
 export interface CartItem {
@@ -19,6 +20,7 @@ export interface CartItem {
 interface CartContextType {
    cart: CartItem[];
    updateCart: (newCart: CartItem[]) => void;
+   totalCost: number;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -38,8 +40,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem('shoppe_cart', JSON.stringify(newCart));
    }, []);
 
+   const totalCost = useMemo(
+      () => cart.reduce((sum, x) => sum + x.price * x.amount, 0),
+      [cart]
+   );
+
    return (
-      <CartContext.Provider value={{ cart, updateCart }}>
+      <CartContext.Provider value={{ cart, updateCart, totalCost }}>
          {children}
       </CartContext.Provider>
    );
