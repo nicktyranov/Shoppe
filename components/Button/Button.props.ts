@@ -1,5 +1,5 @@
 export interface IButtonProps
-   extends React.HtmlHTMLAttributes<HTMLButtonElement> {
+   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
    className?: string;
    text: string;
    productPage?: boolean;

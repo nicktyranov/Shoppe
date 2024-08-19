@@ -10,6 +10,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { IFilter } from '@/interfaces/interface.filter';
 
+const FILTER_STORAGE_KEY = 'shoppe_filterState';
+
 async function getFilter(): Promise<IFilter> {
    const res = await fetch(
       process.env.NEXT_PUBLIC_DOMAIN + `/api-demo/products/get-filter`
@@ -28,13 +30,23 @@ export default function Filter({ className, ...props }: IFilterProps) {
    const [maxPrice, setMaxPrice] = useState(0);
 
    useEffect(() => {
-      const fetchFilter = async () => {
-         const data = await getFilter();
-         setFilter(data);
-         setMinPrice(data.minPrice);
-         setMaxPrice(data.maxPrice);
-      };
-      fetchFilter();
+      const storedFilter = localStorage.getItem(FILTER_STORAGE_KEY);
+      if (storedFilter) {
+         const parsedFilter = JSON.parse(storedFilter);
+         setFilter(parsedFilter);
+         setMinPrice(parsedFilter.minPrice);
+         setMaxPrice(parsedFilter.maxPrice);
+      } else {
+         const fetchFilter = async () => {
+            const data = await getFilter();
+            setFilter(data);
+            setMinPrice(data.minPrice);
+            setMaxPrice(data.maxPrice);
+
+            localStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(data));
+         };
+         fetchFilter();
+      }
    }, []);
 
    const createQueryString = useCallback(

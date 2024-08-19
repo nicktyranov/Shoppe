@@ -5,17 +5,22 @@ import React, {
    useContext,
    useState,
    ReactNode,
-   useEffect
+   useEffect,
+   useCallback,
+   useMemo
 } from 'react';
 
-interface CartItem {
+export interface CartItem {
    sku: string;
+   name: string;
    amount: number;
+   price: number;
 }
 
 interface CartContextType {
    cart: CartItem[];
    updateCart: (newCart: CartItem[]) => void;
+   totalCost: number;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -30,13 +35,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       setCart(storedCart);
    }, []);
 
-   const updateCart = (newCart: CartItem[]) => {
+   const updateCart = useCallback((newCart: CartItem[]) => {
       setCart(newCart);
       localStorage.setItem('shoppe_cart', JSON.stringify(newCart));
-   };
+   }, []);
+
+   const totalCost = useMemo(
+      () => cart.reduce((sum, x) => sum + x.price * x.amount, 0),
+      [cart]
+   );
 
    return (
-      <CartContext.Provider value={{ cart, updateCart }}>
+      <CartContext.Provider value={{ cart, updateCart, totalCost }}>
          {children}
       </CartContext.Provider>
    );
