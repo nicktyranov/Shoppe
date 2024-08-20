@@ -1,12 +1,13 @@
-.email {
+.message {
    display: flex;
-   gap: 20px;
+   width: 100%;
+   gap: 10px;
    align-items: center;
    justify-content: center;
 
-   max-width: 400px;
+   max-width: 350px;
    max-height: 60px;
-   padding: 5px 10px;
+   padding: 5px 15px;
 
    font-size: var(--font-16);
    font-weight: 400;

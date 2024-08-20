@@ -6,6 +6,7 @@ import icon2 from './eye-close-icon.svg';
 import cn from 'classnames';
 import styles from './PasswordComponent.module.css';
 import { useState } from 'react';
+import Input from '../Input/Input';
 
 export default function PasswordComponent({
    className,
@@ -24,11 +25,13 @@ export default function PasswordComponent({
 
    return (
       <div className={cn(styles['input-wrapper'], className)}>
-         <input
+         <label htmlFor="password" />
+         <Input
             className={styles.input}
             type={passwordType ? 'password' : 'text'}
             placeholder={placeholder}
             value={value}
+            name="password"
             onChange={onChange}
             {...props}
          />

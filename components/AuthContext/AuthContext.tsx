@@ -51,6 +51,7 @@ interface AuthContextType {
       bearerCode: string,
       user: ProfileData
    ) => Promise<ProfileData | { message: any }>;
+   restorePassword: (email: string) => Promise<string | undefined>;
    logout: () => void;
    isLogined: boolean;
    auth: UserData | undefined;
@@ -208,6 +209,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
    };
 
+   const restorePassword = async (email: string) => {
+      const response = await authRequest(
+         `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/auth/restore`,
+         {
+            email
+         }
+      );
+
+      if (response.message === 'Ссылка на восстановление отправлена') {
+         console.log('Ссылка на восстановление отправлена');
+         return 'Recovery link has been sent';
+      } else {
+         return undefined;
+      }
+   };
+
    return (
       <AuthContext.Provider
          value={{
@@ -217,7 +234,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             isLogined,
             auth,
             getProfile,
-            updateProfile
+            updateProfile,
+            restorePassword
          }}
       >
          {children}

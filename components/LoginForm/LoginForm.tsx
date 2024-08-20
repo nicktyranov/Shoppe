@@ -10,6 +10,7 @@ import PasswordComponent from '../PasswordComponent/PasswordComponent';
 import { useAuth } from '../AuthContext/AuthContext';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 
 export default function LoginForm({}: IOrderFormProps) {
    const [email, setEmail] = useState('');
@@ -182,7 +183,9 @@ export default function LoginForm({}: IOrderFormProps) {
                   />
                </div>
             </div>
-            <p className={styles['form-recovery']}> Forgot your password?</p>
+            <Link href={'/user/recovery'}>
+               <p className={styles['form-recovery']}>Forgot your password?</p>
+            </Link>
          </form>
       </div>
    );
