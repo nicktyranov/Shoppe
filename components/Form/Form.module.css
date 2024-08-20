@@ -51,13 +51,6 @@
    margin-bottom: 15px;
 }
 
-.error {
-   padding: 5px;
-   font-size: var(--font-14);
-   color: var(--color-white);
-   background-color: var(--color-error-2);
-}
-
 .button {
    max-width: 156px;
    padding: 16px 34px;

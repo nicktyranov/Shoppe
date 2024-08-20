@@ -46,3 +46,13 @@ body {
 button {
    cursor: pointer;
 }
+
+.error {
+   margin: 5px 0;
+   padding: 5px;
+
+   font-size: var(--font-14);
+   color: var(--color-white);
+
+   background-color: var(--color-error-2);
+}

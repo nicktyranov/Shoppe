@@ -16,7 +16,7 @@ export default function OrderLayout({ className }: IOrderLayoutProps) {
    const { orders } = useOrders();
    const [currentOrder, setCurrentOrder] = useState<OrderData>();
    const [isOrderSuccess, setIsOrderSuccess] = useState(false);
-   const { cart, updateCart, totalCost } = useCart();
+   const { cart, updateCart } = useCart();
 
    let totalOrderCost = 0;
    if (currentOrder) {
@@ -151,7 +151,7 @@ export default function OrderLayout({ className }: IOrderLayoutProps) {
                         >
                            <span>Total</span>
                            <span></span>
-                           <span>${totalCost}</span>
+                           <span>${totalOrderCost}</span>
                         </div>
                      </div>
                   </div>

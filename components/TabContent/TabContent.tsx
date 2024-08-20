@@ -1,11 +1,11 @@
 'use client';
 import { ITabContentProps } from './TabContent.props';
 import cn from 'classnames';
-import styles from './TabContent.module.css';
 import { useState } from 'react';
 import { IReview } from '@/interfaces/interface.bySku';
 import Form from '../Form/Form';
 import Rating from '../Rating/Rating';
+import styles from './TabContent.module.css';
 
 const reviewsEN = [
    'Overall, excellent, since they are not expensive and I didn’t have to give my wife a new phone that she asked for.',

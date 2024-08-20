@@ -45,7 +45,7 @@ export default function CartList({ className, ...props }: ICartListProps) {
 
    return (
       <div className={cn(styles['wrapper'], className)} {...props}>
-         {error && <p className={styles.error}>{error}</p>}
+         {error && <p className={'error'}>{error}</p>}
          {serverData &&
             serverData.map((item) => {
                let amountValue = 1;
