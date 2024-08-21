@@ -20,13 +20,8 @@ export default function Search({
    const searchParams = useSearchParams();
 
    const click = (e: MouseEvent) => {
-      console.log('Нажато');
       setClicked(true);
    };
-
-   useEffect(() => {
-      console.log(`inputSearch - ${inputSearch}`);
-   }, [inputSearch]);
 
    const createQueryString = useCallback(
       (name: string, value: string) => {
@@ -50,7 +45,6 @@ export default function Search({
 
    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-         console.log(`Enter clicked: input - ${inputSearch}`);
          handleInputQuery();
       }
    };

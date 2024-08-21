@@ -6,10 +6,10 @@ import { IProductBySKU } from '@/interfaces/interface.bySku';
 import { Metadata } from 'next';
 import Gallery from '@/components/Gallery/Gallery';
 import cn from 'classnames';
-import styles from './page.module.css';
 import Rating from '@/components/Rating/Rating';
 import { notFound } from 'next/navigation';
 import AddToCart from '@/components/AddToCart/AddToCart';
+import styles from './page.module.css';
 
 const dataDescription =
    'Universal classic. The earrings are made of rose gold with a path of diamonds and emeralds. Delicate, sophisticated, they will suit not only a business suit, but will also complement the image of any fashionista.';

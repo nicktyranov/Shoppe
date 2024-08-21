@@ -1,11 +1,11 @@
 'use client';
 import cn from 'classnames';
 import Button from '../Button/Button';
-import styles from './PasswordRecovery.module.css';
 import Input from '../Input/Input';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext/AuthContext';
 import { showNotification } from '../Notification/Notification';
+import styles from './PasswordRecovery.module.css';
 
 export default function PasswordRecovery() {
    const [email, setEmail] = useState('');

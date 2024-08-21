@@ -24,7 +24,6 @@ export default function SliderRange({
       if (Array.isArray(value)) {
          setRange(value as [number, number]);
          onChange(value as [number, number]);
-         console.log('Slider values:', value);
       }
    };
 

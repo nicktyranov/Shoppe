@@ -1,11 +1,10 @@
 'use client';
-import { ICartProps } from './Cart.props';
 import cartIcon from './cart-icon.svg';
 import Image from 'next/image';
 import cn from 'classnames';
-import styles from './Cart.module.css';
 import { useEffect, useState } from 'react';
 import { useCart } from '../CartContext/CartContext';
+import styles from './Cart.module.css';
 
 export default function Cart() {
    const [amount, setAmount] = useState(0);

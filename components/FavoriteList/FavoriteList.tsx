@@ -1,12 +1,13 @@
 'use client';
 import { IFavoriteListProps } from './FavoriteList.props';
 import cn from 'classnames';
-import styles from './FavoriteList.module.css';
 import { useFavorites } from '../FavoritesContext/FavoritesContext';
 import { useEffect, useState } from 'react';
 import { IProductBySKU } from '@/interfaces/interface.bySku';
 import Card from '../Card/Card';
 import { notFound } from 'next/navigation';
+import styles from './FavoriteList.module.css';
+import CustomError from '../CustomError/CustomError';
 
 export default function FavoriteList({
    productPage,
@@ -47,11 +48,12 @@ export default function FavoriteList({
             );
 
             if (!res) {
-               notFound();
+               return (
+                  <CustomError text={'There is an error. Refresh the page'} />
+               );
             }
             setServerData(res);
          } catch (e) {
-            console.log(e);
             console.error(e);
          }
       };

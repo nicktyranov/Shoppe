@@ -1,14 +1,14 @@
 'use client';
 import { IShippingFormProps } from './ShippingForm.props';
 import cn from 'classnames';
-import styles from './ShippingForm.module.css';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useCart } from '../CartContext/CartContext';
 import { useOrders } from '../OrdersContext/OrdersContext';
 import { useAuth } from '../AuthContext/AuthContext';
 import Cookies from 'js-cookie';
+import styles from './ShippingForm.module.css';
 
 export type ErrorResponse = {
    statusCode: number;
@@ -57,7 +57,7 @@ export default function ShippingForm({
    const [username, setUsername] = useState('');
    const [address, setAddress] = useState('');
    const [mobileNumber, setMobileNumber] = useState('');
-   const [submitBtn, setSubmitBtn] = useState(false);
+   const [, setSubmitBtn] = useState(false);
    const [errorUsername, setErrorUsername] = useState('');
    const [errorEmail, setErrorEmail] = useState('');
    const [errorPassword, setErrorPassword] = useState('');
@@ -258,7 +258,7 @@ export default function ShippingForm({
 
          if (loginResult.access_token) {
             const currentProfile = await getProfile(loginResult.access_token);
-            console.log(loginResult.access_token);
+
             if ('id' in currentProfile) {
                const updateCurrentProfile = await updateProfile(
                   loginResult.access_token,

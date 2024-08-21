@@ -1,12 +1,9 @@
 'use client';
 import { ICartListProps } from './CartList.props';
-import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { IProductBySKU } from '@/interfaces/interface.bySku';
-import { notFound } from 'next/navigation';
 import { useCart } from '../CartContext/CartContext';
 import OrderForm from '../OrderForm/OrderForm';
-import styles from './CartList.module.css';
 
 export default function CartList({ className, ...props }: ICartListProps) {
    const { cart } = useCart();
@@ -44,7 +41,7 @@ export default function CartList({ className, ...props }: ICartListProps) {
    }, [cart]);
 
    return (
-      <div className={cn(styles['wrapper'], className)} {...props}>
+      <div className={className} {...props}>
          {error && <p className={'error'}>{error}</p>}
          {serverData &&
             serverData.map((item) => {

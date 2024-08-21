@@ -1,8 +1,8 @@
-import styles from './page.module.css';
 import Card from '@/components/Card/Card';
 import { IProductList } from '@/interfaces/interface.products';
 import Filter from '@/components/Filter/Filter';
 import PaginationControls from '@/components/PaginationControls/PaginationControls';
+import styles from './page.module.css';
 
 async function getProducts(params: {
    [key: string]: string;
@@ -53,11 +53,6 @@ export default async function Shop({
    const endIdx = startIdx + Number(per_page);
 
    const pageData = products.products.slice(startIdx, endIdx);
-   console.log(`startIdx - ${startIdx}`);
-   console.log(`endIdx - ${endIdx}`);
-
-   console.log(products.products.length);
-   console.log(`searchParams - ${searchParams}`);
 
    return (
       <div className={styles.wrapper}>

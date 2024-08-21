@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button/Button';
 import Counter from '@/components/Counter/Counter';
-import styles from './AddToCart.module.css';
 import { IAddToCartProps } from './AddToCart.props';
 import { useCart } from '../CartContext/CartContext';
 import { useAddToCart } from '../Cart/CartFunction';
 import cn from 'classnames';
+import styles from './AddToCart.module.css';
 
 export default function AddToCart({
    productName,

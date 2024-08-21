@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import styles from './page.module.css';
 import FavoriteList from '@/components/FavoriteList/FavoriteList';
 

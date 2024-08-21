@@ -12,7 +12,7 @@
 }
 
 .heading a {
-   font-size: 20px;
+   font-size: var(--font-20);
    font-weight: 500;
    line-height: 26px;
    color: var(--color-brown);
@@ -26,10 +26,6 @@
    justify-content: space-between;
 
    margin-bottom: 200px;
-}
-
-.slider {
-   /* margin: 0 auto; */
 }
 
 @media (width <= 1280px) {
@@ -61,7 +57,6 @@
 
 @media (width <= 770px) {
    .products {
-      /* grid-gap: 20px 10px; */
       margin-bottom: 130px;
    }
 

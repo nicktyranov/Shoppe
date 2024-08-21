@@ -4,9 +4,9 @@ import Image from 'next/image';
 import icon1 from './eye-open-icon.svg';
 import icon2 from './eye-close-icon.svg';
 import cn from 'classnames';
-import styles from './PasswordComponent.module.css';
 import { useState } from 'react';
 import Input from '../Input/Input';
+import styles from './PasswordComponent.module.css';
 
 export default function PasswordComponent({
    className,

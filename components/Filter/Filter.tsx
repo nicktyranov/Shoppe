@@ -1,7 +1,6 @@
 'use client';
 import { IFilterProps } from './Filter.props';
 import cn from 'classnames';
-import styles from './Filter.module.css';
 import OnOffButton from '../OnOffButton/OnOffButton';
 import Search from '../Search/Search';
 import Select from '../Select/Select';
@@ -9,6 +8,7 @@ import SliderRange from '../SliderRange/SliderRange';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { IFilter } from '@/interfaces/interface.filter';
+import styles from './Filter.module.css';
 
 const FILTER_STORAGE_KEY = 'shoppe_filterState';
 
@@ -25,7 +25,7 @@ export default function Filter({ className, ...props }: IFilterProps) {
    const searchParams = useSearchParams();
    const [filter, setFilter] = useState<IFilter>();
    const [toggleButton, setToggleButton] = useState(false);
-   const [selectedCategory, setSelectedCategory] = useState<number>();
+   const [, setSelectedCategory] = useState<number>();
    const [minPrice, setMinPrice] = useState(0);
    const [maxPrice, setMaxPrice] = useState(0);
 
@@ -96,7 +96,6 @@ export default function Filter({ className, ...props }: IFilterProps) {
    }, [searchParams, pathname]);
 
    const handleFilterChange = () => {
-      console.log(searchParams);
       let url = getCurrentUrlWithParams();
       console.log(url);
    };

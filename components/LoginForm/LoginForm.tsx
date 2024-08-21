@@ -1,7 +1,6 @@
 'use client';
 import { IOrderFormProps } from './LoginForm.props';
 import cn from 'classnames';
-import styles from './LoginForm.module.css';
 import Input from '../Input/Input';
 import CheckBox from '../CheckBox/CheckBox';
 import Button from '../Button/Button';
@@ -11,6 +10,7 @@ import { useAuth } from '../AuthContext/AuthContext';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
+import styles from './LoginForm.module.css';
 
 export default function LoginForm({}: IOrderFormProps) {
    const [email, setEmail] = useState('');
@@ -19,7 +19,7 @@ export default function LoginForm({}: IOrderFormProps) {
    const [errorEmail, setErrorEmail] = useState('');
    const [errorSubmit, setErrorSubmit] = useState('');
    const [isLoading, setIsLoading] = useState(false);
-   const [validForm, setValidForm] = useState(true);
+   const [, setValidForm] = useState(true);
    const router = useRouter();
 
    const [clickedTab, setClickedTab] = useState(1);

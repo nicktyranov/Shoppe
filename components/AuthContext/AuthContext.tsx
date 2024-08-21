@@ -218,7 +218,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       );
 
       if (response.message === 'Ссылка на восстановление отправлена') {
-         console.log('Ссылка на восстановление отправлена');
          return 'Recovery link has been sent';
       } else {
          return undefined;

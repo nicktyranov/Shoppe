@@ -1,7 +1,5 @@
 import { IProductBySKU } from '@/interfaces/interface.bySku';
-import ShippingForm from '@/components/ShippingForm/ShippingForm';
 import styles from './page.module.css';
-import CartList from '@/components/CartList/CartList';
 import { notFound } from 'next/navigation';
 import OrderLayout from '@/components/OrderLayout/OrderLayout';
 

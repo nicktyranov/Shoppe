@@ -3,7 +3,7 @@
    gap: 5px;
    align-items: center;
 
-   font-size: 12px;
+   font-size: var(--font-12);
    font-weight: 400;
    line-height: 16px;
    color: var(--color-gray-dark);

@@ -17,16 +17,13 @@ export default function PaginationControls({
    const searchParams = useSearchParams();
 
    useEffect(() => {
-      const page = searchParams.get('page')
-         ? Number(searchParams.get('page'))
-         : 1;
       const perPage = searchParams.get('per_page')
          ? Number(searchParams.get('per_page'))
          : per_page;
 
-      // if (!searchParams.get('page') || !searchParams.get('per_page')) {
-      //    router.push(`/shop?page=1&per_page=${perPage}`);
-      // }
+      if (!searchParams.get('page') || !searchParams.get('per_page')) {
+         router.push(`/shop?page=1&per_page=${perPage}`);
+      }
    }, [searchParams]);
 
    const page = searchParams.get('page') ?? '1';
@@ -38,9 +35,6 @@ export default function PaginationControls({
       buttonNumberArray.push(i);
    }
 
-   // if (!searchParams.get('page') || !searchParams.get('per_page')) {
-   //    router.push(`/?page=1&per_page=1`);
-   // }
    return (
       <div className={styles['pagination-list']}>
          {buttonNumberArray.map((b, i) => (
@@ -50,7 +44,11 @@ export default function PaginationControls({
                   [styles.active]: Number(page) === b
                })}
                onClick={() => {
-                  router.push(`/shop?page=${b}&per_page=${per_page}`);
+                  const currentParams = new URLSearchParams(
+                     searchParams.toString()
+                  );
+                  currentParams.set('page', b.toString());
+                  router.push(`/shop?${currentParams.toString()}`);
                }}
             >
                {b}
@@ -62,9 +60,11 @@ export default function PaginationControls({
                [styles.disabled]: Number(page) === buttonNumberArray.length
             })}
             onClick={() => {
-               router.push(
-                  `/shop?page=${Number(page) + 1}&per_page=${per_page}`
+               const currentParams = new URLSearchParams(
+                  searchParams.toString()
                );
+               currentParams.set('page', (Number(page) + 1).toString());
+               router.push(`/shop?${currentParams.toString()}`);
             }}
          >
             &gt;

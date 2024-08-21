@@ -1,8 +1,7 @@
-import cn from 'classnames';
-import styles from './page.module.css';
 import img1 from './about1.png';
 import img2 from './about2.png';
 import Image from 'next/image';
+import styles from './page.module.css';
 
 export default function About() {
    return (

@@ -17,7 +17,6 @@ export default function Select({
       if (onChange) {
          onChange(e.target.value);
       }
-      console.log('Selected category ID:', e.target.value);
    };
 
    return (

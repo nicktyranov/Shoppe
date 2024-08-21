@@ -27,7 +27,6 @@ export function useAddToCart() {
       }
 
       updateCart(currentCart);
-      console.log(`Added to cart: SKU - ${productSKU}, Amount - ${quantity}`);
    }
 
    return addToCart;

@@ -6,16 +6,15 @@ import iconCart from './cart-icon.svg';
 import iconView from './eye-icon.svg';
 import cn from 'classnames';
 import testImg from './Img 01.png';
-import styles from './Card.module.css';
 import Link from 'next/link';
 import Favorite from '../Favorite/Favorite';
 import { useAddToCart } from '../Cart/CartFunction';
 import { useFavorites } from '../FavoritesContext/FavoritesContext';
 import { useEffect, useState } from 'react';
+import styles from './Card.module.css';
 
 export default function Card({
    discount,
-   // isLiked,
    soldOut,
    heading,
    price,
@@ -26,7 +25,7 @@ export default function Card({
    ...props
 }: ICardProps) {
    const addToCart = useAddToCart();
-   const { favoriteList, updateFavorites } = useFavorites();
+   const { favoriteList } = useFavorites();
    const [isLiked, setIsLiked] = useState<boolean>(
       favoriteList.includes(sku.toString()) ? true : false
    );

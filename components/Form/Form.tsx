@@ -33,7 +33,7 @@ export default function Form({
    const [errorText, setErrorText] = useState('');
    const [errorRating, setErrorRating] = useState('');
    const [validForm, setValidForm] = useState(true);
-   const [successPost, setSuccessPost] = useState<boolean>();
+   const [, setSuccessPost] = useState<boolean>();
    const [ratingKey, setRatingKey] = useState(Date.now());
    const formRef = useRef<HTMLFormElement>(null);
    const [, setStorage] = useState<string>();
@@ -106,7 +106,6 @@ export default function Form({
       return regex.test(email);
    }
    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      console.log(`handleFormSubmit`);
       e.preventDefault();
       if (
          username &&
@@ -118,9 +117,6 @@ export default function Form({
          !errorEmail &&
          !errorText
       ) {
-         console.log(
-            `username - ${username} - email ${email} text ${text} reviewRating ${reviewRating}`
-         );
          setValidForm(true);
          setData();
 
@@ -140,12 +136,10 @@ export default function Form({
                   })
                }
             );
-            console.log(`response =${response}`);
+
             const result: RequestStatus = await response.json();
-            console.log(`result =${result.success}`);
 
             if (result.success) {
-               console.log(`result.status === 'success'`);
                setSuccessPost(true);
                showNotification(
                   'Your review has been sent for moderation.',
