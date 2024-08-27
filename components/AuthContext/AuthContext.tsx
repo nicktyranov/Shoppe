@@ -79,9 +79,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
    useEffect(() => {
       const checkAuth = () => {
-         if (auth?.expiredAt && auth?.expiredAt > new Date().getTime()) {
-            setIsLogined(true);
-         } else if (auth?.jwt) {
+         if (
+            (auth?.expiredAt && auth?.expiredAt > new Date().getTime()) ||
+            auth?.jwt
+         ) {
             setIsLogined(true);
          } else {
             logout();
@@ -118,14 +119,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem('shoppe_jwt', JSON.stringify(userInfo));
    };
 
-   const authRequest = async (url: string, body: any) => {
+   const authRequest = useCallback(async (url: string, body: any) => {
       const response = await fetch(url, {
          headers: { 'Content-Type': 'application/json' },
          method: 'POST',
          body: JSON.stringify(body)
       });
       return handleApiResponse(response);
-   };
+   }, []);
 
    const register = async (
       email: string,
@@ -150,19 +151,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return data;
    };
 
-   const login = useCallback(async (user: User) => {
-      const data = await authRequest(
-         `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/auth/login`,
-         {
-            email: user.email,
-            password: user.password
+   const login = useCallback(
+      async (user: User) => {
+         const data = await authRequest(
+            `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/auth/login`,
+            {
+               email: user.email,
+               password: user.password
+            }
+         );
+         if (data.access_token) {
+            saveAuthData(data, user.email, user.password);
          }
-      );
-      if (data.access_token) {
-         saveAuthData(data, user.email, user.password);
-      }
-      return data;
-   }, []);
+         return data;
+      },
+      [authRequest]
+   );
 
    const getProfile = async (bearerCode: string) => {
       try {

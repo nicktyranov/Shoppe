@@ -8,6 +8,7 @@ import { useCart } from '../CartContext/CartContext';
 import { useOrders } from '../OrdersContext/OrdersContext';
 import { useAuth } from '../AuthContext/AuthContext';
 import Cookies from 'js-cookie';
+import { checkEmail } from '@/helpers/emailHelper';
 import styles from './ShippingForm.module.css';
 
 export type ErrorResponse = {
@@ -114,6 +115,8 @@ export default function ShippingForm({
       errorMobile,
       errorUsername,
       errorPassword,
+      errorAddress,
+      isLogined,
       email,
       password,
       username,
@@ -141,12 +144,6 @@ export default function ShippingForm({
    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setEmail(e.target.value);
    };
-
-   function checkEmail(email: string) {
-      const regex =
-         /^((([0-9A-Za-z]{1}[-0-9A-z]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/;
-      return regex.test(email);
-   }
 
    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value);

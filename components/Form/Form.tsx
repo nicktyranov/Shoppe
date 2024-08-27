@@ -8,6 +8,7 @@ import CheckBox from '../CheckBox/CheckBox';
 import { useEffect, useRef, useState } from 'react';
 import { showNotification } from '../Notification/Notification';
 import { useAuth } from '../AuthContext/AuthContext';
+import { checkEmail } from '@/helpers/emailHelper';
 import styles from './Form.module.css';
 
 type RequestStatus = {
@@ -31,10 +32,8 @@ export default function Form({
    const [errorUsername, setErrorName] = useState('');
    const [errorEmail, setErrorEmail] = useState('');
    const [errorText, setErrorText] = useState('');
-   const [errorRating, setErrorRating] = useState('');
+   const [errorRating] = useState('');
    const [validForm, setValidForm] = useState(true);
-   const [, setSuccessPost] = useState<boolean>();
-   const [ratingKey, setRatingKey] = useState(Date.now());
    const formRef = useRef<HTMLFormElement>(null);
    const [, setStorage] = useState<string>();
    const { auth } = useAuth();
@@ -100,11 +99,6 @@ export default function Form({
       setEmail(e.target.value);
    };
 
-   function checkEmail(email: string) {
-      const regex =
-         /^((([0-9A-Za-z]{1}[-0-9A-z]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/;
-      return regex.test(email);
-   }
    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (
@@ -140,7 +134,6 @@ export default function Form({
             const result: RequestStatus = await response.json();
 
             if (result.success) {
-               setSuccessPost(true);
                showNotification(
                   'Your review has been sent for moderation.',
                   true
@@ -149,16 +142,19 @@ export default function Form({
                setReviewRating(0);
                setCheckbox(false);
                setText('');
-               setRatingKey(Date.now());
+               setUsername('');
+               setEmail('');
             } else {
-               setSuccessPost(false);
                showNotification(
                   'There is a problem with the connetction to the server',
                   false
                );
             }
          } catch (error) {
-            setSuccessPost(false);
+            showNotification(
+               'There is a problem with the connetction to the server',
+               false
+            );
             console.error('Error submitting form:', error);
          }
       } else {
@@ -190,7 +186,7 @@ export default function Form({
                />
             </div>
 
-            {!auth && (
+            {!auth?.email && (
                <>
                   <div>
                      <label htmlFor="username" />
@@ -236,7 +232,6 @@ export default function Form({
                <label htmlFor="rating" />
                {errorRating && <div className={'error'}>{errorRating}</div>}
                <Rating
-                  key={ratingKey}
                   isEditable
                   id="rating"
                   shareRating={setReviewRating}

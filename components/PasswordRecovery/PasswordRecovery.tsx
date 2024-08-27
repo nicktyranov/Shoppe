@@ -5,6 +5,7 @@ import Input from '../Input/Input';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext/AuthContext';
 import { showNotification } from '../Notification/Notification';
+import { checkEmail } from '@/helpers/emailHelper';
 import styles from './PasswordRecovery.module.css';
 
 export default function PasswordRecovery() {
@@ -32,12 +33,6 @@ export default function PasswordRecovery() {
          setErrorEmail('Invalid email. Try again');
       }
    }, [email]);
-
-   function checkEmail(email: string) {
-      const regex =
-         /^((([0-9A-Za-z]{1}[-0-9A-z]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/;
-      return regex.test(email);
-   }
 
    const handleButtonClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();

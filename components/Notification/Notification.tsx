@@ -22,7 +22,10 @@ export function showNotification(text: string, status?: boolean) {
          )}
          {text}
       </div>,
-      { position: 'bottom-center' }
+      {
+         position: 'bottom-center',
+         duration: 5000
+      }
    );
 }
 

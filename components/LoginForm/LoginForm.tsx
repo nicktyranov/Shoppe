@@ -1,5 +1,4 @@
 'use client';
-import { IOrderFormProps } from './LoginForm.props';
 import cn from 'classnames';
 import Input from '../Input/Input';
 import CheckBox from '../CheckBox/CheckBox';
@@ -10,21 +9,62 @@ import { useAuth } from '../AuthContext/AuthContext';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
+import { checkEmail } from '@/helpers/emailHelper';
+import { useForm } from '@tanstack/react-form';
 import styles from './LoginForm.module.css';
 
-export default function LoginForm({}: IOrderFormProps) {
-   const [email, setEmail] = useState('');
-   const [password, setPassword] = useState('');
-   const [checkbox, setCheckbox] = useState(false);
-   const [errorEmail, setErrorEmail] = useState('');
+export default function LoginForm() {
    const [errorSubmit, setErrorSubmit] = useState('');
    const [isLoading, setIsLoading] = useState(false);
-   const [, setValidForm] = useState(true);
    const router = useRouter();
-
    const [clickedTab, setClickedTab] = useState(1);
-
    const { register, login, isLogined } = useAuth();
+
+   const form = useForm({
+      defaultValues: {
+         email: '',
+         password: '',
+         password2: '',
+         checkbox: false
+      },
+      onSubmit: async ({ value }) => {
+         setIsLoading(true);
+
+         try {
+            let loginData;
+            if (clickedTab == 1) {
+               loginData = await login({
+                  email: value.email,
+                  password: value.password,
+                  saveData: value.checkbox
+               });
+            } else {
+               let email = value.email;
+               let password = value.password;
+               loginData = await register(email, password);
+            }
+
+            if (loginData.access_token) {
+               setErrorSubmit('');
+
+               //for middleware
+               Cookies.set('shoppe_jwt', loginData.access_token, {
+                  expires: 7
+               });
+               router.push('/user/orders');
+            }
+            if (loginData.message) {
+               setErrorSubmit(loginData.message);
+            } else {
+               setErrorSubmit('');
+            }
+         } catch (error) {
+            setIsLoading(false);
+            console.error('Login failed with error:', error);
+            setErrorSubmit('An unexpected error occurred');
+         }
+      }
+   });
 
    useEffect(() => {
       if (isLogined) {
@@ -36,38 +76,6 @@ export default function LoginForm({}: IOrderFormProps) {
       }
    }, [isLogined, router, errorSubmit]);
 
-   useEffect(() => {
-      if (email.length < 1) {
-         return;
-      }
-      if (checkEmail(email)) {
-         setErrorEmail('');
-      } else {
-         setErrorEmail('Invalid email format. Check email and try again');
-      }
-   }, [email]);
-
-   useEffect(() => {
-      if (email.length < 1) {
-         return;
-      }
-      if (checkEmail(email)) {
-         setErrorEmail('');
-      } else {
-         setErrorEmail('Invalid email format. Check email and try again');
-      }
-   }, [email]);
-
-   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEmail(e.currentTarget.value);
-   };
-
-   function checkEmail(email: string) {
-      const regex =
-         /^((([0-9A-Za-z]{1}[-0-9A-z]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/;
-      return regex.test(email);
-   }
-
    const handleTabClick = (
       tabNumber: number,
       event: React.MouseEvent<HTMLButtonElement>
@@ -76,50 +84,20 @@ export default function LoginForm({}: IOrderFormProps) {
       setClickedTab(tabNumber);
    };
 
-   const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setIsLoading(true);
-
-      try {
-         let loginData;
-         if (clickedTab == 1) {
-            loginData = await login({
-               email,
-               password,
-               saveData: checkbox
-            });
-         } else {
-            loginData = await register(email, password);
-         }
-
-         if (loginData.access_token) {
-            setErrorEmail('');
-            setErrorSubmit('');
-            setValidForm(true);
-
-            //for middleware
-            Cookies.set('shoppe_jwt', loginData.access_token, { expires: 7 });
-            router.push('/user/orders');
-         }
-         if (loginData.message) {
-            setErrorSubmit(loginData.message);
-         } else {
-            setErrorSubmit('');
-         }
-      } catch (error) {
-         setIsLoading(false);
-         console.error('Login failed with error:', error);
-         setErrorSubmit('An unexpected error occurred');
-      }
-   };
-
    if (isLoading) {
       return <div>Loading...</div>;
    }
 
    return (
       <div className={cn(styles['wrapper'])}>
-         <form className={styles['form']}>
+         <form
+            className={styles['form']}
+            onSubmit={(e) => {
+               e.preventDefault();
+               e.stopPropagation();
+               form.handleSubmit();
+            }}
+         >
             <h2 className={styles['heading']}>My account</h2>
 
             <div className={styles['btn-toggle']}>
@@ -143,44 +121,174 @@ export default function LoginForm({}: IOrderFormProps) {
                </button>
             </div>
             <div className={styles['form-elements']}>
-               <div>
-                  <label htmlFor="email" />
-                  {errorEmail && <div className={'error'}>{errorEmail}</div>}
-                  <Input
-                     placeholder={'Email'}
-                     value={email}
-                     onChange={(e) => handleEmailChange(e)}
-                  />
-               </div>
+               <form.Field
+                  name="email"
+                  validators={{
+                     onChange: ({ value }) => {
+                        if (value.length < 1) {
+                           return 'Email is required';
+                        }
+                        if (checkEmail(value)) {
+                           return '';
+                        }
+                        return 'Invalid email format. Check email and try again';
+                     }
+                  }}
+               >
+                  {(field) => (
+                     <div>
+                        <label htmlFor="email" />
 
-               <PasswordComponent
-                  placeholder={'Type your password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.currentTarget.value)}
-               />
-               {clickedTab == 2 && (
-                  <PasswordComponent
-                     placeholder={'Repeat your password'}
-                     value={password}
-                     onChange={(e) => setPassword(e.currentTarget.value)}
-                  />
-               )}
+                        {field.state.meta.errors.length !== 0 && (
+                           <div className={'error'}>
+                              {field.state.meta.errors}
+                           </div>
+                        )}
+                        <Input
+                           id={field.name}
+                           name={field.name}
+                           placeholder={'Email'}
+                           value={field.state.value}
+                           onChange={(e) =>
+                              field.handleChange(e.currentTarget.value)
+                           }
+                        />
+                     </div>
+                  )}
+               </form.Field>
 
                {clickedTab == 1 && (
-                  <CheckBox
-                     text={'Remember me'}
-                     onClick={() => setCheckbox(!checkbox)}
-                  />
+                  <>
+                     <form.Field
+                        name="password"
+                        validators={{
+                           onChange: ({ value }) => {
+                              if (value.length < 1) {
+                                 return 'Password is required';
+                              }
+                           }
+                        }}
+                     >
+                        {(field) => (
+                           <div>
+                              <label htmlFor="password" />
+                              {field.state.meta.errors.length !== 0 && (
+                                 <div className={'error'}>
+                                    {field.state.meta.errors}
+                                 </div>
+                              )}
+                              <PasswordComponent
+                                 placeholder={'Type your password'}
+                                 value={field.state.value}
+                                 name={field.name}
+                                 onChange={(e) =>
+                                    field.handleChange(e.currentTarget.value)
+                                 }
+                              />
+                           </div>
+                        )}
+                     </form.Field>
+
+                     <form.Field name="checkbox">
+                        {(field) => (
+                           <div>
+                              <label htmlFor="checkbox" />
+                              <CheckBox
+                                 text={'Remember me'}
+                                 checked={field.state.value}
+                                 onChange={(e) =>
+                                    field.handleChange(e.currentTarget.checked)
+                                 }
+                              />
+                           </div>
+                        )}
+                     </form.Field>
+                  </>
                )}
+
+               {clickedTab == 2 && (
+                  <>
+                     <form.Field
+                        name="password"
+                        validators={{
+                           onChange: ({ value }) => {
+                              if (value.length < 1) {
+                                 return 'Password is required';
+                              }
+                           }
+                        }}
+                     >
+                        {(field) => (
+                           <div>
+                              <label htmlFor="password" />
+                              {field.state.meta.errors.length !== 0 && (
+                                 <div className={'error'}>
+                                    {field.state.meta.errors}
+                                 </div>
+                              )}
+                              <PasswordComponent
+                                 placeholder={'Type your password'}
+                                 value={field.state.value}
+                                 name={field.name}
+                                 onChange={(e) =>
+                                    field.handleChange(e.currentTarget.value)
+                                 }
+                              />
+                           </div>
+                        )}
+                     </form.Field>
+
+                     <form.Field
+                        name="password2"
+                        validators={{
+                           onChange: ({ value, fieldApi }) => {
+                              return value !==
+                                 fieldApi.form.getFieldValue('password')
+                                 ? 'Passwords do not match'
+                                 : undefined;
+                           }
+                        }}
+                     >
+                        {(field) => (
+                           <div>
+                              <label htmlFor="password2" />
+                              {field.state.meta.errors.length !== 0 && (
+                                 <div className={'error'}>
+                                    {field.state.meta.errors}
+                                 </div>
+                              )}
+                              <PasswordComponent
+                                 placeholder={'Retype your password'}
+                                 value={field.state.value}
+                                 name={field.name}
+                                 onChange={(e) =>
+                                    field.handleChange(e.currentTarget.value)
+                                 }
+                              />
+                           </div>
+                        )}
+                     </form.Field>
+                  </>
+               )}
+
                <div>
                   {errorSubmit && (
                      <div className={'error'}>{`${errorSubmit}`}</div>
                   )}
-                  <Button
-                     text={'Login'}
-                     className={styles['form-button']}
-                     onClick={handleLogin}
-                  />
+                  {form.state.errors.length > 0 && (
+                     <div className={'error'}>{`${form.state.errors}`}</div>
+                  )}
+                  <form.Subscribe selector={(state) => state.errors}>
+                     {(errors) => (
+                        <>
+                           {errors.length > 0 && (
+                              <div className={'error'}>{errors.join(', ')}</div>
+                           )}
+                        </>
+                     )}
+                  </form.Subscribe>
+
+                  <Button text={'Login'} className={styles['form-button']} />
                </div>
             </div>
             <Link href={'/user/recovery'}>

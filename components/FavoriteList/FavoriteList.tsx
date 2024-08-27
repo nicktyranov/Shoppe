@@ -1,12 +1,9 @@
 'use client';
 import { IFavoriteListProps } from './FavoriteList.props';
-import cn from 'classnames';
 import { useFavorites } from '../FavoritesContext/FavoritesContext';
 import { useEffect, useState } from 'react';
 import { IProductBySKU } from '@/interfaces/interface.bySku';
 import Card from '../Card/Card';
-import { notFound } from 'next/navigation';
-import styles from './FavoriteList.module.css';
 import CustomError from '../CustomError/CustomError';
 
 export default function FavoriteList({
@@ -61,7 +58,7 @@ export default function FavoriteList({
    }, [data]);
 
    return (
-      <div className={cn(styles['wrapper'], className)} {...props}>
+      <div className={className} {...props}>
          {serverData &&
             serverData.map((item) => {
                return (
