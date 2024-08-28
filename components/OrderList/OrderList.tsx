@@ -26,10 +26,10 @@ export default function OrderList({}: IOrderListProps) {
    const router = useRouter();
 
    useEffect(() => {
-      if (auth) {
+      if (auth?.jwt) {
          getUserOrders(auth?.jwt);
       }
-   }, []);
+   }, [auth?.jwt]);
 
    const getUserOrders = async (bearerCode: string) => {
       try {
