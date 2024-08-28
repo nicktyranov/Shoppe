@@ -15,7 +15,7 @@ export interface OrderData {
    status: string;
    createdAt: string;
    username: string;
-   email: string;
+   email: string | undefined;
    address: string;
    mobileNumber: string;
    data: CartItem[];

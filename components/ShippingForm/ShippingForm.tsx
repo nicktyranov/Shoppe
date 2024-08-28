@@ -1,24 +1,27 @@
 'use client';
 import { IShippingFormProps } from './ShippingForm.props';
 import cn from 'classnames';
-import styles from './ShippingForm.module.css';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useCart } from '../CartContext/CartContext';
 import { useOrders } from '../OrdersContext/OrdersContext';
+import { useAuth } from '../AuthContext/AuthContext';
+import Cookies from 'js-cookie';
+import { checkEmail } from '@/helpers/emailHelper';
+import styles from './ShippingForm.module.css';
 
-type ErrorResponse = {
+export type ErrorResponse = {
    statusCode: number;
    message: string;
    error: string;
 };
 
-type SuccessResponse = {
+export type SuccessResponse = {
    access_token: string;
 };
 
-type ApiResponse = ErrorResponse | SuccessResponse;
+export type ApiResponse = ErrorResponse | SuccessResponse;
 
 type ErrorResponseCreateOrder = {
    message: string[];
@@ -48,7 +51,6 @@ export default function ShippingForm({
    className,
    placeholder,
    setIsOrderSuccess,
-   isLogined,
    ...props
 }: IShippingFormProps) {
    const [email, setEmail] = useState('');
@@ -56,7 +58,7 @@ export default function ShippingForm({
    const [username, setUsername] = useState('');
    const [address, setAddress] = useState('');
    const [mobileNumber, setMobileNumber] = useState('');
-   const [submitBtn, setSubmitBtn] = useState(false);
+   const [, setSubmitBtn] = useState(false);
    const [errorUsername, setErrorUsername] = useState('');
    const [errorEmail, setErrorEmail] = useState('');
    const [errorPassword, setErrorPassword] = useState('');
@@ -66,8 +68,8 @@ export default function ShippingForm({
    const [validForm, setValidForm] = useState(true);
    const formRef = useRef<HTMLFormElement>(null);
    const { cart, totalCost } = useCart();
-
-   const isLoginedStatus = isLogined || false;
+   const { auth, register, login, getProfile, updateProfile, isLogined } =
+      useAuth();
 
    const { addOrder } = useOrders();
 
@@ -88,7 +90,19 @@ export default function ShippingForm({
          mobileNumber &&
          !errorUsername &&
          !errorEmail &&
+         !errorAddress &&
          !errorPassword &&
+         !errorMobile &&
+         !isLogined
+      ) {
+         setValidForm(true);
+      } else if (
+         isLogined &&
+         username &&
+         address &&
+         mobileNumber &&
+         !errorUsername &&
+         !errorAddress &&
          !errorMobile
       ) {
          setValidForm(true);
@@ -101,6 +115,8 @@ export default function ShippingForm({
       errorMobile,
       errorUsername,
       errorPassword,
+      errorAddress,
+      isLogined,
       email,
       password,
       username,
@@ -128,12 +144,6 @@ export default function ShippingForm({
    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setEmail(e.target.value);
    };
-
-   function checkEmail(email: string) {
-      const regex =
-         /^((([0-9A-Za-z]{1}[-0-9A-z]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/;
-      return regex.test(email);
-   }
 
    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value);
@@ -179,45 +189,6 @@ export default function ShippingForm({
       setMobileNumber(e.target.value);
    };
 
-   const registerUser = async (
-      email: string,
-      password: string,
-      username: string,
-      mobileNumber: string,
-      address: string
-   ): Promise<ApiResponse> => {
-      const response = await fetch(
-         `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/auth/register`,
-         {
-            headers: { 'Content-Type': 'application/json' },
-            method: 'POST',
-            body: JSON.stringify({
-               name: username,
-               email,
-               password,
-               phone: mobileNumber,
-               address
-            })
-         }
-      );
-      return await response.json();
-   };
-
-   const loginUser = async (
-      email: string,
-      password: string
-   ): Promise<ApiResponse> => {
-      const response = await fetch(
-         `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/auth/login`,
-         {
-            headers: { 'Content-Type': 'application/json' },
-            method: 'POST',
-            body: JSON.stringify({ email, password })
-         }
-      );
-      return await response.json();
-   };
-
    const createOrder = async (
       token: string,
       orderItems: ServerOrderData[]
@@ -254,33 +225,52 @@ export default function ShippingForm({
       }
 
       try {
-         // const registerResult = await registerUser(
-         //    email,
-         //    password,
-         //    username,
-         //    mobileNumber,
-         //    address
-         // );
-         // if ('access_token' in registerResult) {
-         //    localStorage.setItem(
-         //       'Shoppe_access_token',
-         //       registerResult.access_token
-         //    );
-         // } else {
-         //    console.error(
-         //       `Error ${registerResult.statusCode}: ${registerResult.message}`
-         //    );
-         //    setErrorSubmit(`${registerResult.message}`);
-         //    return;
-         // }
-
-         const loginResult = await loginUser(email, password);
-         if ('access_token' in loginResult) {
-            console.log('Access token:', loginResult.access_token);
-            localStorage.setItem(
-               'Shoppe_access_token',
-               loginResult.access_token
+         if (!isLogined) {
+            const registerResult = await register(
+               email,
+               password,
+               username,
+               mobileNumber,
+               address
             );
+            if (!registerResult.access_token) {
+               console.error(`Error: ${registerResult.message}`);
+               setErrorSubmit(`${registerResult.message}`);
+               return;
+            }
+         }
+
+         let loginResult;
+         if (!isLogined) {
+            loginResult = await login({ email, password });
+         } else if (auth?.jwt) {
+            loginResult = { access_token: auth.jwt };
+         } else {
+            loginResult = { message: 'Authorization token is missing.' };
+         }
+
+         if (loginResult && loginResult.access_token) {
+            Cookies.set('shoppe_jwt', loginResult.access_token, { expires: 7 });
+         }
+
+         if (loginResult.access_token) {
+            const currentProfile = await getProfile(loginResult.access_token);
+
+            if ('id' in currentProfile) {
+               const updateCurrentProfile = await updateProfile(
+                  loginResult.access_token,
+                  {
+                     email: currentProfile.email,
+                     name: currentProfile.name ? currentProfile.name : username,
+                     phone: currentProfile.phone
+                        ? currentProfile.phone
+                        : mobileNumber,
+                     address: currentProfile.address
+                        ? currentProfile.address
+                        : address
+                  }
+               );
+            }
 
             const orderItems = cart.map((item) => ({
                name: item.name,
@@ -300,7 +290,7 @@ export default function ShippingForm({
                   createdAt: orderResult.createdAt,
                   data: cart,
                   username: username,
-                  email,
+                  email: email || auth?.email,
                   address,
                   mobileNumber
                });
@@ -309,9 +299,7 @@ export default function ShippingForm({
                console.error('Error creating order:', orderResult);
             }
          } else {
-            console.error(
-               `Error ${loginResult.statusCode}: ${loginResult.message}`
-            );
+            console.error(`Error: ${loginResult.message}`);
             setErrorSubmit(`${loginResult.message}`);
          }
       } catch (error) {
@@ -326,13 +314,11 @@ export default function ShippingForm({
             className={styles['form']}
             onSubmit={handleFormSubmit}
          >
-            {!isLoginedStatus && (
+            {!isLogined && (
                <div className={styles['guest-user']}>
                   <div>
                      <label htmlFor="email" />
-                     {errorEmail && (
-                        <div className={styles.error}>{errorEmail}</div>
-                     )}
+                     {errorEmail && <div className={'error'}>{errorEmail}</div>}
                      <Input
                         placeholder="Your email*"
                         className={styles['input-element']}
@@ -346,7 +332,7 @@ export default function ShippingForm({
                   <div>
                      <label htmlFor="password" />
                      {errorPassword && (
-                        <div className={styles.error}>{errorPassword}</div>
+                        <div className={'error'}>{errorPassword}</div>
                      )}
                      <Input
                         placeholder="Your password*"
@@ -363,9 +349,7 @@ export default function ShippingForm({
 
             <div>
                <label htmlFor="address" />
-               {errorAddress && (
-                  <div className={styles.error}>{errorAddress}</div>
-               )}
+               {errorAddress && <div className={'error'}>{errorAddress}</div>}
                <Input
                   placeholder="Your address*"
                   className={styles['input-element']}
@@ -378,9 +362,7 @@ export default function ShippingForm({
 
             <div>
                <label htmlFor="username" />
-               {errorUsername && (
-                  <div className={styles.error}>{errorUsername}</div>
-               )}
+               {errorUsername && <div className={'error'}>{errorUsername}</div>}
                <Input
                   placeholder="Your name*"
                   className={styles['input-element']}
@@ -393,9 +375,7 @@ export default function ShippingForm({
 
             <div>
                <label htmlFor="mobileNumber" />
-               {errorMobile && (
-                  <div className={styles.error}>{errorMobile}</div>
-               )}
+               {errorMobile && <div className={'error'}>{errorMobile}</div>}
                <Input
                   placeholder="Your mobile number*"
                   className={styles['input-element']}
@@ -415,14 +395,12 @@ export default function ShippingForm({
             </div>
             <div>
                {(validationErrorMessage || noProductsErrorMessage) && (
-                  <div className={styles.error}>
+                  <div className={'error'}>
                      {validationErrorMessage}
                      {noProductsErrorMessage}
                   </div>
                )}
-               {errorSubmit && (
-                  <div className={styles.error}>{errorSubmit}</div>
-               )}
+               {errorSubmit && <div className={'error'}>{errorSubmit}</div>}
                <Button
                   text="SEND"
                   className={cn(styles.button, {

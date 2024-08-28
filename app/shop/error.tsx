@@ -12,7 +12,6 @@ type ErrorProps = {
 export default function Error({ error, reset }: ErrorProps) {
    useEffect(() => {
       console.error(error);
-      console.log(error);
    }, [error]);
 
    return (

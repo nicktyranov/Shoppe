@@ -33,8 +33,6 @@
    display: grid;
    grid-template-columns: repeat(3, 300px);
    gap: 15px 20px;
-
-   /* justify-content: space-around; */
 }
 
 .products-list {

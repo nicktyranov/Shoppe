@@ -27,15 +27,13 @@
    padding: 0;
 }
 
-/* img {
-   width: 100%;
-} */
+a {
+   text-decoration: none;
+}
 
 body {
    max-width: 1248px;
    margin: 0 auto !important;
-
-   /* почему-то не применяется к гриду на главной странице */
    padding: 0 10px;
 
    font-family: 'DM Sans', sans-serif;
@@ -45,4 +43,14 @@ body {
 
 button {
    cursor: pointer;
+}
+
+.error {
+   margin: 5px 0;
+   padding: 5px;
+
+   font-size: var(--font-14);
+   color: var(--color-white);
+
+   background-color: var(--color-error-2);
 }

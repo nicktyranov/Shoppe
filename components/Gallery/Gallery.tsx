@@ -1,9 +1,9 @@
 'use client';
 import { IGalleryProps } from './Gallery.props';
 import cn from 'classnames';
-import styles from './Gallery.module.css';
 import { MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import styles from './Gallery.module.css';
 
 export default function Gallery({
    images,
@@ -82,7 +82,6 @@ export default function Gallery({
       setActivePic(index);
    };
 
-   // setTimeout 200(!), else sliderWidth = 0
    useEffect(() => {
       const timeout = setTimeout(() => {
          if (sliderWrapperRef.current) {

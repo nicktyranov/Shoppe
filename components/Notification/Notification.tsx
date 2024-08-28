@@ -1,5 +1,4 @@
 'use client';
-import { INotificationProps } from './Notification.props';
 import Image from 'next/image';
 import iconSuccess from './icon-subscribtion.svg';
 import cn from 'classnames';
@@ -9,7 +8,7 @@ import styles from './Notification.module.css';
 export function showNotification(text: string, status?: boolean) {
    toast.custom(
       <div
-         className={cn(styles.email, {
+         className={cn(styles.message, {
             [styles.wrong]: !status
          })}
       >
@@ -23,13 +22,13 @@ export function showNotification(text: string, status?: boolean) {
          )}
          {text}
       </div>,
-      { position: 'bottom-center' }
+      {
+         position: 'bottom-center',
+         duration: 5000
+      }
    );
 }
 
-export default function Notification({
-   className,
-   ...props
-}: INotificationProps) {
-   return <div></div>;
+export default function Notification() {
+   return <></>;
 }

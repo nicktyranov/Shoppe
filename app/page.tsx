@@ -1,8 +1,8 @@
-import styles from './page.module.css';
 import Card from '@/components/Card/Card';
 import ImageSlider from '@/components/ImageSlider/ImageSlider';
-import { IGetProducts, IProductList } from '@/interfaces/interface.products';
+import { IProductList } from '@/interfaces/interface.products';
 import Link from 'next/link';
+import styles from './page.module.css';
 
 async function getProducts(): Promise<IProductList> {
    const limit = 6;
@@ -29,8 +29,6 @@ export default async function Home({}) {
 
    const pageData = products.products.slice(0, 6);
 
-   console.log(products.products.length);
-
    return (
       <>
          <ImageSlider />
@@ -48,7 +46,6 @@ export default async function Home({}) {
                   heading={product.name}
                   img={product.images[0]}
                   main={true}
-                  // isLiked={true}
                />
             ))}
          </div>

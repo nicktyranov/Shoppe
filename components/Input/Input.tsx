@@ -24,13 +24,15 @@ export default function Input({
             {...props}
          />
          {icon && (
-            <Image
-               src={iconArrow}
-               alt="search icon"
-               className={cn(styles.icon)}
-               height={19}
-               width={25}
-            />
+            <div className={styles['icon-wrapper']}>
+               <Image
+                  src={iconArrow}
+                  alt="search icon"
+                  className={cn(styles.icon)}
+                  height={19}
+                  width={25}
+               />
+            </div>
          )}
       </div>
    );

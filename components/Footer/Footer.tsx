@@ -1,4 +1,5 @@
 'use client';
+import { checkEmail } from '@/helpers/emailHelper';
 import { IFooterProps } from './Footer.props';
 import Image from 'next/image';
 import iconLinkedIn from './Icon linkedin.svg';
@@ -16,16 +17,20 @@ export default function Footer({ ...props }: IFooterProps) {
       setEmail(e.target.value);
    };
 
-   const checkEmail = () => {
-      function validateEmail(email: string) {
-         const re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-         return re.test(email);
-      }
-
-      if (email && validateEmail(email)) {
+   const handleEmailSubmit = () => {
+      if (email && checkEmail(email)) {
          showNotification('You have been successfully subscribed', true);
+         setEmail('');
       } else {
          showNotification('Invalid email address', false);
+      }
+   };
+
+   const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+         handleEmailSubmit();
+      } else {
+         return;
       }
    };
 
@@ -39,11 +44,12 @@ export default function Footer({ ...props }: IFooterProps) {
             </div>
             <Input
                className={styles.input}
-               onClick={checkEmail}
+               onClick={handleEmailSubmit}
                value={email}
                onChange={inputHandleChange}
                placeholder={'Enter your email for promotions'}
                icon
+               onKeyDown={(e) => keyDownHandler(e)}
             />
          </div>
 

@@ -12,8 +12,10 @@
       "stylelint": "stylelint \"**/*.css\" --fix"
    },
    "dependencies": {
+      "@tanstack/react-form": "^0.29.2",
       "classnames": "^2.5.1",
       "framer-motion": "^11.2.11",
+      "js-cookie": "^3.0.5",
       "next": "14.2.4",
       "rc-slider": "^10.6.2",
       "react": "^18",
@@ -23,6 +25,7 @@
       "swiper": "^11.1.4"
    },
    "devDependencies": {
+      "@types/js-cookie": "^3.0.6",
       "@types/node": "^20",
       "@types/react": "^18",
       "@types/react-dom": "^18",

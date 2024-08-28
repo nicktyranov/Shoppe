@@ -3,13 +3,12 @@ import { IFavoriteProps } from './Favorite.props';
 import cn from 'classnames';
 import icon from './like-icon.svg';
 import icon2 from './like-icon-colored.svg';
-import styles from './Favorite.module.css';
 import { useState } from 'react';
 import Image from 'next/image';
 import { useFavorites } from '../FavoritesContext/FavoritesContext';
+import styles from './Favorite.module.css';
 
 export default function Favorite({
-   // Liked,
    width,
    height,
    sku,

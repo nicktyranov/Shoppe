@@ -31,13 +31,6 @@
    margin-bottom: 15px;
 }
 
-.error {
-   padding: 5px;
-   font-size: var(--font-14);
-   color: var(--color-white);
-   background-color: var(--color-error-2);
-}
-
 .summary {
    padding: 20px;
    color: var(--color-black);
@@ -56,8 +49,8 @@
 
 .summary p:nth-child(2) {
    display: flex;
-   align-items: center;
    flex-direction: row;
+   align-items: center;
    justify-content: space-between;
 
    padding-top: 16px;

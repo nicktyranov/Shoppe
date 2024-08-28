@@ -3,8 +3,8 @@ import { ISelectProps } from './OnOffButton.props';
 import Image from 'next/image';
 import icon from './icon-on-off.svg';
 import cn from 'classnames';
-import styles from './OnOffButton.module.css';
 import { useState } from 'react';
+import styles from './OnOffButton.module.css';
 
 export default function OnOffButton({ className, ...props }: ISelectProps) {
    const [selected, setSelected] = useState(false);
