@@ -14,12 +14,15 @@ import { motion } from 'framer-motion';
 import styles from './Menu.module.css';
 import cn from 'classnames';
 import { useFavorites } from '../FavoritesContext/FavoritesContext';
+import { usePathname } from 'next/navigation';
+import { useAuth } from '../AuthContext/AuthContext';
 
 export default function Menu({}: IMenuProps) {
    const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
    const { favoriteList } = useFavorites();
+   const pathname = usePathname();
 
-   const isLogined = true;
+   const { isLogined } = useAuth();
    return (
       <div className={styles.wrapper}>
          <div className={styles.menu}>
@@ -35,18 +38,42 @@ export default function Menu({}: IMenuProps) {
                </Link>
             </div>
             <nav className={styles.nav}>
-               <Link href={'/shop'} className={styles.shop}>
+               <Link
+                  href={'/shop'}
+                  className={cn(styles.shop, {
+                     [styles.active]: pathname === '/shop'
+                  })}
+               >
                   Shop
                </Link>
-               <Link href={'/about'} className={styles.about}>
+               <Link
+                  href={'/about'}
+                  className={cn(styles.about, {
+                     [styles.active]: pathname === '/about'
+                  })}
+               >
                   About
                </Link>
+
+               <span className={styles.divider} />
+
                <Search isClicked={false} />
-               <Link href={'/cart'} className={styles.cart}>
+
+               <Link
+                  href={'/cart'}
+                  className={cn(styles.cart, {
+                     [styles.active]: pathname === '/cart'
+                  })}
+               >
                   <Cart />
                </Link>
+
                <Link href={'/favorites'}>
-                  <div className={styles['favorites-wrapper']}>
+                  <div
+                     className={cn(styles['favorites-wrapper'], {
+                        [styles.active]: pathname === '/favorites'
+                     })}
+                  >
                      <Image src={likeIcon} alt="favorites icon" />
                      <span
                         className={cn({
@@ -58,7 +85,13 @@ export default function Menu({}: IMenuProps) {
                      </span>
                   </div>
                </Link>
-               <Link href={'/user'} className={styles.user}>
+
+               <Link
+                  href={'/user'}
+                  className={cn(styles.user, {
+                     [styles.active]: pathname === '/user'
+                  })}
+               >
                   <Image src={userIcon} alt="user icon" />
                </Link>
             </nav>
@@ -67,7 +100,12 @@ export default function Menu({}: IMenuProps) {
             <div>
                <Image src={logo} alt="Logo" className={styles.logo} priority />
             </div>
-            <Link href={'/cart'} className={styles.cart}>
+            <Link
+               href={'/cart'}
+               className={cn(styles.cart, {
+                  [styles.active]: pathname === '/cart'
+               })}
+            >
                <Cart />
             </Link>
             <Image
@@ -85,17 +123,38 @@ export default function Menu({}: IMenuProps) {
                   transition={{ duration: 0.5 }}
                >
                   <nav className={styles['mobile-navigation']}>
-                     <Link href={'/shop'}>Main</Link>
-                     <Link href={'/shop'}>Shop</Link>
-                     <Link href={'/about'}>About</Link>
+                     <Link href={'/'}>Main</Link>
+                     <Link
+                        href={'/shop'}
+                        className={cn({
+                           [styles.activeMobile]: pathname === '/shop'
+                        })}
+                     >
+                        Shop
+                     </Link>
+                     <Link
+                        href={'/about'}
+                        className={cn({
+                           [styles.activeMobile]: pathname === '/about'
+                        })}
+                     >
+                        About
+                     </Link>
                      <hr />
-                     <Link href={'/user'} className={styles['link-with-icon']}>
+                     <Link
+                        href={'/user'}
+                        className={cn(styles['link-with-icon'], {
+                           [styles.activeMobile]: pathname === '/user'
+                        })}
+                     >
                         <Image src={userIcon} alt="user icon" />
                         <p>My account</p>
                      </Link>
                      <Link
                         href={'/favorites'}
-                        className={styles['link-with-icon']}
+                        className={cn(styles['link-with-icon'], {
+                           [styles.activeMobile]: pathname === '/favorites'
+                        })}
                      >
                         <Image src={likeIcon} alt="favorites icon" />
                         <p>My favorites</p>
