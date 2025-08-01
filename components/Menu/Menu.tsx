@@ -98,7 +98,14 @@ export default function Menu({}: IMenuProps) {
          </div>
          <div className={styles['mobile-menu']}>
             <div>
-               <Image src={logo} alt="Logo" className={styles.logo} priority />
+               <Link href={'/'}>
+                  <Image
+                     src={logo}
+                     alt="Logo"
+                     className={styles.logo}
+                     priority
+                  />
+               </Link>
             </div>
             <Link
                href={'/cart'}

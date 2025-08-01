@@ -37,6 +37,13 @@ export default function Search({
    );
 
    const handleInputQuery = () => {
+      if (pathname !== '/shop') {
+         return router.push(
+            '/shop?page=1&per_page=6' +
+               '&' +
+               createQueryString('name', inputSearch)
+         );
+      }
       inputSearch &&
          router.push(pathname + '?' + createQueryString('name', inputSearch));
       !inputSearch &&
@@ -48,6 +55,11 @@ export default function Search({
          handleInputQuery();
       }
    };
+
+   useEffect(() => {
+      const nameParam = searchParams.get('name') || '';
+      setInputSearch(nameParam);
+   }, [searchParams]);
 
    return (
       <div
@@ -73,7 +85,7 @@ export default function Search({
                <input
                   className={styles.input}
                   type="text"
-                  placeholder="Поиск"
+                  placeholder="Search"
                   value={inputSearch}
                   onChange={(e) => setInputSearch(e.currentTarget.value)}
                   onKeyDown={handleKeyDown}
