@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from '@/components/Button/Button';
 import Counter from '@/components/Counter/Counter';
 import { IAddToCartProps } from './AddToCart.props';
-import { useCart } from '../CartContext/CartContext';
+import { CartItem, useCart } from '../CartContext/CartContext';
 import { useAddToCart } from '../Cart/CartFunction';
 import cn from 'classnames';
 import styles from './AddToCart.module.css';
@@ -12,11 +12,34 @@ import styles from './AddToCart.module.css';
 export default function AddToCart({
    productName,
    productSKU,
-   productPrice
+   productPrice,
+   data
 }: IAddToCartProps) {
-   const [quantity, setQuantity] = useState(1);
    const addToCart = useAddToCart();
-   const { cart } = useCart();
+   const { cart, updateCart } = useCart();
+   const [quantity, setQuantity] = useState(
+      cart.find((item) => item.sku === productSKU)?.amount || 1
+   );
+
+   const previousCartRef = useRef<CartItem[]>(cart);
+
+   const handleQuantityChange = (newQuantity: number) => {
+      setQuantity(newQuantity);
+      if (data) {
+         const updatedCart = cart.map((item) =>
+            item.sku === data.sku.toString()
+               ? { ...item, amount: newQuantity }
+               : item
+         );
+         if (
+            JSON.stringify(updatedCart) !==
+            JSON.stringify(previousCartRef.current)
+         ) {
+            updateCart(updatedCart);
+            previousCartRef.current = updatedCart;
+         }
+      }
+   };
 
    useEffect(() => {
       const product = cart.find((item) => item.sku === productSKU);
@@ -30,7 +53,7 @@ export default function AddToCart({
          <Counter
             className={styles['button']}
             amount={quantity}
-            onChange={setQuantity}
+            onChange={handleQuantityChange}
          />
          <Button
             text="Add to the cart"

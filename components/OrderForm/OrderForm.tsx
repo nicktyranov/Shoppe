@@ -7,6 +7,7 @@ import icon from './iconCross.svg';
 import Image from 'next/image';
 import cn from 'classnames';
 import styles from './OrderForm.module.css';
+import Link from 'next/link';
 
 export default function OrderForm({ data, amount }: IOrderFormProps) {
    const [quantity, setQuantity] = useState(amount || 1);
@@ -46,7 +47,9 @@ export default function OrderForm({ data, amount }: IOrderFormProps) {
                />
             </div>
             <div className={styles['product-info']}>
-               <h2>{data.name}</h2>
+               <Link href={`/shop/${data.sku}`}>
+                  <h2>{data.name}</h2>{' '}
+               </Link>
                <p>${data.price}</p>
             </div>
 

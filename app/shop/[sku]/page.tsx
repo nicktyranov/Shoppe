@@ -104,6 +104,7 @@ export default async function Product({
                      productName={data.name}
                      productPrice={data.price}
                      productSKU={data.sku.toString()}
+                     data={data}
                   />
                </div>
                <div className={styles['icons']}>
