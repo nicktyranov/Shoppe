@@ -1,6 +1,7 @@
 import { ICheckBoxProps } from './CheckBox.props';
 import cn from 'classnames';
 import styles from './CheckBox.module.css';
+import { useId } from 'react';
 
 export default function CheckBox({
    text,
@@ -9,16 +10,18 @@ export default function CheckBox({
    onChange,
    ...props
 }: ICheckBoxProps) {
+   const id = useId();
    return (
       <div className={cn(styles['wrapper'], className)}>
          <input
+            id={id}
             className={styles.checkbox}
             type="checkbox"
             checked={checked}
             onChange={onChange}
             {...props}
          />
-         <p>{text}</p>
+         <label htmlFor={id}>{text}</label>
       </div>
    );
 }

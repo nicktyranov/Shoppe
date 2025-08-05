@@ -13,6 +13,13 @@ import { checkEmail } from '@/helpers/emailHelper';
 import { useForm } from '@tanstack/react-form';
 import styles from './LoginForm.module.css';
 
+const serverErrorsEN = {
+   'Неверный логин или пароль': 'Invalid email or password',
+   'Пользователь с таким email уже существует':
+      'User with this email already exists',
+   'Пользователь с таким email не найден': 'User with this email not found'
+};
+
 export default function LoginForm() {
    const [errorSubmit, setErrorSubmit] = useState('');
    const [isLoading, setIsLoading] = useState(false);
@@ -273,10 +280,24 @@ export default function LoginForm() {
 
                <div>
                   {errorSubmit && (
-                     <div className={'error'}>{`${errorSubmit}`}</div>
+                     <div className="error">
+                        {serverErrorsEN[
+                           errorSubmit as keyof typeof serverErrorsEN
+                        ] ?? errorSubmit}
+                     </div>
                   )}
                   {form.state.errors.length > 0 && (
-                     <div className={'error'}>{`${form.state.errors}`}</div>
+                     <div className={'error'}>
+                        {(() => {
+                           const key = form.state.errors[0];
+                           if (key && key in serverErrorsEN) {
+                              return serverErrorsEN[
+                                 key as keyof typeof serverErrorsEN
+                              ];
+                           }
+                           return form.state.errors.join(', ');
+                        })()}
+                     </div>
                   )}
                   <form.Subscribe selector={(state) => state.errors}>
                      {(errors) => (

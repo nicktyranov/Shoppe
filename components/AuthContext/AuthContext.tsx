@@ -74,10 +74,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    }, []);
 
    useEffect(() => {
-      console.log(`isLogined - ${isLogined}`);
-   }, [isLogined]);
-
-   useEffect(() => {
       const checkAuth = () => {
          if (
             (auth?.expiredAt && auth?.expiredAt > new Date().getTime()) ||
@@ -208,7 +204,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
          return handleApiResponse(response);
       } catch (error) {
-         console.error('Network error:', error);
          return { message: 'Network error' };
       }
    };
