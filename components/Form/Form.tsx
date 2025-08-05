@@ -49,8 +49,8 @@ export default function Form({
 
    useEffect(() => {
       if (auth) {
-         setEmail(auth.email);
-         setUsername(auth.email);
+         setEmail(auth.email ?? '');
+         setUsername(auth.email ?? '');
       }
       if (auth && auth.userName) {
          setUsername(auth.userName);
@@ -61,19 +61,18 @@ export default function Form({
       const savedData = localStorage.getItem('shoppe-form-1');
       if (savedData) {
          const data = JSON.parse(savedData);
-         setUsername(data.username);
-         setEmail(data.email);
+         setUsername(data.username ?? '');
+         setEmail(data.email ?? '');
       }
    }, []);
 
    useEffect(() => {
-      if (email.length < 1) {
-         return;
-      }
-      if (checkEmail(email)) {
-         setErrorEmail('');
-      } else {
-         setErrorEmail('Invalid email. Try again');
+      if (email.length > 1) {
+         if (checkEmail(email)) {
+            setErrorEmail('');
+         } else {
+            setErrorEmail('Invalid email. Try again');
+         }
       }
    }, [email]);
 
