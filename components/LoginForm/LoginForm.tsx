@@ -303,8 +303,17 @@ export default function LoginForm() {
                   {form.state.errors.length > 0 && (
                      <div className={'error'}>
                         {(() => {
-                           const key = form.state.errors[0];
-                           if (key && key in serverErrorsEN) {
+                           const key = form.state.errors[0] as
+                              | string
+                              | undefined;
+
+                           if (
+                              key &&
+                              Object.prototype.hasOwnProperty.call(
+                                 serverErrorsEN,
+                                 key
+                              )
+                           ) {
                               return serverErrorsEN[
                                  key as keyof typeof serverErrorsEN
                               ];
