@@ -34,6 +34,14 @@ export default function LoginForm() {
          password2: '',
          checkbox: false
       },
+      validators: {
+         onSubmit: ({ value }) => {
+            if (value.password !== value.password2) {
+               return ['Passwords do not match'];
+            }
+            return [];
+         }
+      },
       onSubmit: async ({ value }) => {
          setIsLoading(true);
 
@@ -82,6 +90,12 @@ export default function LoginForm() {
          setIsLoading(false);
       }
    }, [isLogined, router, errorSubmit]);
+
+   useEffect(() => {
+      if (clickedTab) {
+         setErrorSubmit('');
+      }
+   }, [clickedTab]);
 
    const handleTabClick = (
       tabNumber: number,

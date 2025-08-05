@@ -47,7 +47,14 @@
    box-shadow: none;
 }
 
-.icon-wrapper {
+.icon-wrapper,
+.icon-wrapper img {
    display: flex;
    align-items: center;
+   cursor: pointer;
+   transition: transform 0.3s ease-in-out;
+}
+
+.icon-wrapper img:hover {
+   transform: scale(1.1);
 }

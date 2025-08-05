@@ -55,13 +55,15 @@ export default function Footer({ ...props }: IFooterProps) {
 
          <div className={styles['contact-info']}>
             <p>&#169; {new Date().getFullYear()} Shoppe </p>
-            <Image
-               src={iconLinkedIn}
-               alt="search icon"
-               className={cn('styles.icon')}
-               height={18}
-               width={18}
-            />
+            <Link href="https://www.linkedin.com/in/ntyranov/" target="_blank">
+               <Image
+                  src={iconLinkedIn}
+                  alt="search icon"
+                  className={cn('styles.icon')}
+                  height={18}
+                  width={18}
+               />
+            </Link>
          </div>
       </div>
    );
