@@ -1,4 +1,6 @@
 .wrapper {
+   cursor: pointer;
+
    display: flex;
    gap: 5px;
    align-items: center;
@@ -7,7 +9,6 @@
    font-weight: 400;
    line-height: 16px;
    color: var(--color-gray-dark);
-   cursor: pointer;
 }
 
 .wrapper label {
@@ -16,6 +17,7 @@
 
 .checkbox {
    position: relative;
+
    width: 18px;
    height: 18px;
 

@@ -36,11 +36,12 @@
 
 .product-info,
 .product-info a {
-   color: var(--color-black);
    display: flex;
    grid-area: info;
    flex-direction: column;
    gap: 5px;
+
+   color: var(--color-black);
 }
 
 .product-info h2 {
