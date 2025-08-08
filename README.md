@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🛒 Shoppe
 
-## Getting Started
+**Shoppe** is a modern e-commerce web application built with **Next.js**, **TypeScript**, and **React**.  
+It provides a smooth shopping experience with a cart, favorites, checkout process, and responsive UI.  
+The project includes **unit & integration tests** to ensure stability and maintainability.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Live Demo
+
+🔗 **[View Live on Vercel](shoppe-gamma.vercel.app) **
+
+![Shoppe Screenshot](docs/screenshot.png)
+SOON...
+
+---
+
+## ✨ Features
+
+-  🛍 **Product Catalog** — browse available products
+-  🛒 **Shopping Cart** — add, remove, update quantities
+-  ❤️ **Favorites** — save items for later
+-  📦 **Order Checkout** — shipping form & order summary
+-  ✅ **Form Validation** — with real-time feedback
+-  📱 **Responsive Design** — works on desktop & mobile
+-  🧪 **Unit & Integration Tests** — powered by Jest & RTL
+
+---
+
+## 🛠 Tech Stack
+
+-  **Next.js** — SSR, SSG, and API routes
+-  **React 18 + Hooks** — UI rendering and interactivity
+-  **TypeScript** — strict typing and scalability
+-  **Context API** — global state management
+-  **Jest + React Testing Library** — test automation
+-  **ESLint + Prettier** — linting and code formatting
+-  **CSS Modules / TailwindCSS** (adjust based on your project)
+
+---
+
+## 📂 Project Structure
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+components/       # Reusable UI components
+pages/            # Next.js routes
+context/          # Global state management
+hooks/            # Custom React hooks
+helpers/          # Utility functions
+**tests**/        # Unit & integration tests
+public/           # Static assets
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## ⚙️ Installation & Running Locally
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/shoppe.git
+   cd shoppe
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+````
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. **Install dependencies**
 
-## Deploy on Vercel
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Create `.env.local`**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:3000/api
+   ```
+
+4. **Run development server**
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Open in browser**
+
+   ```
+   http://localhost:3000
+   ```
+
+---
+
+## 🧪 Testing
+
+Run all tests:
+
+```bash
+npm run test
+```
+
+Run tests with coverage:
+
+```bash
+npm run test:cov
+```
+
+Current coverage: **\~40%**
+Goal: **70%+** in the next releases.
+
+---
+
+## 📌 Roadmap
+
+* [ ] Improve test coverage to 70%+
+* [ ] Update `README.md` with screenshots and usage examples
+
+---
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+MIT License
+
+```
+```
+````
