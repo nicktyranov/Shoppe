@@ -54,6 +54,7 @@ export default function AddToCart({
             className={styles['button']}
             amount={quantity}
             onChange={handleQuantityChange}
+            data-testid="add-to-cart-counter"
          />
          <Button
             text="Add to the cart"
@@ -66,6 +67,7 @@ export default function AddToCart({
                   name: productName
                })
             }
+            data-testid="add-to-cart-button"
          />
       </div>
    );

@@ -9,7 +9,9 @@
       "export": "next export",
       "start": "next start",
       "lint": "next lint",
-      "stylelint": "stylelint \"**/*.css\" --fix"
+      "stylelint": "stylelint \"**/*.css\" --fix",
+      "test": "jest --watch",
+      "test:cov": "jest --coverage"
    },
    "dependencies": {
       "@tanstack/react-form": "^1.15.1",
@@ -25,17 +27,25 @@
       "swiper": "^11.1.4"
    },
    "devDependencies": {
+      "@testing-library/jest-dom": "^6.6.4",
+      "@testing-library/react": "^16.3.0",
+      "@testing-library/user-event": "^14.6.1",
+      "@types/jest": "^30.0.0",
       "@types/js-cookie": "^3.0.6",
       "@types/node": "^20",
       "@types/react": "^18",
       "@types/react-dom": "^18",
       "eslint": "^8",
       "eslint-config-next": "14.2.4",
+      "jest": "^30.0.5",
+      "jest-environment-jsdom": "^30.0.5",
       "realfavicon": "^0.4.18",
       "stylelint": "^16.6.1",
       "stylelint-config-clean-order": "^6.0.0",
       "stylelint-config-standard": "^36.0.1",
       "stylelint-order": "^6.0.4",
+      "ts-jest": "^29.4.1",
+      "ts-node": "^10.9.2",
       "typescript": "^5"
    }
 }

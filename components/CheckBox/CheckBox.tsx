@@ -19,6 +19,7 @@ export default function CheckBox({
             type="checkbox"
             checked={checked}
             onChange={onChange}
+            data-testid="checkbox-input"
             {...props}
          />
          <label htmlFor={id}>{text}</label>
