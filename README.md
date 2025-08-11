@@ -8,7 +8,7 @@ The project includes **unit & integration tests** to ensure stability and mainta
 
 ## 🚀 Live Demo
 
-🔗 **[View Live on Vercel](shoppe-gamma.vercel.app) **
+🔗 **shoppe-gamma.vercel.app**
 
 ![Shoppe Screenshot](docs/screenshot.png)
 SOON...
@@ -57,13 +57,12 @@ public/           # Static assets
 
 ## ⚙️ Installation & Running Locally
 
+````bash
 1. **Clone the repository**
    ```bash
    git clone https://github.com/yourusername/shoppe.git
    cd shoppe
    ```
-
-````
 
 2. **Install dependencies**
 
@@ -90,6 +89,7 @@ public/           # Static assets
    ```
    http://localhost:3000
    ```
+````
 
 ---
 
@@ -107,15 +107,13 @@ Run tests with coverage:
 npm run test:cov
 ```
 
-Current coverage: **\~40%**
-Goal: **70%+** in the next releases.
+Current coverage: **\~76%**
 
 ---
 
 ## 📌 Roadmap
 
-* [ ] Improve test coverage to 70%+
-* [ ] Update `README.md` with screenshots and usage examples
+-  [ ] Update `README.md` with screenshots and usage examples
 
 ---
 
@@ -130,8 +128,9 @@ Goal: **70%+** in the next releases.
 ---
 
 ## 📄 License
+
 MIT License
 
 ```
+
 ```
-````

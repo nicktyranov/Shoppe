@@ -58,12 +58,14 @@ export default function OrderForm({ data, amount }: IOrderFormProps) {
                   className={styles['button']}
                   amount={quantity}
                   onChange={handleQuantityChange}
+                  data-testid="orderForm: counter"
                />
             </div>
 
             <button
                onClick={() => handleDelete(data.sku)}
                className={styles['delete-btn']}
+               data-testid="button-delete"
             >
                <Image src={icon} alt="delete icon" />
             </button>

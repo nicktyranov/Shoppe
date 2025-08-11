@@ -244,7 +244,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const useAuth = () => {
    const context = useContext(AuthContext);
    if (!context) {
-      throw new Error('useCart must be used within an AuthContext.Provider');
+      throw new Error('useAuth must be used within an AuthContext.Provider');
    }
    return context;
 };

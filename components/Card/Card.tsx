@@ -73,6 +73,7 @@ export default function Card({
                         price: Number(price)
                      })
                   }
+                  data-testid="addToCart"
                >
                   <Image
                      src={iconCart}

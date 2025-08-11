@@ -33,7 +33,6 @@ export default function CartList({ className, ...props }: ICartListProps) {
             setServerData(res);
             setError(null);
          } catch (e) {
-            console.error(e);
             setError('Failed to load products');
          }
       };
