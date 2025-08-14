@@ -11,6 +11,7 @@ import styles from './PasswordRecovery.module.css';
 export default function PasswordRecovery() {
    const [email, setEmail] = useState('');
    const [errorEmail, setErrorEmail] = useState('');
+   const [errorSubmit, setErrorSubmit] = useState(false);
    const [validForm, setValidForm] = useState(true);
    const { restorePassword } = useAuth();
 
@@ -48,7 +49,7 @@ export default function PasswordRecovery() {
          }
          return response;
       } catch (error) {
-         console.log(error);
+         setErrorSubmit(true);
       }
    };
 
@@ -78,6 +79,12 @@ export default function PasswordRecovery() {
                   })}
                   onClick={(e) => handleButtonClick(e)}
                />
+               {errorSubmit && (
+                  <div className="error">
+                     There is an error with your request. Please try again
+                     later.
+                  </div>
+               )}
             </div>
          </form>
       </div>

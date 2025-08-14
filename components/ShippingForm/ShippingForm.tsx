@@ -11,25 +11,14 @@ import Cookies from 'js-cookie';
 import { checkEmail } from '@/helpers/emailHelper';
 import styles from './ShippingForm.module.css';
 
-export type ErrorResponse = {
-   statusCode: number;
-   message: string;
-   error: string;
-};
-
-export type SuccessResponse = {
-   access_token: string;
-};
-
-export type ApiResponse = ErrorResponse | SuccessResponse;
-
-type ErrorResponseCreateOrder = {
+// types for createOrder
+export type ErrorResponseCreateOrder = {
    message: string[];
    error: string;
    statusCode: number;
 };
 
-type SuccessResponseCreateOrder = {
+export type SuccessResponseCreateOrder = {
    id: number;
    userId: number;
    status: string;
@@ -47,6 +36,9 @@ type ApiResponseCreateOrder =
    | ErrorResponseCreateOrder
    | SuccessResponseCreateOrder;
 
+const isAuthError = (r: unknown): r is { message: string } =>
+   !!r && typeof (r as any).message === 'string';
+
 export default function ShippingForm({
    className,
    placeholder,
@@ -59,19 +51,22 @@ export default function ShippingForm({
    const [address, setAddress] = useState('');
    const [mobileNumber, setMobileNumber] = useState('');
    const [, setSubmitBtn] = useState(false);
+
    const [errorUsername, setErrorUsername] = useState('');
    const [errorEmail, setErrorEmail] = useState('');
    const [errorPassword, setErrorPassword] = useState('');
    const [errorAddress, setErrorAddress] = useState('');
    const [errorMobile, setErrorMobile] = useState('');
    const [errorSubmit, setErrorSubmit] = useState('');
+
    const [validForm, setValidForm] = useState(true);
    const formRef = useRef<HTMLFormElement>(null);
+
    const { cart, totalCost } = useCart();
+   const { addOrder } = useOrders();
+
    const { auth, register, login, getProfile, updateProfile, isLogined } =
       useAuth();
-
-   const { addOrder } = useOrders();
 
    useEffect(() => {
       if (validForm && cart.length > 0) {
@@ -110,7 +105,6 @@ export default function ShippingForm({
          setValidForm(false);
       }
    }, [
-      validForm,
       errorEmail,
       errorMobile,
       errorUsername,
@@ -131,25 +125,19 @@ export default function ShippingForm({
    }, [totalCost]);
 
    useEffect(() => {
-      if (email.length < 1) {
-         return;
-      }
-      if (checkEmail(email)) {
-         setErrorEmail('');
-      } else {
-         setErrorEmail('Invalid email. Try again');
-      }
+      if (email.length < 1) return;
+      setErrorEmail(checkEmail(email) ? '' : 'Invalid email. Try again');
    }, [email]);
 
-   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) =>
       setEmail(e.target.value);
-   };
 
    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPassword(e.target.value);
-      if (e.target.value.length < 5) {
+      const v = e.target.value;
+      setPassword(v);
+      if (v.length < 6) {
          setErrorPassword(
-            'Your password is too short. At least 6 characters long '
+            'Your password is too short. At least 6 characters long'
          );
       } else {
          setErrorPassword('');
@@ -157,12 +145,13 @@ export default function ShippingForm({
    };
 
    const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.value.length < 4) {
+      const v = e.target.value;
+      if (v.length < 4) {
          setErrorAddress('Address must be at least 4 characters long');
       } else {
          setErrorAddress('');
       }
-      setAddress(e.target.value);
+      setAddress(v);
    };
 
    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -226,84 +215,89 @@ export default function ShippingForm({
 
       try {
          if (!isLogined) {
-            const registerResult = await register(
+            const registerResult = await register({
                email,
                password,
                username,
                mobileNumber,
                address
-            );
-            if (!registerResult.access_token) {
-               console.error(`Error: ${registerResult.message}`);
-               setErrorSubmit(`${registerResult.message}`);
+            });
+
+            if (isAuthError(registerResult)) {
+               setErrorSubmit(registerResult.message);
                return;
             }
          }
 
-         let loginResult;
+         let authResult: { access_token: string } | { message: string };
          if (!isLogined) {
-            loginResult = await login({ email, password });
+            authResult = await login({ email, password });
          } else if (auth?.jwt) {
-            loginResult = { access_token: auth.jwt };
+            authResult = { access_token: auth.jwt };
          } else {
-            loginResult = { message: 'Authorization token is missing.' };
+            authResult = { message: 'Authorization token is missing.' };
          }
 
-         if (loginResult && loginResult.access_token) {
-            Cookies.set('shoppe_jwt', loginResult.access_token, { expires: 7 });
+         if (isAuthError(authResult)) {
+            setErrorSubmit(authResult.message);
+            return;
          }
 
-         if (loginResult.access_token) {
-            const currentProfile = await getProfile(loginResult.access_token);
+         const token = authResult.access_token;
+         Cookies.set('shoppe_jwt', token, { expires: 7 });
 
-            if ('id' in currentProfile) {
-               const updateCurrentProfile = await updateProfile(
-                  loginResult.access_token,
-                  {
-                     email: currentProfile.email,
-                     name: currentProfile.name ? currentProfile.name : username,
-                     phone: currentProfile.phone
-                        ? currentProfile.phone
-                        : mobileNumber,
-                     address: currentProfile.address
-                        ? currentProfile.address
-                        : address
-                  }
-               );
-            }
+         const currentProfile = await getProfile(token);
+         if (!isAuthError(currentProfile)) {
+            const patchedProfile = {
+               email: currentProfile.email ?? email,
+               name:
+                  currentProfile.name && currentProfile.name.trim().length > 0
+                     ? currentProfile.name
+                     : username,
+               phone:
+                  currentProfile.phone && currentProfile.phone.trim().length > 0
+                     ? currentProfile.phone
+                     : mobileNumber,
+               address:
+                  currentProfile.address &&
+                  currentProfile.address.trim().length > 0
+                     ? currentProfile.address
+                     : address,
+               id: currentProfile.id,
+               restoreToken: currentProfile.restoreToken
+            };
 
-            const orderItems = cart.map((item) => ({
-               name: item.name,
-               count: item.amount,
-               price: item.price
-            }));
-            const orderResult = await createOrder(
-               loginResult.access_token,
-               orderItems
+            await updateProfile(patchedProfile, token);
+         }
+
+         const orderItems = cart.map((item) => ({
+            name: item.name,
+            count: item.amount,
+            price: item.price
+         }));
+         const orderResult = await createOrder(token, orderItems);
+
+         if ('id' in orderResult) {
+            addOrder({
+               id: orderResult.id,
+               userId: orderResult.userId,
+               status: orderResult.status,
+               createdAt: orderResult.createdAt,
+               data: cart,
+               username,
+               email: email || auth?.email,
+               address,
+               mobileNumber
+            });
+            setIsOrderSuccess(true);
+         } else {
+            setErrorSubmit(
+               orderResult.message?.[0] ?? 'Failed to create order'
             );
-            if ('id' in orderResult) {
-               console.log('Order created successfully:', orderResult);
-               addOrder({
-                  id: orderResult.id,
-                  userId: orderResult.userId,
-                  status: orderResult.status,
-                  createdAt: orderResult.createdAt,
-                  data: cart,
-                  username: username,
-                  email: email || auth?.email,
-                  address,
-                  mobileNumber
-               });
-               setIsOrderSuccess(true);
-            } else {
-               console.error('Error creating order:', orderResult);
-            }
-         } else {
-            console.error(`Error: ${loginResult.message}`);
-            setErrorSubmit(`${loginResult.message}`);
          }
       } catch (error) {
          console.error('Error handling form submission:', error);
+         setErrorSubmit('Unexpected error. Please try again');
       }
    };
 
@@ -393,6 +387,7 @@ export default function ShippingForm({
                   <span>${totalCost}</span>
                </p>
             </div>
+
             <div>
                {(validationErrorMessage || noProductsErrorMessage) && (
                   <div className={'error'}>
@@ -403,6 +398,7 @@ export default function ShippingForm({
                {errorSubmit && <div className={'error'}>{errorSubmit}</div>}
                <Button
                   text="SEND"
+                  type="submit"
                   className={cn(styles.button, {
                      [styles['button-disabled']]: !validForm || cart.length < 1
                   })}
