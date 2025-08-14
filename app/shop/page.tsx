@@ -56,7 +56,7 @@ export default async function Shop({
 
    return (
       <div className={styles.wrapper}>
-         <h1 className={styles.h1}>Каталог товаров</h1>
+         <h1 className={styles.h1}>All products</h1>
          <div className={styles.body}>
             <Filter className={styles.filter} />
             <div className={styles['pagination-list']}>

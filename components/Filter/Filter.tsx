@@ -97,7 +97,6 @@ export default function Filter({ className, ...props }: IFilterProps) {
 
    const handleFilterChange = () => {
       let url = getCurrentUrlWithParams();
-      console.log(url);
    };
 
    const categoryTranslations: Record<string, string> = {
