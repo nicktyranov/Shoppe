@@ -10,8 +10,43 @@ The project includes **unit & integration tests** to ensure stability and mainta
 
 🔗 **shoppe-gamma.vercel.app**
 
-![Shoppe Screenshot](docs/screenshot.png)
-SOON...
+## 📷 🖼 Screenshots & UI Preview
+
+### 1. Main Page
+
+![Main Page](https://github.com/user-attachments/assets/0c428d86-a526-4646-9762-de87d8abcfec)
+
+### 2. Main Page (continue)
+
+![Main Page (continue)](https://github.com/user-attachments/assets/aad9d958-e408-4b45-8cb4-edba2643a2ec)
+
+### 3. Product Catalog
+
+![Product Catalog](https://github.com/user-attachments/assets/770278f8-56a7-42cf-bf9e-b9779a04fec0)
+
+### 4. Product Catalog: Card
+
+![Product Catalog: Card](https://github.com/user-attachments/assets/bbd194d5-e0d9-400b-b2d9-9167e8cee819)
+
+### 5. Product page
+
+![Product Info](https://github.com/user-attachments/assets/74e5052f-78ca-4a9b-b0d8-3ae8f2e3c109)
+
+### 6. Страница товара (вариант 2)
+
+![Product Info (continue)](https://github.com/user-attachments/assets/14bc2acb-9497-4677-bc8c-e04d24fa1b37)
+
+### 7. Cart
+
+![Cart](https://github.com/user-attachments/assets/1b142e3a-bb5c-4be3-8c98-c0ae32f7e55a)
+
+### 8. Favorites
+
+![Favorites](https://github.com/user-attachments/assets/ce6f020a-5b84-426f-9063-47d0c4b44334)
+
+### 9. Login Page
+
+![Login Page](https://github.com/user-attachments/assets/ba8ac030-f0e0-43a1-acaa-984dd79e6574)
 
 ---
 
@@ -95,6 +130,11 @@ public/           # Static assets
 
 ## 🧪 Testing
 
+Stack: **Jest** + **React Testing Library**.
+
+-  Unit & integration tests for components, hooks and context
+-  Coverage reports available
+
 Run all tests:
 
 ```bash
@@ -108,12 +148,6 @@ npm run test:cov
 ```
 
 Current coverage: **\~76%**
-
----
-
-## 📌 Roadmap
-
--  [ ] Update `README.md` with screenshots and usage examples
 
 ---
 
