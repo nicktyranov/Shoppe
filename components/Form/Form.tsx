@@ -39,59 +39,55 @@ export default function Form({
    const { auth } = useAuth();
 
    function setData() {
-      const data = {
-         username,
-         email
-      };
+      if (!checkbox) return;
+      const data = { username, email };
       localStorage.setItem('shoppe-form-1', JSON.stringify(data));
       setStorage(JSON.stringify(data));
    }
 
    useEffect(() => {
-      if (auth) {
-         setEmail(auth.email ?? '');
-         setUsername(auth.email ?? '');
-      }
-      if (auth && auth.userName) {
-         setUsername(auth.userName);
-      }
+      if (!auth) return;
+      const emailFromAuth = auth.email ?? '';
+      const nameFromEmail = emailFromAuth ? emailFromAuth.split('@')[0] : '';
+      setEmail((prev) => (prev ? prev : emailFromAuth));
+      setUsername((prev) => (prev ? prev : nameFromEmail));
    }, [auth]);
 
    useEffect(() => {
       const savedData = localStorage.getItem('shoppe-form-1');
       if (savedData) {
-         const data = JSON.parse(savedData);
-         setUsername(data.username ?? '');
-         setEmail(data.email ?? '');
+         try {
+            const data = JSON.parse(savedData);
+            if (typeof data?.username === 'string') setUsername(data.username);
+            if (typeof data?.email === 'string') setEmail(data.email);
+         } catch {
+            // ignore broken saved data
+         }
       }
    }, []);
 
    useEffect(() => {
       if (email.length > 1) {
-         if (checkEmail(email)) {
-            setErrorEmail('');
-         } else {
-            setErrorEmail('Invalid email. Try again');
-         }
+         setErrorEmail(checkEmail(email) ? '' : 'Invalid email. Try again');
+      } else {
+         setErrorEmail('');
       }
    }, [email]);
 
    const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setText(e.target.value);
-      if (e.target.value.length < 10) {
-         setErrorText('Your text is too short. Add more details, please');
-      } else {
-         setErrorText('');
-      }
+      const v = e.target.value;
+      setText(v);
+      setErrorText(
+         v.length < 10 ? 'Your text is too short. Add more details, please' : ''
+      );
    };
 
-   const handleChengeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.value.length < 4) {
-         setErrorName('Name must be at least 4 characters long');
-      } else {
-         setErrorName('');
-      }
-      setUsername(e.target.value);
+   const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const v = e.target.value;
+      setUsername(v);
+      setErrorName(
+         v.length < 4 ? 'Name must be at least 4 characters long' : ''
+      );
    };
 
    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,6 +96,7 @@ export default function Form({
 
    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+
       if (
          username &&
          email &&
@@ -117,9 +114,7 @@ export default function Form({
             const response = await fetch(
                `${process.env.NEXT_PUBLIC_DOMAIN}/api-demo/products/sku/${sku}/review`,
                {
-                  headers: {
-                     'Content-Type': 'application/json'
-                  },
+                  headers: { 'Content-Type': 'application/json' },
                   method: 'POST',
                   body: JSON.stringify({
                      name: username,
@@ -167,6 +162,7 @@ export default function Form({
          <p className={styles['info']}>
             Your email will not be published. Required fields are marked *
          </p>
+
          <form
             ref={formRef}
             className={styles['form']}
@@ -178,7 +174,7 @@ export default function Form({
                <textarea
                   name="review"
                   placeholder="Your review*"
-                  className={(styles['input-element'], styles.textarea)}
+                  className={cn(styles['input-element'], styles.textarea)}
                   id="review"
                   value={text}
                   onChange={handleTextChange}
@@ -198,9 +194,10 @@ export default function Form({
                         name="username"
                         id="username"
                         value={username}
-                        onChange={handleChengeUsername}
+                        onChange={handleChangeUsername}
                      />
                   </div>
+
                   <div>
                      <label htmlFor="email" />
                      {errorEmail && <div className={'error'}>{errorEmail}</div>}
@@ -218,9 +215,10 @@ export default function Form({
                      <label htmlFor="checkbox" />
                      <CheckBox
                         text="Save data for future reviews"
-                        onClick={() => setCheckbox(!checkbox)}
                         id="checkbox"
                         className={styles.checkbox}
+                        checked={checkbox}
+                        onChange={(e) => setCheckbox(e.currentTarget.checked)}
                      />
                   </div>
                </>
@@ -237,12 +235,14 @@ export default function Form({
                   value={reviewRating}
                />
             </div>
+
             {!validForm && (
                <div className={'error'}>
                   There is a mistake in this form. Check your input information
                </div>
             )}
-            <Button text="SEND" className={styles.button} />
+
+            <Button text="SEND" type="submit" className={styles.button} />
          </form>
       </div>
    );
