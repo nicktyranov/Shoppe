@@ -13,10 +13,12 @@ import { checkEmail } from '@/helpers/emailHelper';
 import { useForm } from '@tanstack/react-form';
 import styles from './LoginForm.module.css';
 
-const serverErrorsEN = {
+const serverErrorsEN: Record<string, string> = {
    'Неверный логин или пароль': 'Invalid email or password',
    'Пользователь с таким email уже существует':
       'User with this email already exists',
+   'Такой пользователь уже был зарегистрирован':
+      'This user has already been registered',
    'Пользователь с таким email не найден': 'User with this email not found'
 };
 
@@ -34,14 +36,6 @@ export default function LoginForm() {
          password2: '',
          checkbox: false
       },
-      validators: {
-         onSubmit: ({ value }) => {
-            if (value.password !== value.password2) {
-               return ['Passwords do not match'];
-            }
-            return [];
-         }
-      },
       onSubmit: async ({ value }) => {
          setIsLoading(true);
 
@@ -50,26 +44,26 @@ export default function LoginForm() {
             if (clickedTab == 1) {
                loginData = await login({
                   email: value.email,
-                  password: value.password,
-                  saveData: value.checkbox
+                  password: value.password
                });
             } else {
                let email = value.email;
                let password = value.password;
-               loginData = await register(email, password);
+               loginData = await register({ email, password });
             }
 
-            if (loginData.access_token) {
+            if ('access_token' in loginData) {
                setErrorSubmit('');
-
-               //for middleware
                Cookies.set('shoppe_jwt', loginData.access_token, {
                   expires: 7
                });
                router.push('/user/orders');
-            }
-            if (loginData.message) {
-               setErrorSubmit(loginData.message);
+            } else if ('message' in loginData) {
+               setErrorSubmit(
+                  serverErrorsEN[
+                     loginData.message as keyof typeof serverErrorsEN
+                  ] ?? loginData.message
+               );
             } else {
                setErrorSubmit('');
             }
@@ -77,6 +71,8 @@ export default function LoginForm() {
             setIsLoading(false);
             console.error('Login failed with error:', error);
             setErrorSubmit('An unexpected error occurred');
+         } finally {
+            setIsLoading(false);
          }
       }
    });
@@ -92,9 +88,8 @@ export default function LoginForm() {
    }, [isLogined, router, errorSubmit]);
 
    useEffect(() => {
-      if (clickedTab) {
-         setErrorSubmit('');
-      }
+      setErrorSubmit('');
+      form.reset();
    }, [clickedTab]);
 
    const handleTabClick = (
@@ -332,7 +327,11 @@ export default function LoginForm() {
                      )}
                   </form.Subscribe>
 
-                  <Button text={'Login'} className={styles['form-button']} />
+                  <Button
+                     text={clickedTab == 1 ? 'Login' : 'Register'}
+                     type="submit"
+                     className={styles['form-button']}
+                  />
                </div>
             </div>
             <Link href={'/user/recovery'}>
