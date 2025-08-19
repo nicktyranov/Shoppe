@@ -6,12 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './PaginationControls.module.css';
 
 export default function PaginationControls({
-   className,
-   hasNextPage,
-   hasPrevPage,
    totalPages,
-   per_page,
-   ...props
+   per_page
 }: IPaginationControlsProps) {
    const router = useRouter();
    const searchParams = useSearchParams();

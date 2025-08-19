@@ -14,7 +14,7 @@ const FILTER_STORAGE_KEY = 'shoppe_filterState';
 
 async function getFilter(): Promise<IFilter> {
    const res = await fetch(
-      process.env.NEXT_PUBLIC_DOMAIN + `/api-demo/products/get-filter`
+      process.env.NEXT_PUBLIC_DOMAIN + '/api-demo/products/get-filter'
    );
    return await res.json();
 }
@@ -96,7 +96,7 @@ export default function Filter({ className, ...props }: IFilterProps) {
    }, [searchParams, pathname]);
 
    const handleFilterChange = () => {
-      let url = getCurrentUrlWithParams();
+      let _url = getCurrentUrlWithParams();
    };
 
    const categoryTranslations: Record<string, string> = {

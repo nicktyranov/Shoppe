@@ -10,7 +10,6 @@ export default function SliderRange({
    className,
    min,
    max,
-   value,
    onChange,
    ...props
 }: ISliderRangeProps) {

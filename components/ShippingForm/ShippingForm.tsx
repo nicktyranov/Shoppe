@@ -37,7 +37,10 @@ type ApiResponseCreateOrder =
    | SuccessResponseCreateOrder;
 
 const isAuthError = (r: unknown): r is { message: string } =>
-   !!r && typeof (r as any).message === 'string';
+   typeof r === 'object' &&
+   r !== null &&
+   'message' in r &&
+   typeof (r as { message: unknown }).message === 'string';
 
 export default function ShippingForm({
    className,

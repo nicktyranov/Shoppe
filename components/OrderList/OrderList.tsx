@@ -1,5 +1,4 @@
 'use client';
-import { IOrderListProps } from './OrderList.props';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -20,7 +19,7 @@ export interface Product {
    price: number;
 }
 
-export default function OrderList({}: IOrderListProps) {
+export default function OrderList() {
    const [orders, setOrders] = useState<userOrder[] | undefined>([]);
    const { logout, isLogined, auth } = useAuth();
    const router = useRouter();
@@ -57,7 +56,7 @@ export default function OrderList({}: IOrderListProps) {
       if (!isLogined) {
          router.push('/user');
       }
-   }, [isLogined]);
+   }, [isLogined, router]);
 
    return (
       <div className={styles['wrapper']}>

@@ -24,7 +24,7 @@ async function getProducts(): Promise<IProductList> {
    return data;
 }
 
-export default async function Home({}) {
+export default async function Home() {
    const products = await getProducts();
 
    const pageData = products.products.slice(0, 6);

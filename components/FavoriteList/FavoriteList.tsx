@@ -7,7 +7,6 @@ import Card from '../Card/Card';
 import CustomError from '../CustomError/CustomError';
 
 export default function FavoriteList({
-   productPage,
    className,
    ...props
 }: IFavoriteListProps) {

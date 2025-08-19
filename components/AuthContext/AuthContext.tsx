@@ -142,7 +142,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
          return { message: 'Invalid server response' };
       }
       if (!response.ok) {
-         const msg = (data as any)?.message || 'Request failed';
+         const msg =
+            (data as { message?: string })?.message || 'Request failed';
          return { message: msg };
       }
       return data as T;
@@ -208,7 +209,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       [authRequest, saveAuthData]
    );
 
-   const bearer = auth?.jwt
+   const _bearer = auth?.jwt
       ? { Authorization: `Bearer ${auth.jwt}` }
       : undefined;
 

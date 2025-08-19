@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
 import Menu from '@/components/Menu/Menu';
 import { DM_Sans } from 'next/font/google';
 import './globals.css';

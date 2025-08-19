@@ -1,5 +1,4 @@
 'use client';
-import { IMenuProps } from './Menu.props';
 import Image from 'next/image';
 import logo from './logo.svg';
 import likeIcon from './like-icon.svg';
@@ -17,7 +16,7 @@ import { useFavorites } from '../FavoritesContext/FavoritesContext';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../AuthContext/AuthContext';
 
-export default function Menu({}: IMenuProps) {
+export default function Menu() {
    const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
    const { favoriteList } = useFavorites();
    const pathname = usePathname();

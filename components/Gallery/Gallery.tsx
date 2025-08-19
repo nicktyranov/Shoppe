@@ -89,7 +89,7 @@ export default function Gallery({
          }
       }, 200);
       return () => clearTimeout(timeout);
-   }, [sliderWrapperRef.current]);
+   }, []);
 
    let activeSliderWidth = sliderWidth / images.length;
    let activeSliderShift = activeSliderWidth * activePic;

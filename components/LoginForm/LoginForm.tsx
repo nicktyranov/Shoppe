@@ -90,7 +90,7 @@ export default function LoginForm() {
    useEffect(() => {
       setErrorSubmit('');
       form.reset();
-   }, [clickedTab]);
+   }, [clickedTab, form]);
 
    const handleTabClick = (
       tabNumber: number,

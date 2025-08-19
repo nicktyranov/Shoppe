@@ -19,7 +19,7 @@ export default function Search({
    const pathname = usePathname();
    const searchParams = useSearchParams();
 
-   const click = (e: MouseEvent) => {
+   const click = (_e: MouseEvent) => {
       setClicked(true);
    };
 

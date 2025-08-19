@@ -16,13 +16,7 @@ type RequestStatus = {
    message: string;
 };
 
-export default function Form({
-   className,
-   placeholder,
-   icon,
-   sku,
-   ...props
-}: IFormProps) {
+export default function Form({ className, sku, ...props }: IFormProps) {
    const [username, setUsername] = useState('');
    const [email, setEmail] = useState('');
    const [text, setText] = useState('');

@@ -1,5 +1,4 @@
 'use client';
-import { IOrderLayoutProps } from './OrderLayout.props';
 import cn from 'classnames';
 import icon from './icon-success.svg';
 import CartList from '../CartList/CartList';
@@ -12,7 +11,7 @@ import Link from 'next/link';
 import Button from '../Button/Button';
 import styles from './OrderLayout.module.css';
 
-export default function OrderLayout({ className }: IOrderLayoutProps) {
+export default function OrderLayout() {
    const { orders } = useOrders();
    const [currentOrder, setCurrentOrder] = useState<OrderData>();
    const [isOrderSuccess, setIsOrderSuccess] = useState(false);
